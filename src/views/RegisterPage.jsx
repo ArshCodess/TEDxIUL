@@ -5,6 +5,8 @@ import './pages.css';
 import { PremiumScrollReveal } from './MotionReveal';
 import { PASSES_DATA, STORE_PAGE_CONTENT } from '../data/passesData';
 import Footer from '../components/Footer';
+import Script from 'next/script';
+import Razorpay from 'razorpay';
 
 // ─────────────────────────────────────────────────────────────
 // CONFIGURATION
@@ -236,6 +238,7 @@ function MagneticButton({ onClick }) {
 // MAIN STORE LAYOUT
 // ─────────────────────────────────────────────────────────────
 export default function RegisterPage() {
+  const [loading, setloading] = useState(false)
   const [selected, setSelected] = useState(null);
   const activePass = selected ? PASSES[selected] : null;
 
@@ -248,6 +251,63 @@ export default function RegisterPage() {
       return next;
     });
   };
+  const handlepay = async (amt) => {
+    setloading(true);
+    try {
+      const response = await fetch("/api/create-order", {
+        method: "POST",
+        headers: { "Content-type": "application/json" },
+        body: JSON.stringify({
+          amount: 10 * 100,
+        }),
+      })
+      const { order } = await response.json();
+      console.log(order);
+
+
+      const paymentobj = new window.Razorpay({
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+        amount: 10 * 100,
+        currency: "INR",
+        name: "Your Store Name",
+        description: "Test Transaction",
+        order_id: order.id,
+        // Executed on successful payment modal completion
+        handler: async function (response) {
+          const res = await fetch('/api/verify-payment', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+              // ticketId: ticketData.ticketId,
+              ticketId: PASSES.general.key,
+            }),
+          });
+
+          const result = await res.json();
+
+          if (result.success) {
+            alert('Ticket Payment Confirmed!');
+          } else {
+            alert('Verification failed. Contact support.');
+          }
+        },
+        prefill: {
+          name: "John Doe",
+          email: "johndoe@example.com",
+          contact: "9999999999",
+        },
+        theme: { color: "#3399cc" },
+      });
+      paymentobj.open()
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setloading(false)
+    }
+  }
 
   // Hardware a11y & scanner override sequence
   useEffect(() => {
@@ -290,6 +350,7 @@ export default function RegisterPage() {
 
   return (
     <div className="page-root">
+      <Script src="https://checkout.razorpay.com/v1/checkout.js" />
       <div className="page-hero">
         <div className="page-hero-label">Tickets</div>
         <h1>Registration & <span className="accent">Passes</span></h1>
@@ -367,7 +428,8 @@ export default function RegisterPage() {
               </div>
             </div>
 
-            <MagneticButton onClick={() => activePass && window.open(`/register/form?pass=${activePass.key}`, '_blank')} />
+            {/* <MagneticButton onClick={() => activePass && window.open(`/pay?pass=${activePass.key}`, '_blank')} /> */}
+            <MagneticButton onClick={() => activePass && handlepay(activePass)} />
           </div>
         </div>
       </div>

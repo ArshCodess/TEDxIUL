@@ -10,16 +10,22 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "crypto": "^1.0.1",
+    "mongodb": "^7.5.0",
+    "mongoose": "^9.9.2",
     "next": "^15.0.0",
+    "razorpay": "^2.9.8",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hot-toast": "^2.6.0"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@types/node": "20.17.6",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "eslint": "^10.3.0",
-    "globals": "^17.6.0"
+    "globals": "^17.6.0",
+    "typescript": "5.8.2"
   }
 }
