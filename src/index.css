@@ -1343,6 +1343,65 @@ footer {
   border-color: var(--red, #eb0028);
 }
 
+.tedx-step-indicator {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.tedx-step-track {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  width: 100%;
+}
+
+.tedx-step-dot {
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  transition: all 0.25s ease;
+}
+
+.tedx-step-dot.active {
+  background: var(--red, #eb0028);
+  box-shadow: 0 0 15px rgba(235, 0, 40, 0.5);
+}
+
+.tedx-step-text {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.tedx-otp-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.tedx-otp-box {
+  width: 100%;
+  aspect-ratio: 1 / 1.2;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: #151515;
+  border-radius: 10px;
+  color: #fff;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 700;
+  outline: none;
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.tedx-otp-box:focus {
+  border-color: var(--red, #eb0028);
+  box-shadow: 0 0 0 2px rgba(235, 0, 40, 0.2);
+  transform: translateY(-1px);
+}
+
 .tedx-modal-submit {
   width: 100%;
   padding: 14px;

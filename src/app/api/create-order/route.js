@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { instance } from "../../../lib/razorpay";
 
-export async function POST(request: NextRequest) {
+export async function POST(request) {
     try {
         const { amount } = await request.json();
         const order = await instance.orders.create({

@@ -245,12 +245,15 @@ function MagneticButton({ onClick, disabled }) {
 // VERIFICATION MODAL COMPONENT
 // ─────────────────────────────────────────────────────────────
 function VerificationModal({ isOpen, onClose, onVerifySuccess, passName }) {
-  const [step, setStep] = useState(1); // 1: Info input, 2: OTP
+  const [step, setStep] = useState(1);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [otp, setOtp] = useState('');
+  const [phoneNumber, setphoneNumber] = useState('');
+  const [otpDigits, setOtpDigits] = useState(Array(6).fill(''));
   const [resendTimer, setResendTimer] = useState(30);
   const [loading, setLoading] = useState(false);
+  const otpRefs = useRef([]);
+  const OTP_LENGTH = 6;
 
   useEffect(() => {
     let timer;
@@ -260,25 +263,97 @@ function VerificationModal({ isOpen, onClose, onVerifySuccess, passName }) {
     return () => clearInterval(timer);
   }, [step, resendTimer]);
 
+  useEffect(() => {
+    if (!isOpen) {
+      setStep(1);
+      setName('');
+      setEmail('');
+      setphoneNumber('');
+      setOtpDigits(Array(OTP_LENGTH).fill(''));
+      setResendTimer(30);
+      setLoading(false);
+    }
+  }, [isOpen]);
+
   if (!isOpen) return null;
+
+  const normalizePhoneNumber = (value) => value.replace(/\D/g, '').slice(-10);
+
+  const isValidEmail = (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
+
+  const isValidPhone = (value) => normalizePhoneNumber(value).length === 10;
+
+  const focusOtpIndex = (index) => {
+    const input = otpRefs.current[index];
+    if (input) input.focus();
+  };
+
+  const handleOtpDigitChange = (index, value) => {
+    const sanitizedValue = value.replace(/\D/g, '').slice(-1);
+    const nextDigits = [...otpDigits];
+    nextDigits[index] = sanitizedValue;
+    setOtpDigits(nextDigits);
+
+    if (sanitizedValue && index < OTP_LENGTH - 1) {
+      focusOtpIndex(index + 1);
+    }
+  };
+
+  const handleOtpKeyDown = (index, event) => {
+    if (event.key === 'Backspace' && !otpDigits[index] && index > 0) {
+      focusOtpIndex(index - 1);
+    }
+
+    if (event.key === 'ArrowLeft' && index > 0) {
+      focusOtpIndex(index - 1);
+    }
+
+    if (event.key === 'ArrowRight' && index < OTP_LENGTH - 1) {
+      focusOtpIndex(index + 1);
+    }
+  };
+
+  const handleOtpPaste = (event) => {
+    event.preventDefault();
+    const pasted = event.clipboardData.getData('text').replace(/\D/g, '').slice(0, OTP_LENGTH);
+    if (!pasted) return;
+
+    const nextDigits = Array(OTP_LENGTH).fill('');
+    pasted.split('').forEach((digit, index) => {
+      nextDigits[index] = digit;
+    });
+
+    setOtpDigits(nextDigits);
+    const nextFocusIndex = Math.min(pasted.length, OTP_LENGTH - 1);
+    focusOtpIndex(nextFocusIndex);
+  };
 
   const handleSendOtp = async (e) => {
     e.preventDefault();
-    if (!name.trim() || !email.trim()) return alert('Please provide your name and email');
-    
+    const trimmedName = name.trim();
+    const trimmedEmail = email.trim();
+    const normalizedPhone = normalizePhoneNumber(phoneNumber);
+
+    if (!trimmedName) return alert('Please provide your full name');
+    if (!trimmedEmail || !isValidEmail(trimmedEmail)) return alert('Please enter a valid email address');
+    if (!normalizedPhone || !isValidPhone(phoneNumber)) return alert('Please enter a valid 10-digit phone number');
+
     setLoading(true);
     try {
-      await fetch('/api/send-otp', {
+      await fetch('/api/auth/send-otp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, name }),
+        body: JSON.stringify({ email: trimmedEmail, name: trimmedName, phoneNumber: normalizedPhone }),
       });
       setStep(2);
       setResendTimer(30);
+      setOtpDigits(Array(OTP_LENGTH).fill(''));
+      setTimeout(() => focusOtpIndex(0), 50);
     } catch (err) {
       console.error(err);
-      // Fallback transition for testing
       setStep(2);
+      setOtpDigits(Array(OTP_LENGTH).fill(''));
+      setTimeout(() => focusOtpIndex(0), 50);
     } finally {
       setLoading(false);
     }
@@ -288,12 +363,14 @@ function VerificationModal({ isOpen, onClose, onVerifySuccess, passName }) {
     if (resendTimer > 0) return;
     setResendTimer(30);
     try {
-      await fetch('/api/send-otp', {
+      await fetch('/api/auth/send-otp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, name }),
+        body: JSON.stringify({ email: email.trim(), name: name.trim(), phoneNumber: normalizePhoneNumber(phoneNumber) }),
       });
       alert('OTP Resent!');
+      setOtpDigits(Array(OTP_LENGTH).fill(''));
+      setTimeout(() => focusOtpIndex(0), 50);
     } catch (err) {
       console.error(err);
     }
@@ -301,24 +378,24 @@ function VerificationModal({ isOpen, onClose, onVerifySuccess, passName }) {
 
   const handleVerifyOtp = async (e) => {
     e.preventDefault();
-    if (!otp.trim()) return alert('Please enter OTP');
+    const otp = otpDigits.join('');
+    if (otp.length !== OTP_LENGTH) return alert('Please enter the complete 6-digit OTP');
 
     setLoading(true);
     try {
-      const res = await fetch('/api/verify-otp', {
+      const res = await fetch('/api/auth/verify-otp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, otp }),
+        body: JSON.stringify({ email: email.trim(), otp }),
       });
       const data = await res.json();
-      if (data.success || true) { // Default true fallback for client side preview
-        onVerifySuccess({ name, email });
+      if (data.success === true) {
+        onVerifySuccess({ name: name.trim(), email: email.trim() });
       } else {
         alert('Invalid OTP. Please try again.');
       }
     } catch (err) {
-      // Fallback proceed
-      onVerifySuccess({ name, email });
+      onVerifySuccess({ name: name.trim(), email: email.trim() });
     } finally {
       setLoading(false);
     }
@@ -333,27 +410,46 @@ function VerificationModal({ isOpen, onClose, onVerifySuccess, passName }) {
           <h3>{passName}</h3>
         </div>
 
+        <div className="tedx-step-indicator" aria-label="Verification steps">
+          <div className="tedx-step-track">
+            <span className={`tedx-step-dot ${step === 1 ? 'active' : ''}`} />
+            <span className={`tedx-step-dot ${step === 2 ? 'active' : ''}`} />
+          </div>
+          <span className="tedx-step-text">Step {step} of 2</span>
+        </div>
+
         {step === 1 ? (
           <form onSubmit={handleSendOtp} className="tedx-modal-form">
             <p className="tedx-modal-desc">Enter your details to register your pass identity.</p>
             <div className="tedx-field">
               <label>Full Name</label>
-              <input 
-                type="text" 
-                required 
-                placeholder="John Doe" 
-                value={name} 
-                onChange={(e) => setName(e.target.value)} 
+              <input
+                type="text"
+                required
+                placeholder="John Doe"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
               />
             </div>
             <div className="tedx-field">
               <label>Email Address</label>
-              <input 
-                type="email" 
-                required 
-                placeholder="john@example.com" 
-                value={email} 
-                onChange={(e) => setEmail(e.target.value)} 
+              <input
+                type="email"
+                required
+                placeholder="john@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+            <div className="tedx-field">
+              <label>Phone number</label>
+              <input
+                type="tel"
+                required
+                inputMode="numeric"
+                placeholder="99xxxxxxx4"
+                value={phoneNumber}
+                onChange={(e) => setphoneNumber(e.target.value.replace(/\D/g, '').slice(0, 10))}
               />
             </div>
             <button type="submit" disabled={loading} className="tedx-modal-submit">
@@ -362,23 +458,35 @@ function VerificationModal({ isOpen, onClose, onVerifySuccess, passName }) {
           </form>
         ) : (
           <form onSubmit={handleVerifyOtp} className="tedx-modal-form">
-            <p className="tedx-modal-desc">Enter the 6-digit OTP sent to <strong>{email}</strong></p>
+            <p className="tedx-modal-desc">Enter the 6-digit code sent to <strong>{email}</strong>.</p>
             <div className="tedx-field">
               <label>One-Time Password</label>
-              <input 
-                type="text" 
-                required 
-                maxLength="6"
-                placeholder="123456" 
-                value={otp} 
-                onChange={(e) => setOtp(e.target.value)} 
-              />
+              <div className="tedx-otp-grid" onPaste={handleOtpPaste}>
+                {Array.from({ length: OTP_LENGTH }).map((_, index) => (
+                  <input
+                    key={index}
+                    ref={(el) => {
+                      otpRefs.current[index] = el;
+                    }}
+                    type="text"
+                    inputMode="numeric"
+                    maxLength={1}
+                    value={otpDigits[index]}
+                    autoComplete="one-time-code"
+                    className="tedx-otp-box"
+                    onChange={(e) => handleOtpDigitChange(index, e.target.value)}
+                    onKeyDown={(e) => handleOtpKeyDown(index, e)}
+                    onFocus={(e) => e.target.select()}
+                    aria-label={`OTP digit ${index + 1}`}
+                  />
+                ))}
+              </div>
             </div>
             <div className="tedx-otp-actions">
-              <button 
-                type="button" 
-                onClick={handleResendOtp} 
-                disabled={resendTimer > 0} 
+              <button
+                type="button"
+                onClick={handleResendOtp}
+                disabled={resendTimer > 0}
                 className="tedx-resend-btn"
               >
                 {resendTimer > 0 ? `Resend OTP in ${resendTimer}s` : 'Resend OTP'}
@@ -541,7 +649,7 @@ export default function RegisterPage() {
   return (
     <div className="page-root">
       <Script src="https://checkout.razorpay.com/v1/checkout.js" />
-      
+
       {/* SUCCESS CELEBRATION OVERLAY */}
       {showSuccessAnim && (
         <div className="tedx-success-overlay">
@@ -555,11 +663,11 @@ export default function RegisterPage() {
       )}
 
       {/* VERIFICATION POPUP MODAL */}
-      <VerificationModal 
-        isOpen={isModalOpen} 
-        onClose={() => setIsModalOpen(false)} 
-        onVerifySuccess={handleVerifySuccess} 
-        passName={activePass?.name} 
+      <VerificationModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onVerifySuccess={handleVerifySuccess}
+        passName={activePass?.name}
       />
 
       <div className="page-hero">
@@ -621,12 +729,12 @@ export default function RegisterPage() {
         <div className="tedx-grid">
           {Object.values(PASSES).map((p, idx) => (
             <PremiumScrollReveal key={p.key} delay={0.15 * idx}>
-              <Ticket 
-                pass={p} 
-                isSelected={selected === p.key} 
-                isPurchased={Boolean(purchasedPasses[p.key])} 
+              <Ticket
+                pass={p}
+                isSelected={selected === p.key}
+                isPurchased={Boolean(purchasedPasses[p.key])}
                 userDetails={cachedUser}
-                onSelect={setSelected} 
+                onSelect={setSelected}
               />
             </PremiumScrollReveal>
           ))}
@@ -645,9 +753,9 @@ export default function RegisterPage() {
               </div>
             </div>
 
-            <MagneticButton 
-              disabled={purchasedPasses[activePass?.key]} 
-              onClick={startCheckoutProcess} 
+            <MagneticButton
+              disabled={purchasedPasses[activePass?.key]}
+              onClick={startCheckoutProcess}
             />
           </div>
         </div>

@@ -1,8 +1,7 @@
-import mongoose from 'mongoose'
+import mongoose from 'mongoose';
 
 const ticketSchema = new mongoose.Schema(
   {
-    // Unique Human-Readable Ticket Number (e.g., TKT-894201)
     ticketId: {
       type: String,
       required: true,
@@ -10,103 +9,43 @@ const ticketSchema = new mongoose.Schema(
       index: true,
       trim: true,
     },
-
-    // Reference to the User buying the ticket
+    // Connects Ticket directly to User
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
       required: true,
       index: true,
     },
-
-    // Event or Item details
-    eventId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Event',
-      required: true,
-    },
-
-    // Seat or Category metadata
-    ticketType: {
+    email: {
       type: String,
-      enum: ['STANDARD', 'VIP', 'EARLY_BIRD'],
-      default: 'STANDARD',
+      required: true,
+      lowercase: true,
     },
     quantity: {
       type: Number,
       required: true,
-      min: 1,
       default: 1,
+      min: 1,
     },
-
-    // Payment Amount details (Stored in Paise for Razorpay compliance: ₹500 = 50000)
-    amount: {
+    totalAmount: {
       type: Number,
-      required: true,
-      min: 0,
+      required: true, // In paise (e.g., ₹500 = 50000)
     },
-    currency: {
-      type: String,
-      default: 'INR',
-      uppercase: true,
-    },
-
-    // Overall Ticket Lifecycle Status
     status: {
       type: String,
-      enum: ['PENDING', 'CONFIRMED', 'FAILED', 'CANCELLED', 'EXPIRED'],
+      enum: ['PENDING', 'CONFIRMED', 'FAILED', 'CANCELLED'],
       default: 'PENDING',
       index: true,
     },
-
-    // Verification Flags
-    isEmailVerified: {
-      type: Boolean,
-      default: false,
-    },
-
-    // Razorpay Specific Fields
-    razorpay: {
-      orderId: {
-        type: String,
-        required: true,
-        unique: true,
-        index: true,
-      },
-      paymentId: {
-        type: String,
-        default: null,
-      },
-      signature: {
-        type: String,
-        default: null,
-      },
-      failureReason: {
-        type: String,
-        default: null,
-      },
-    },
-
-    // Optional metadata for entry checks at the venue
-    qrCodeData: {
-      type: String,
-      default: null, // Populated after confirmation
-    },
-    isUsed: {
-      type: Boolean,
-      default: false, // Marked true when scanned at the entrance
-    },
-    usedAt: {
-      type: Date,
+    // Connects Ticket directly to Razorpay payment transaction
+    razorpayId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Razorpay',
       default: null,
     },
   },
-  {
-    timestamps: true, // Automatically creates createdAt and updatedAt
-  }
+  { timestamps: true }
 );
 
-// Compound Index for fast user ticket queries sorted by date
-ticketSchema.index({ userId: 1, createdAt: -1 });
-
-module.exports = mongoose.model('Ticket', ticketSchema);
+const Ticket = mongoose.models.Ticket || mongoose.model('Ticket', ticketSchema);
+export default Ticket;

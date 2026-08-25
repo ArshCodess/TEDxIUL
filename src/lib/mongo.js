@@ -1,20 +1,37 @@
-"use server"
+import mongoose from 'mongoose';
 
-import { MongoClient } from "mongodb";
+const MONGODB_URI = process.env.MONGODB_URI;
 
-const uri = process.env.MONGODB_URI || "";
-export const db = new MongoClient(uri)
-
-try{
-    await db.connect()
-    console.log("Client connected");
-    
-}catch{
-    console.log("Something went wrong while connecting to database");
-    
-}finally{
-    await db.close()
-    console.log("Closed the connection due to error");
-    
+if (!MONGODB_URI) {
+  throw new Error('Please define the MONGODB_URI environment variable');
 }
 
+let cached = global.mongoose;
+
+if (!cached) {
+  cached = { conn: null, promise: null };
+  global.mongoose = { conn: null, promise: null };
+}
+
+export async function connectdb() {
+  if (cached.conn) {
+    return cached.conn;
+  }
+
+  if (!cached.promise) {
+    const opts = { bufferCommands: false };
+    cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
+      console.log('Mongoose connected');
+      return mongoose;
+    });
+  }
+
+  try {
+    cached.conn = await cached.promise;
+  } catch (e) {
+    cached.promise = null;
+    throw e;
+  }
+
+  return cached.conn;
+}
