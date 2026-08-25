@@ -40,6 +40,26 @@ export const PASSES_DATA = {
     ],
     noteTitle: "Eligibility",
     noteText: "Available for a limited time during pre-registration."
+  },
+  vip: {
+    id: "pass-vip",
+    name: "VIP Pass",
+    price: 15,
+    code: "VIP-SOT-2026",
+    deck: "Premium Access",
+    link: "..",
+    features: [
+      "Front row seating in the Main Hall",
+      "Exclusive VIP networking lounge access",
+      "Meet & greet with key speakers",
+      "Premium Attendees Kit (Exclusive Swag)",
+      "Dedicated fast-track registration",
+      "Certificates of Acknowledgement",
+      "Students aged 8–12 must be accompanied by an adult attendee",
+      "This event is not open for children below 8 years"
+    ],
+    noteTitle: "Eligibility",
+    noteText: "Limited availability for premium experience seekers."
   }
 };
 

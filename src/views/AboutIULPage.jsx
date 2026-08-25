@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Footer from '../components/Footer';
 import './pages.css';
-import iulCampus from "../assets/IUL-Image.png";
+import iulCampus from "../assets/IUL-Drone.png";
 
 export default function AboutIULPage() {
   return (

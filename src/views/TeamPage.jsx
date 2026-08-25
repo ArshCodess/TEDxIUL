@@ -2,7 +2,12 @@ import Link from 'next/link';
 import Footer from '../components/Footer';
 import './pages.css';
 import Image from 'next/image';
-
+import syedWasimAkhtar from '../../assets/images/syed-wasim-akhtar.png';
+import furqanAnsari from '../../assets/images/furqan-ansari.png';
+import monowarAlamKhalid from '../../assets/images/monowar-alam-khalid.png';
+import shishAhmad from '../../assets/images/shish-ahmad.png';
+import anumKamal from '../../assets/images/anum-kamal.png';
+import syedNadeemAkhtar from '../../assets/images/syed-nadeem-akhtar.png';
 export default function TeamPage() {
   return (
     <div className="page-root">
@@ -34,6 +39,187 @@ export default function TeamPage() {
     <h2>5</h2>
     <p>Core Committee</p>
   </div>
+</section>
+<section className="team-section">
+    <div className="section-divider"></div>
+
+<div className="team-section-header">
+    <h2 className="section-title">
+        Leadership <span className="accent">Team</span>
+    </h2>
+
+    <p className="section-subtitle">
+        The leadership and academic guidance behind TEDxIntegralUniversity.
+    </p>
+</div>
+<div className="team-grid  patron-grid">
+
+    <div className="team-card">
+        <Image
+            unoptimized
+            width={1200}
+            height={800}
+            src={syedWasimAkhtar}
+            alt="Prof. Syed Mohammad Wasim Akhtar"
+            className="team-image"
+        />
+
+        <div className="team-overlay">
+            <h3>Prof. Syed Mohammad Wasim Akhtar</h3>
+
+            <p className="team-role">
+                Chief Patron, TEDxIntegralUniversity
+            </p>
+
+    <span className="team-badge">
+       Pro-Chancellor, Integral University
+    </span>
+
+            <div className="team-divider"></div>
+
+            <p className="team-event">
+                TEDxIntegralUniversity
+            </p>
+        </div>
+    </div>
+       <div className="team-card">
+  <Image
+    src={syedNadeemAkhtar}
+    alt="Prof. Dr. Syed  Mohammad Nadeem Akhtar"
+    className="team-image"
+    width={1200}
+    height={800}
+  />
+
+  <div className="team-overlay">
+    <h3>Prof. Dr.Syed  Mohammad Nadeem Akhtar</h3>
+
+    <p className="team-role">
+   Chief Patron, TEDxIntegralUniversity
+    </p>
+
+    <span className="team-badge">
+    Pro-chancellor, Integral University
+    </span>
+
+    <div className="team-divider"></div>
+
+    <p className="team-event">
+      TEDxIntegralUniversity
+    </p>
+  </div>
+</div>
+
+
+    <div className="team-card">
+        <Image
+            unoptimized
+            width={1200}
+            height={800}
+            src={furqanAnsari}
+            alt="Dr. Furqan Ansari"
+            className="team-image"
+        />
+
+        <div className="team-overlay">
+            <h3>Dr. Furqan Ansari</h3>
+
+            <p className="team-role">
+                Patron
+            </p>
+   <span className="team-badge">
+      Vice-Chancellor, Integral University
+      </span>
+            <div className="team-divider"></div>
+
+            <p className="team-event">
+                TEDxIntegralUniversity
+            </p>
+        </div>
+    </div>
+    <div className="team-card">
+  <Image
+    src={monowarAlamKhalid}
+    alt="Prof. Dr. Monowar Alam Khalid"
+    className="team-image"
+    width={1200}
+    height={800}
+  />
+
+  <div className="team-overlay">
+    <h3>Prof. Dr. Monowar Alam Khalid</h3>
+
+    <p className="team-role">
+    Co-Patron, TEDxIntegralUniversity
+    </p>
+
+    <span className="team-badge">
+    Dean of Students' Welfare, Integral University
+    </span>
+
+    <div className="team-divider"></div>
+
+    <p className="team-event">
+      TEDxIntegralUniversity
+    </p>
+  </div>
+</div>
+<div className="team-card">
+  <Image
+    src={shishAhmad}
+    alt="Dr. Shish Ahmad"
+    className="team-image"
+    width={1200}
+    height={800}
+  />
+
+  <div className="team-overlay">
+    <h3>Dr. Shish Ahmad</h3>
+
+    <p className="team-role">
+    Mentor, TEDxIntegralUniversity
+    </p>
+
+    <span className="team-badge">
+    Head Of Department,CSE, Integral University
+    </span>
+
+    <div className="team-divider"></div>
+
+    <p className="team-event">
+      TEDxIntegralUniversity
+    </p>
+  </div>
+</div>
+<div className="team-card">
+  <Image
+    src={anumKamal}
+    alt="Dr. Anum Kamal"
+    className="team-image"
+    width={1200}
+    height={800}
+  />
+
+  <div className="team-overlay">
+    <h3>Dr. Anum Kamal</h3>
+
+    <p className="team-role">
+     Faculty Advisor, TEDxIntegralUniversity
+    </p>
+
+    <span className="team-badge">
+     Assistant Professor,CSE, Integral University
+    </span>
+
+    <div className="team-divider"></div>
+
+    <p className="team-event">
+      TEDxIntegralUniversity
+    </p>
+  </div>
+</div>
+
+</div>
 </section>
 
       <section className="team-section">
@@ -86,7 +272,7 @@ export default function TeamPage() {
 
     <div className="team-overlay">
 
-    <h3>Mohamad Maaz Siddiqui</h3>
+    <h3>Mohammad Maaz Siddiqui</h3>
 
     <p className="team-role">
         Co-Organizer

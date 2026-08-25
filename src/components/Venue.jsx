@@ -2,7 +2,7 @@
 // Inspired by Owais Raza (@oraza7867)
 import React, { useEffect, useRef, useState } from 'react';
 import './Venue.css';
-import universityLogo from '../assets/IUL.jpg';
+import universityLogo from '../assets/iul-A.png';
 
 // SVG icons — inline so zero deps
 const IconPin = () => (
@@ -29,8 +29,6 @@ const IconClock = () => (
 const VENUE_DATA = {
   title: 'Integral University, Lucknow',
   subtitle: 'CONFERENCE VENUE',
-  titleStrong: 'Integral',
-  titleEm: 'University',
   city: 'Lucknow',
   region: 'Uttar Pradesh',
   description: 'Integral University, Lucknow, is a premier educational institution committed to academic excellence, research, innovation, and holistic development. With a vibrant and diverse student community, the university provides an environment that nurtures creativity, critical thinking, leadership, and entrepreneurship. Through its dedication to quality education and societal impact, Integral University continues to empower future leaders who are prepared to address global challenges and contribute meaningfully to society.',
@@ -67,9 +65,9 @@ function Map({ venue }) {
 
 function Panel({ venue }) {
   const metaRows = [
-    { key: 'Address', icon: <IconPin />,   value: venue.location },
-    { key: 'Date',    icon: <IconCal />,   value: venue.date     },
-    { key: 'Time',    icon: <IconClock />, value: venue.time     },
+    { key: 'Address', icon: <IconPin />, value: venue.location },
+    { key: 'Date', icon: <IconCal />, value: venue.date },
+    { key: 'Time', icon: <IconClock />, value: venue.time },
   ];
 
   return (
@@ -79,7 +77,6 @@ function Panel({ venue }) {
         <h2 className="venue-panel-title">
           <img src={universityLogo.src || universityLogo} alt="Integral University Logo" className="venue-panel-logo" />
           <span className="venue-panel-title-text">
-            <strong>{venue.titleStrong} {venue.titleEm}</strong>
           </span>
         </h2>
         <p className="venue-panel-sub">{venue.city}{venue.region ? `, ${venue.region}` : ''}</p>

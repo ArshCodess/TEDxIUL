@@ -21,6 +21,7 @@ export default function Hero() {
         </p>
         <div className="hero-ctas">
           <a href="#contact" className="btn-primary">Get Your Ticket</a>
+          <a href="#about" className="btn-secondary">Read More</a>
           <a href="#about" className="btn-outline">Explore Theme</a>
         </div>
       </div>

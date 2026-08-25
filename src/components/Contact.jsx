@@ -37,7 +37,8 @@ export default function Contact({ hideHeader = false }) {
             <div className="cd-icon">✉</div>
             <div>
               <div className="cd-lbl2">Email Us</div>
-              <div className="cd-val">tedx@integraluniversity.ac.in</div>
+              <div className="cd-val">tedxiul@gmail.com</div>
+              <div className="cd-val">tedxiul@gmail.com</div>
             </div>
           </div>
           <div className="cd-row">
@@ -55,14 +56,14 @@ export default function Contact({ hideHeader = false }) {
             </div>
           </div>
           <div className="socials">
-            <a className="soc-btn" href="#">
+            <a className="soc-btn" href="https://www.instagram.com/tedxiul/" target="_blank" rel="noopener noreferrer">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
                 <rect x="2" y="2" width="20" height="20" rx="5" />
                 <circle cx="12" cy="12" r="5" />
                 <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
               </svg>
             </a>
-            <a className="soc-btn" href="#">
+            <a className="soc-btn" href="https://instagram.com/tedxintegraluniversity" target="_blank" rel="noopener noreferrer">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
                 <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
                 <rect x="2" y="9" width="4" height="12" />

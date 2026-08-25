@@ -204,23 +204,25 @@
 .venue-panel-title {
   display: flex;
   align-items: center;
+  justify-content: flex-start;
   gap: 14px;
   font-family: 'Playfair Display', serif;
   font-size: 36px;
   font-weight: 300;
   color: var(--white);
-  line-height: 1.2;
-  margin-bottom: 8px;
+  line-height: 0;
+  margin: 0 0 8px;
 }
 
 .venue-panel-logo {
-  width: 54px;
-  height: 54px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  width: 100%;
+  max-width: 320px;
+  height: auto;
+  border-radius: 0;
+  object-fit: contain;
   flex-shrink: 0;
-  box-shadow: 0 0 12px rgba(255, 255, 255, 0.05);
+  display: block;
+  margin-left: 0;
 }
 
 .venue-panel-title-text {
@@ -234,6 +236,7 @@
 }
 
 .venue-panel-sub {
+  margin-top: 22px;
   font-size: 12px;
   font-weight: 400;
   color: var(--text-muted);
@@ -246,7 +249,7 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   font-size: 13.5px;
   line-height: 1.85;
-  color: rgba(245, 240, 234, 0.65);
+  color: rgba(245, 240, 234, 0.85);
   font-weight: 400;
 }
 
@@ -432,7 +435,7 @@
   }
 
   .venue-panel-logo {
-    width: 44px;
-    height: 44px;
+    max-width: 240px;
+    height: auto;
   }
 }

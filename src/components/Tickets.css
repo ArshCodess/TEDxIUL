@@ -8,8 +8,9 @@
 }
 
 .tickets-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 1.5rem;
   max-width: 1200px;
   margin: 0 auto;
@@ -33,15 +34,22 @@
 
 .ticket-ribbon {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
+  top: 1.2rem;
+  right: -0.5rem;
   background: linear-gradient(90deg, #e62b1e, #7b3fe4);
   color: white;
-  padding: 0.35rem 0.7rem;
+  padding: 0.48rem 1rem;
   border-radius: 999px;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   font-weight: 700;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  z-index: 2;
+  text-align: center;
+  white-space: nowrap;
+  display: inline-block;
+  transform: none;
+  box-shadow: 0 10px 24px rgba(230, 43, 30, 0.4);
 }
 
 .ticket-header {
@@ -62,12 +70,12 @@
 }
 
 .ticket-period {
-  color: rgba(255, 255, 255, 0.75);
+  color: rgba(245, 240, 234, 0.85);
   margin-bottom: 0.6rem;
 }
 
 .ticket-description {
-  color: rgba(255, 255, 255, 0.72);
+  color: rgba(245, 240, 234, 0.85);
   font-size: 0.95rem;
   line-height: 1.5;
 }
@@ -105,7 +113,5 @@
 }
 
 @media (max-width: 900px) {
-  .tickets-grid {
-    grid-template-columns: 1fr;
-  }
+  /* Flexbox will naturally wrap, so we no longer need grid overrides here */
 }

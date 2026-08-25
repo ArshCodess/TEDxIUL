@@ -158,22 +158,28 @@ nav {
   justify-content: center;
   gap: 0;
   margin-bottom: 8px;
-  margin-left: 130px;
   opacity: 0;
   animation: fadeUp 0.8s ease 0.5s forwards;
 }
 
 .hero-logo-img {
-  height: clamp(48px, 8vw, 80px);
+  height: clamp(40px, 6vw, 68px);
   width: auto;
-  max-width: 90%;
+  max-width: 100%;
   object-fit: contain;
+}
+
+/* Desktop only: nudge logo slightly right */
+@media (min-width: 768px) {
+  .hero-logo-row {
+    transform: translateX(180px);
+  }
 }
 
 .hl-tagline {
   font-size: 11px;
   letter-spacing: 2px;
-  color: rgba(255, 255, 255, 0.35);
+  color: rgba(245, 240, 234, 0.85);
   margin-bottom: 28px;
   opacity: 0;
   animation: fadeUp 0.7s ease 0.65s forwards;
@@ -197,7 +203,7 @@ nav {
 .hero-sub {
   font-family: 'Playfair Display', serif;
   font-size: clamp(14px, 2.2vw, 22px);
-  color: rgba(245, 240, 234, 0.6);
+  color: rgba(245, 240, 234, 0.85);
   letter-spacing: 2px;
   margin-top: 20px;
   opacity: 0;
@@ -208,7 +214,7 @@ nav {
   font-family: 'Bebas Neue', sans-serif;
   font-size: clamp(18px, 3vw, 28px);
   letter-spacing: 6px;
-  color: rgba(245, 240, 234, 0.45);
+  color: rgba(245, 240, 234, 0.85);
   margin-top: 16px;
   opacity: 0;
   animation: fadeUp 0.8s ease 1.1s forwards;
@@ -227,7 +233,7 @@ nav {
   max-width: 520px;
   font-size: 15px;
   line-height: 1.85;
-  color: rgba(245, 240, 234, 0.5);
+  color: rgba(245, 240, 234, 0.85);
   opacity: 0;
   animation: fadeUp 0.8s ease 1.3s forwards;
 }
@@ -259,6 +265,29 @@ nav {
 
 .btn-primary:hover {
   background: #c42216;
+  transform: translateY(-2px);
+}
+
+/* Mid CTA — slightly darker than btn-primary */
+.btn-secondary {
+  background: #a81c12;
+  color: var(--white);
+  border: none;
+  padding: 14px 36px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 2px;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.2s;
+  display: inline-block;
+}
+
+.btn-secondary:hover {
+  background: #8e170f;
   transform: translateY(-2px);
 }
 
@@ -363,7 +392,7 @@ nav {
   justify-content: center;
   align-items: center;
   gap: 20px;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
 }
 
 .cd-item {
@@ -452,7 +481,8 @@ nav {
   border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 6px;
   padding: 40px 32px 32px;
-  width: 340px;
+  width: 100%;
+  max-width: 340px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -614,7 +644,7 @@ nav {
 }
 
 .about-body {
-  color: rgba(245, 240, 234, 0.55);
+  color: rgba(245, 240, 234, 0.85);
   font-size: 15px;
   line-height: 1.9;
   margin-bottom: 18px;
@@ -1112,6 +1142,7 @@ footer {
 
 /* ── RESPONSIVE ── */
 @media (max-width: 768px) {
+
   /* Hero: mobile background treatment (Option A) */
   #hero {
     min-height: 95svh;

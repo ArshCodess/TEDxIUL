@@ -74,7 +74,7 @@ export default function SponsorsPage() {
           <p style={{ color: 'var(--text-muted)', fontSize: '14px', marginBottom: '20px' }}>
             Interested in sponsoring TEDxIntegralUniversity 2026?
           </p>
-          <a href="mailto:tedxiul@iul.ac.in" className="btn-primary">
+          <a href="mailto:tedxiul@gmail.com" className="btn-primary">
             Get in Touch
           </a>
         </div>

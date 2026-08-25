@@ -20,7 +20,7 @@ export default function Countdown() {
         setTimeLeft({ days: '00', hours: '00', minutes: '00', seconds: '00' });
         return;
       }
-      
+
       const pad = n => String(Math.floor(n)).padStart(2, '0');
       setTimeLeft({
         days: pad(diff / 86400000),

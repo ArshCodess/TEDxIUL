@@ -1,8 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 490 50">
-  <!-- TED in red -->
-  <text x="8" y="38" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-weight="700" font-size="40" fill="#E62B1E" letter-spacing="-1">TED</text>
-  <!-- Superscript x in red -->
-  <text x="97" y="28" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-weight="700" font-size="24" fill="#E62B1E">x</text>
-  <!-- IntegralUniversity in white -->
-  <text x="112" y="38" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-weight="300" font-size="34" fill="#FFFFFF" letter-spacing="0">IntegralUniversity</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 508 52">
+  <!-- TED in red bold -->
+  <text x="4" y="40" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-weight="800" font-size="42" fill="#E62B1E" letter-spacing="-1">TED</text>
+  <!-- Superscript x in red (raised to match logo-white.png) -->
+  <text x="102" y="24" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-weight="700" font-size="22" fill="#E62B1E">x</text>
+  <!-- Integral University in white, normal weight, with space -->
+  <text x="122" y="40" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-weight="300" font-size="36" fill="#FFFFFF" letter-spacing="0.5">Integral University</text>
 </svg>

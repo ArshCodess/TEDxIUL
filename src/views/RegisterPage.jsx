@@ -1,5 +1,6 @@
 "use client";
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
+import useEmblaCarousel from 'embla-carousel-react';
 import './RegisterPage.css';
 import './pages.css';
 import { PremiumScrollReveal } from './MotionReveal';
@@ -49,6 +50,19 @@ const PASSES = {
     features: PASSES_DATA.early.features,
     note: 'Highly limited availability. Valid pre-registration required.',
     link: PASSES_DATA.early.link,
+  },
+  vip: {
+    key: 'vip',
+    tier: '03',
+    label: PASSES_DATA.vip.deck,
+    name: PASSES_DATA.vip.name,
+    price: PASSES_DATA.vip.price,
+    originalPrice: null,
+    code: PASSES_DATA.vip.code,
+    eligibility: PASSES_DATA.vip.noteText,
+    features: PASSES_DATA.vip.features,
+    note: 'Premium seating and exclusive access.',
+    link: PASSES_DATA.vip.link,
   },
 };
 

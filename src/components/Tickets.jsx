@@ -14,6 +14,7 @@ const ticketTiers = [
     description: 'Enjoy a premium experience with added comfort',
     features: ['Everything in General', 'Priority seating', 'Networking lounge access', 'Exclusive merch bundle'],
     featured: true,
+    tag: 'Recommended',
   },
   {
     name: 'Platinum',
@@ -33,7 +34,7 @@ export default function Tickets() {
       <div className="tickets-grid">
         {ticketTiers.map((ticket) => (
           <div key={ticket.name} className={`ticket-card ${ticket.featured ? 'featured' : ''}`}>
-            {ticket.featured && <div className="ticket-ribbon">Most Popular</div>}
+            {ticket.tag && <div className="ticket-ribbon">{ticket.tag}</div>}
             <div className="ticket-header">
               <div className="ticket-type">{ticket.name}</div>
               <div className="ticket-price">{ticket.price}</div>

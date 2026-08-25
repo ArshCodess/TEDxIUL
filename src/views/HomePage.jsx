@@ -20,6 +20,7 @@ import split3 from '../../assets/images/Split 3.png';
 import split4 from '../../assets/images/Split 4.png';
 
 const splitImages = [split1, split2, split3, split4];
+const BACKGROUND_OPACITY_SCALE = 0.55;
 
 export default function HomePage() {
   const bgRefs = useRef([]);
@@ -69,7 +70,7 @@ export default function HomePage() {
           opacity = index === totalImages - 1 ? 1 : 0;
         }
 
-        bg.style.opacity = opacity.toFixed(3);
+        bg.style.opacity = (opacity * BACKGROUND_OPACITY_SCALE).toFixed(3);
       });
     };
 
@@ -89,7 +90,7 @@ export default function HomePage() {
           className="page-bg-layer"
           style={{
             backgroundImage: `url("${src?.src || src}")`,
-            opacity: index === 0 ? 1 : 0,
+            opacity: index === 0 ? BACKGROUND_OPACITY_SCALE : 0,
           }}
         />
       ))}

@@ -379,6 +379,14 @@ nav {
   margin: 12px 0 56px;
 }
 
+.cd-sub.fade-in {
+  color: var(--text-muted);
+  font-size: 12px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin: 12px 0 56px;
+}
+
 .cd-grid {
   display: flex;
   justify-content: center;

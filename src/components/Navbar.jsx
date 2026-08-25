@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import './Navbar.css';
-import tedxLogo from '../assets/tedx-logo-clean.svg';
+import tedxLogo from '../../assets/images/logo-white.png';
 
 // Desktop nav items (after About dropdown)
 const NAV_LINKS = [
