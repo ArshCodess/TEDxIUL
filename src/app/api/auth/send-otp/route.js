@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import crypto from 'crypto';
 import { Resend } from 'resend';
 import User from '../../../../lib/models/User'
+import Ticket from '../../../../lib/models/Ticket'
 import { connectdb } from '../../../../lib/mongo';
 import TedxOtpEmail from '../../../../components/TedxEmail'
 
@@ -19,17 +20,29 @@ export async function POST(request) {
       );
     }
 
-    // Generate secure 6-digit OTP
+    const normalizedEmail = email.toLowerCase().trim();
+
     const rawOtp = crypto.randomInt(100000, 999999).toString();
     const codeHash = crypto.createHash('sha256').update(rawOtp).digest('hex');
     const expiresAt = new Date(Date.now() + 5 * 60 * 1000); // Expires in 5 mins
 
-    // Upsert user details & set OTP metadata
+    const user = await User.findOne({ email: normalizedEmail }).populate('ticketId')
+    const confirmedTicket = user?.ticketId?.status === 'CONFIRMED'
+      ? user.ticketId
+      : await Ticket.findOne({ email: normalizedEmail, status: 'CONFIRMED' });
+
+    if (confirmedTicket) {
+      return NextResponse.json(
+        { success: false, message: 'Ticket already registered' },
+        { status: 409 }
+      );
+    }
+
     await User.findOneAndUpdate(
-      { email },
+      { email: normalizedEmail },
       {
         name,
-        phoneNumber, 
+        phoneNumber,
         isVerified: false,
         otp: {
           codeHash,
@@ -37,22 +50,21 @@ export async function POST(request) {
           attempts: 0,
         },
       },
-      { upsert: true, returnDocument:'after' }
+      { upsert: true, returnDocument: 'after' }
     );
 
-    // Send Email 
     const { error } = await resend.emails.send({
-      from: `Ticket Booking <${process.env.SENDER_EMAIL}>`,
-      to: [email],
+      from: `Verification Code <${process.env.SENDER_OTP_EMAIL}>`,
+      to: [normalizedEmail],
       subject: 'Your Verification OTP',
-      react:<TedxOtpEmail name={name} otp={rawOtp}/>,
+      react: <TedxOtpEmail name={name} otp={rawOtp} />,
     });
 
     if (error) {
       console.error('Resend Error:', error);
       return NextResponse.json(
         { success: false, message: 'Failed to send OTP email' },
-        { status: 500 }
+        { status: 502 }
       );
     }
 

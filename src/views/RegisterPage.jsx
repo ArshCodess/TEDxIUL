@@ -1,6 +1,5 @@
 "use client";
-import React, { useState, useRef, useEffect, useCallback } from 'react';
-import useEmblaCarousel from 'embla-carousel-react';
+import React, { useState, useRef, useEffect } from 'react';
 import './RegisterPage.css';
 import './pages.css';
 import { PremiumScrollReveal } from './MotionReveal';
@@ -24,47 +23,6 @@ const EVENT = {
   legal: 'This independent TEDx event is operated under license from TED.',
 };
 
-const PASSES = {
-  general: {
-    key: 'general',
-    tier: '01',
-    label: PASSES_DATA.general.deck,
-    name: PASSES_DATA.general.name,
-    price: PASSES_DATA.general.price,
-    originalPrice: null,
-    code: PASSES_DATA.general.code,
-    eligibility: PASSES_DATA.general.noteText,
-    features: PASSES_DATA.general.features,
-    note: 'Standard seating. No pre-registration required.',
-    link: PASSES_DATA.general.link,
-  },
-  early: {
-    key: 'early',
-    tier: '02',
-    label: PASSES_DATA.early.deck,
-    name: PASSES_DATA.early.name,
-    price: PASSES_DATA.early.price,
-    originalPrice: PASSES_DATA.early.price + (PASSES_DATA.early.discount || 3),
-    code: PASSES_DATA.early.code,
-    eligibility: PASSES_DATA.early.noteText,
-    features: PASSES_DATA.early.features,
-    note: 'Highly limited availability. Valid pre-registration required.',
-    link: PASSES_DATA.early.link,
-  },
-  vip: {
-    key: 'vip',
-    tier: '03',
-    label: PASSES_DATA.vip.deck,
-    name: PASSES_DATA.vip.name,
-    price: PASSES_DATA.vip.price,
-    originalPrice: null,
-    code: PASSES_DATA.vip.code,
-    eligibility: PASSES_DATA.vip.noteText,
-    features: PASSES_DATA.vip.features,
-    note: 'Premium seating and exclusive access.',
-    link: PASSES_DATA.vip.link,
-  },
-};
 
 function generateBarcode(seed, count = 64) {
   let s = 0;
@@ -129,7 +87,7 @@ function Hero() {
 function Ticket({ pass, isSelected, isPurchased, userDetails, onSelect }) {
   const cardRef = useRef(null);
   const [isLeaving, setIsLeaving] = useState(false);
-  const isPremium = pass.key === 'early';
+  const isPremium = pass.key === 'platinum' || pass.key === 'faculty';
   const barcodeData = generateBarcode(pass.code, 50);
 
   const handleMouseMove = (e) => {
@@ -167,14 +125,15 @@ function Ticket({ pass, isSelected, isPurchased, userDetails, onSelect }) {
           <div className="tedx-meta-row">
             <div className="tedx-tier-group">
               <span className="tedx-tier-label">Pass Tier</span>
-              <span className="tedx-tier-val">{pass.tier} // {pass.code.split('-')[1]}</span>
+              <span className="tedx-tier-val">{pass.tier || pass.name} // {pass.code?.split('-')[1]}</span>
             </div>
             <div className={`tedx-badge ${isPurchased ? 'success-badge' : isPremium ? 'premium' : ''}`} style={isPurchased ? { background: 'rgba(16, 185, 129, 0.2)', color: '#10B981', border: '1px solid #10B981' } : {}}>
-              {isPurchased ? 'PURCHASED' : pass.label}
+              {isPurchased ? 'PURCHASED' : pass.label || pass.deck}
             </div>
           </div>
 
           <h3 className="tedx-pass-name">{pass.name}</h3>
+          {pass.deck && <p className="tedx-pass-deck">{pass.deck}</p>}
 
           <div className="tedx-price-row">
             <span className="tedx-price">₹{pass.price}</span>
@@ -198,7 +157,7 @@ function Ticket({ pass, isSelected, isPurchased, userDetails, onSelect }) {
           )}
 
           <div className="tedx-features">
-            {pass.features.map((f, i) => (
+            {pass.features?.map((f, i) => (
               <div key={i} className="tedx-feature">
                 <span className="tedx-feature-icon" style={{ color: isPurchased ? '#10B981' : undefined }}>✦</span>
                 <span className="tedx-feature-text">{f}</span>
@@ -213,7 +172,7 @@ function Ticket({ pass, isSelected, isPurchased, userDetails, onSelect }) {
           <div className="tedx-barcode-box">
             <div className="tedx-scanner-laser" style={isPurchased ? { background: '#10B981', boxShadow: '0 0 8px #10B981' } : {}} />
             <div className="tedx-bars">
-              {barcodeData.map((b, i) => (
+              {barcodeData?.map((b, i) => (
                 <div key={i} className="tedx-bar" style={{ height: `${b.h}%`, width: `${b.w}px`, background: isPurchased ? '#10B981' : undefined }} />
               ))}
             </div>
@@ -224,7 +183,6 @@ function Ticket({ pass, isSelected, isPurchased, userDetails, onSelect }) {
     </div>
   );
 }
-
 function MagneticButton({ onClick, disabled }) {
   const btnRef = useRef(null);
 
@@ -255,10 +213,29 @@ function MagneticButton({ onClick, disabled }) {
   );
 }
 
+function ErrorPopup({ message, onClose }) {
+  if (!message) return null;
+
+  return (
+    <div className="tedx-error-backdrop" role="alertdialog" aria-modal="true" aria-labelledby="tedx-error-title">
+      <div className="tedx-error-popup">
+        <div className="tedx-error-icon">!</div>
+        <div>
+          <span className="tedx-error-tag">Registration error</span>
+          <h3 id="tedx-error-title">Something went wrong</h3>
+          <p>{message}</p>
+        </div>
+        <button type="button" className="tedx-error-close" onClick={onClose} aria-label="Close error message">✕</button>
+        <button type="button" className="tedx-error-action" onClick={onClose}>Close</button>
+      </div>
+    </div>
+  );
+}
+
 // ─────────────────────────────────────────────────────────────
 // VERIFICATION MODAL COMPONENT
 // ─────────────────────────────────────────────────────────────
-function VerificationModal({ isOpen, onClose, onVerifySuccess, passName }) {
+function VerificationModal({ isOpen, onClose, onVerifySuccess, onError, passName }) {
   const [step, setStep] = useState(1);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -348,26 +325,29 @@ function VerificationModal({ isOpen, onClose, onVerifySuccess, passName }) {
     const trimmedEmail = email.trim();
     const normalizedPhone = normalizePhoneNumber(phoneNumber);
 
-    if (!trimmedName) return alert('Please provide your full name');
-    if (!trimmedEmail || !isValidEmail(trimmedEmail)) return alert('Please enter a valid email address');
-    if (!normalizedPhone || !isValidPhone(phoneNumber)) return alert('Please enter a valid 10-digit phone number');
+    if (!trimmedName) return onError('Please provide your full name.');
+    if (!trimmedEmail || !isValidEmail(trimmedEmail)) return onError('Please enter a valid email address.');
+    if (!normalizedPhone || !isValidPhone(phoneNumber)) return onError('Please enter a valid 10-digit phone number.');
 
     setLoading(true);
     try {
-      await fetch('/api/auth/send-otp', {
+      const response = await fetch('/api/auth/send-otp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: trimmedEmail, name: trimmedName, phoneNumber: normalizedPhone }),
       });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(data.error || data.message || 'Unable to send the verification OTP.');
       setStep(2);
       setResendTimer(30);
       setOtpDigits(Array(OTP_LENGTH).fill(''));
       setTimeout(() => focusOtpIndex(0), 50);
     } catch (err) {
       console.error(err);
-      setStep(2);
+      setStep(1);
       setOtpDigits(Array(OTP_LENGTH).fill(''));
-      setTimeout(() => focusOtpIndex(0), 50);
+      onError(err.message || 'Unable to send the verification OTP. Please try again.');
+      onClose();
     } finally {
       setLoading(false);
     }
@@ -377,23 +357,26 @@ function VerificationModal({ isOpen, onClose, onVerifySuccess, passName }) {
     if (resendTimer > 0) return;
     setResendTimer(30);
     try {
-      await fetch('/api/auth/send-otp', {
+      const response = await fetch('/api/auth/send-otp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: email.trim(), name: name.trim(), phoneNumber: normalizePhoneNumber(phoneNumber) }),
       });
-      alert('OTP Resent!');
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(data.error || data.message || 'Unable to resend the OTP.');
       setOtpDigits(Array(OTP_LENGTH).fill(''));
       setTimeout(() => focusOtpIndex(0), 50);
     } catch (err) {
       console.error(err);
+      setResendTimer(0);
+      onError(err.message || 'Unable to resend the OTP. Please try again.');
     }
   };
 
   const handleVerifyOtp = async (e) => {
     e.preventDefault();
     const otp = otpDigits.join('');
-    if (otp.length !== OTP_LENGTH) return alert('Please enter the complete 6-digit OTP');
+    if (otp.length !== OTP_LENGTH) return onError('Please enter the complete 6-digit OTP.');
 
     setLoading(true);
     try {
@@ -402,14 +385,14 @@ function VerificationModal({ isOpen, onClose, onVerifySuccess, passName }) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: email.trim(), otp }),
       });
-      const data = await res.json();
-      if (data.success === true) {
-        onVerifySuccess({ name: name.trim(), email: email.trim() });
-      } else {
-        alert('Invalid OTP. Please try again.');
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || data.success !== true) {
+        throw new Error(data.error || data.message || 'Invalid or expired OTP. Please try again.');
       }
-    } catch (err) {
       onVerifySuccess({ name: name.trim(), email: email.trim() });
+    } catch (err) {
+      console.error(err);
+      onError(err.message || 'Unable to verify the OTP. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -526,8 +509,11 @@ export default function RegisterPage() {
   const [cachedUser, setCachedUser] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showSuccessAnim, setShowSuccessAnim] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
-  const activePass = selected ? PASSES[selected] : null;
+  const activePass = selected
+    ? Object.values(PASSES_DATA).find((pass) => pass.key === selected)
+    : null;
   const [syncCtx, setSyncCtx] = useState(0);
 
   // Load cached purchases and user data on mount
@@ -557,6 +543,8 @@ export default function RegisterPage() {
 
   const handleVerifySuccess = (userData) => {
     setCachedUser(userData);
+    console.log(userData);
+
     localStorage.setItem('tedx_user_identity', JSON.stringify(userData));
     setIsModalOpen(false);
     handlepay(activePass, userData);
@@ -570,9 +558,14 @@ export default function RegisterPage() {
         headers: { "Content-type": "application/json" },
         body: JSON.stringify({
           amount: pass.price * 100,
+          email: userData.email || "",
         }),
       });
-      const { order } = await response.json();
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(data.error || data.message || 'Unable to create your payment order.');
+      const { order, razorpayId } = data;
+      if (!order?.id || !razorpayId) throw new Error('Payment order was not created. Please try again.');
+      if (!window.Razorpay) throw new Error('Payment service is unavailable. Please refresh and try again.');
 
       const paymentobj = new window.Razorpay({
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
@@ -589,14 +582,16 @@ export default function RegisterPage() {
               razorpay_order_id: response.razorpay_order_id,
               razorpay_payment_id: response.razorpay_payment_id,
               razorpay_signature: response.razorpay_signature,
-              ticketId: pass.key,
-              user: userData
+              razorpayId,
+              user: userData,
+              passTier: pass.key.replace('pass-', ''),
+              totalAmount: pass.price * 100,
             }),
           });
 
-          const result = await res.json();
+          const result = await res.json().catch(() => ({}));
 
-          if (result.success || true) { // Fallback for frontend UI display
+          if (res.ok && result.success === true) {
             const updatedPasses = { ...purchasedPasses, [pass.key]: true };
             setPurchasedPasses(updatedPasses);
             localStorage.setItem('tedx_purchased_passes', JSON.stringify(updatedPasses));
@@ -605,8 +600,14 @@ export default function RegisterPage() {
             setShowSuccessAnim(true);
             setTimeout(() => setShowSuccessAnim(false), 5000);
           } else {
-            alert('Verification failed. Contact support.');
+            setErrorMessage(result.error || result.message || 'Payment verification failed. Please contact support.');
           }
+        },
+        modal: {
+          ondismiss: () => setErrorMessage('Payment was cancelled. You can try again whenever you are ready.'),
+        },
+        notes: {
+          pass: pass.name,
         },
         prefill: {
           name: userData?.name || "Attendee",
@@ -614,9 +615,13 @@ export default function RegisterPage() {
         },
         theme: { color: "#EB0028" },
       });
+      paymentobj.on('payment.failed', (failure) => {
+        setErrorMessage(failure?.error?.description || 'Payment failed. Please try again.');
+      });
       paymentobj.open();
     } catch (error) {
       console.error(error);
+      setErrorMessage(error.message || 'Unable to start payment. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -681,8 +686,11 @@ export default function RegisterPage() {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onVerifySuccess={handleVerifySuccess}
+        onError={setErrorMessage}
         passName={activePass?.name}
       />
+
+      <ErrorPopup message={errorMessage} onClose={() => setErrorMessage('')} />
 
       <div className="page-hero">
         <div className="page-hero-label">Tickets</div>
@@ -741,7 +749,7 @@ export default function RegisterPage() {
         </div>
 
         <div className="tedx-grid">
-          {Object.values(PASSES).map((p, idx) => (
+          {Object.values(PASSES_DATA).map((p, idx) => (
             <PremiumScrollReveal key={p.key} delay={0.15 * idx}>
               <Ticket
                 pass={p}

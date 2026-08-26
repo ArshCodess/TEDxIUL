@@ -6,7 +6,7 @@ const razorpaySchema = new mongoose.Schema(
     ticketId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Ticket',
-      required: true,
+      // required: true, ticket will only generated after successfull payment
       index: true,
     },
     userId: {
@@ -22,15 +22,15 @@ const razorpaySchema = new mongoose.Schema(
     },
     paymentId: {
       type: String,
-      default: null, // Populated upon successful checkout
+      default: null,
     },
     signature: {
       type: String,
-      default: null, // HMAC SHA256 signature from Razorpay
+      default: null, 
     },
     amount: {
       type: Number,
-      required: true, // In paise
+      required: true,
     },
     currency: {
       type: String,

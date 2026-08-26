@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { type } from 'node:os';
 
 const userSchema = new mongoose.Schema(
   {
@@ -24,12 +25,15 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    // OTP verification fields
     otp: {
       codeHash: { type: String, default: null }, // Hashed for security
       expiresAt: { type: Date, default: null },
       attempts: { type: Number, default: 0 },
     },
+    ticketId:{
+      type:mongoose.Schema.Types.ObjectId,
+      ref:'Ticket'
+    }
   },
   { timestamps: true }
 );

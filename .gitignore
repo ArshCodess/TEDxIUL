@@ -28,3 +28,4 @@ dist-ssr
 *.env
 # Next.js
 .next
+.env
