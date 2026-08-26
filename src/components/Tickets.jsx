@@ -2,25 +2,36 @@ import './Tickets.css';
 
 const ticketTiers = [
   {
+    key: 'general',
     name: 'General',
     price: '₹799',
     description: 'Perfect for first-time attendees',
-    features: ['Full-day event access', 'Welcome kit & goodies', 'Lunch & refreshments', 'Certificate of participation'],
+    features: ['Full Auditorium Access', 'All Talks', 'Back Seating', 'Refreshments', 'Key Rings'],
     featured: false,
   },
   {
+    key: 'gold',
     name: 'Gold',
-    price: '₹1699',
+    price: '₹1,699',
     description: 'Enjoy a premium experience with added comfort',
-    features: ['Everything in General', 'Priority seating', 'Networking lounge access', 'Exclusive merch bundle'],
+    features: ['Full Auditorium Access', 'All Talks', 'Middle Seating', 'Diary & Pen', 'Meal & Refreshments'],
     featured: true,
-    tag: 'Recommended',
+    tag: 'Most Popular',
   },
   {
+    key: 'platinum',
     name: 'Platinum',
-    price: '₹2099',
-    description: 'The ultimate experience for VIP attendees',
-    features: ['Everything in Gold', 'Front-row seating', 'Meet & greet access', 'VIP refreshments'],
+    price: '₹2,099',
+    description: 'The ultimate experience for premium attendees',
+    features: ['Full Auditorium Access', 'All Talks', 'Front-Row Seating', 'TEDx Kit', 'Meal & Refreshments', 'Meet & Greet with Speakers'],
+    featured: false,
+  },
+  {
+    key: 'faculty',
+    name: 'Faculty',
+    price: '₹2,599',
+    description: 'An exclusive experience for faculty members',
+    features: ['Full Auditorium Access', 'All Talks', 'VIP Seating', 'TEDx Kit', 'Meal & Refreshment', 'Meet & Greet with Speakers'],
     featured: false,
   },
 ];
@@ -47,7 +58,7 @@ export default function Tickets() {
                 <li key={feature}><span className="tick">✓</span> {feature}</li>
               ))}
             </ul>
-            <a href="#contact" className={ticket.featured ? 'btn-primary ticket-btn' : 'btn-outline ticket-btn'}>
+            <a href={`/register/form?pass=${ticket.key}`} className={ticket.featured ? 'btn-primary ticket-btn' : 'btn-outline ticket-btn'}>
               Get {ticket.name} →
             </a>
           </div>

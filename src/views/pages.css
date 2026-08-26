@@ -1019,8 +1019,8 @@
 
 .team-card {
   width: 100%;
-  max-width: 340px;
-  aspect-ratio: 3 / 4;
+  max-width: 420px;
+  aspect-ratio: 2 / 3;
   height: auto;
   position: relative;
   overflow: hidden;
@@ -1088,11 +1088,15 @@
 .team-overlay h3 {
   color: var(--white);
   font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-size: clamp(3rem, 4rem, 5rem);
   font-weight: 400;
   letter-spacing: 1.5px;
   line-height: 1.15;
   margin-bottom: 4px;
+}
+
+.leadership-section .team-overlay h3 {
+  font-size: clamp(1.25rem, 2.5vw, 1.7rem);
 }
 
 .team-role {
@@ -1113,20 +1117,23 @@
 
 .team-event {
   color: rgba(245, 240, 234, 0.45);
-  font-size: 0.75rem;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.5px;
+  text-transform: none;
 }
 
 .team-badge {
   display: inline-block;
   margin-top: 10px;
-  padding: 5px 12px;
-  border-radius: 40px;
+  max-width: 100%;
+  padding: 6px 6px;
+  border-radius: 0px;
   background: var(--red);
   color: var(--white);
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   letter-spacing: 1px;
+  line-height: 1.4;
 }
 
 /* Center lone last card in a 2-col row */
@@ -1140,6 +1147,10 @@
   padding: 0 24px;
   max-width: 1100px;
   margin: 0 auto;
+}
+
+.team-section:last-of-type {
+  margin-bottom: 80px;
 }
 
 .section-divider {
@@ -1175,6 +1186,7 @@
 .committee-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  align-items: start;
   gap: 24px;
   margin-top: 48px;
   padding: 0 24px;
@@ -1206,7 +1218,6 @@
   gap: 12px;
   margin-bottom: 20px;
   padding-bottom: 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
 }
 
 .committee-header h3 {
@@ -1238,11 +1249,6 @@
   gap: 14px;
   padding: 14px 0;
   border-top: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-.committee-member:first-of-type {
-  border-top: none;
-  padding-top: 0;
 }
 
 .member-dot {
@@ -1416,13 +1422,17 @@
   }
 
   .team-card {
-    max-width: 290px;
+    max-width: 320px;
     aspect-ratio: 3 / 4;
     height: auto;
   }
 
   .team-overlay h3 {
     font-size: 1.4rem;
+  }
+
+  .leadership-section .team-overlay h3 {
+    font-size: 1.2rem;
   }
 
   .last-card {
@@ -1461,6 +1471,7 @@
     padding: 0 8px;
   }
 }
+
 /* =========================
    PRE-EVENTS
    ========================= */
@@ -1533,20 +1544,4 @@
   .pre-event-info h3 {
     font-size: 1.25rem;
   }
-}
-.patron-grid {
-  grid-template-columns: repeat(6, 1fr);
-}
-
-.patron-grid .team-card {
-  grid-column: span 2;
-}
-
-/* First row: 2 cards centered */
-.patron-grid .team-card:nth-child(1) {
-  grid-column: 2 / span 2;
-}
-
-.patron-grid .team-card:nth-child(2) {
-  grid-column: 4 / span 2;
 }

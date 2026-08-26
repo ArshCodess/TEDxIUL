@@ -30,14 +30,13 @@ export default function Contact({ hideHeader = false }) {
             <label>Message</label>
             <textarea rows="5" placeholder="Your message..."></textarea>
           </div>
-          <button className="btn-primary" style={{ width: '100%', marginTop: '4px' }}>Send Message →</button>
+          <button className="btn-primary contact-submit">Send Message →</button>
         </div>
         <div className="contact-info-col fade-in">
           <div className="cd-row">
             <div className="cd-icon">✉</div>
             <div>
               <div className="cd-lbl2">Email Us</div>
-              <div className="cd-val">tedxiul@gmail.com</div>
               <div className="cd-val">tedxiul@gmail.com</div>
             </div>
           </div>
@@ -63,7 +62,7 @@ export default function Contact({ hideHeader = false }) {
                 <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
               </svg>
             </a>
-            <a className="soc-btn" href="https://instagram.com/tedxintegraluniversity" target="_blank" rel="noopener noreferrer">
+            <a className="soc-btn" href="https://linkedin.com/company/tedxintegraluniversity" target="_blank" rel="noopener noreferrer">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
                 <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
                 <rect x="2" y="9" width="4" height="12" />

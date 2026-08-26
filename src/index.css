@@ -1,6 +1,7 @@
 /*
 Modified by Abdul Malik (@abdulmalik812)
 */
+
 :root {
   --red: #E62B1E;
   --white: #F5F0EA;
@@ -93,13 +94,25 @@ nav {
   overflow: hidden;
 }
 
-#heroCanvas {
+.hero-bg-img {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   z-index: 1;
-  /* floats above the background image */
+  background-image: url('/assets/images/home.png');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  will-change: transform;
+  animation: heroBgKenBurns 20s ease-in-out infinite alternate;
+  transform-origin: center center;
+}
+
+@keyframes heroBgKenBurns {
+  0%   { transform: scale(1.00); }
+  50%  { transform: scale(1.08); }
+  100% { transform: scale(1.00); }
 }
 
 .hero-overlay {
@@ -128,6 +141,8 @@ nav {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
+  overflow: hidden;
 }
 
 .hero-badge {
@@ -156,25 +171,35 @@ nav {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0;
+  gap: 16px;
   margin-bottom: 8px;
   opacity: 0;
   animation: fadeUp 0.8s ease 0.5s forwards;
 }
 
-.hero-logo-img {
-  height: clamp(40px, 6vw, 68px);
+.hero-logo-tedx {
+  height: clamp(55px, 8vw, 100px);
   width: auto;
-  max-width: 100%;
+  max-width: 420px;
   object-fit: contain;
 }
 
-/* Desktop only: nudge logo slightly right */
-@media (min-width: 768px) {
-  .hero-logo-row {
-    transform: translateX(180px);
-  }
+.hero-logo-divider {
+  display: block;
+  width: 1px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.3);
+  flex-shrink: 0;
+  border-radius: 1px;
 }
+
+.hero-logo-iul {
+  height: clamp(100px, 14vw, 180px);
+  width: auto;
+  max-width: 340px;
+  object-fit: contain;
+}
+
 
 .hl-tagline {
   font-size: 11px;
@@ -185,19 +210,113 @@ nav {
   animation: fadeUp 0.7s ease 0.65s forwards;
 }
 
+/* ── TEDx-style Theme Block ── */
+.tessellation-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  position: relative;
+}
+
+/* "THEME" eyebrow label above the title */
+.theme-eyebrow {
+  display: inline-block;
+  font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  font-size: clamp(10px, 1.4vw, 13px);
+  font-weight: 700;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: #ffffff;
+  background: var(--red, #E62B1E);
+  padding: 4px 14px;
+  margin-bottom: 18px;
+  clip-path: polygon(0 0, 100% 0, 96% 100%, 4% 100%);
+}
+
+/* Bold TEDx-style theme title */
 .hero-title {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(80px, 18vw, 180px);
-  line-height: 0.88;
-  letter-spacing: 8px;
-  background: linear-gradient(135deg, #fff 0%, rgba(180, 140, 255, 0.9) 40%, rgba(100, 180, 255, 0.85) 70%, #fff 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  opacity: 0;
-  animation: fadeUp 1s ease 0.8s forwards;
+  font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  font-size: clamp(52px, 11vw, 136px);
+  font-weight: 900;
+  font-style: normal;
+  line-height: 0.92;
+  letter-spacing: clamp(-2px, -0.3vw, -4px);
+  color: #ffffff;
+  -webkit-text-fill-color: #ffffff;
   text-shadow: none;
   position: relative;
+  max-width: 100%;
+  width: 100%;
+  text-align: center;
+  overflow: visible;
+  word-break: keep-all;
+  white-space: nowrap;
+  /* no animation here — individual letters animate instead */
+}
+
+/* Each letter animates in with a staggered drop + bounce */
+.hero-title-letter {
+  display: inline-block;
+  opacity: 0;
+  animation: letterDrop 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(0.7s + var(--i) * 55ms);
+
+  /*
+   * Gradient colour grading across the word:
+   * Each letter is positioned inside a 1200%-wide gradient
+   * (12 letters × 100%), so the gradient reads continuously
+   * across the full word: white → blush → TEDx red → blush → white.
+   */
+  background: linear-gradient(90deg,
+    #ffffff  0%,
+    #ffd6d3 15%,
+    #ff7060 30%,
+    #E62B1E 45%,
+    #E62B1E 55%,
+    #ff7060 70%,
+    #ffd6d3 85%,
+    #ffffff 100%
+  );
+  background-size: 1200% 100%;
+  background-position: calc(var(--i) / 11 * 100%) 0%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+
+  transition: filter 0.25s ease, transform 0.22s ease;
+}
+
+/* Hover: intensify the gradient — bright + saturated ripple */
+.hero-title:hover .hero-title-letter {
+  filter: brightness(1.25) saturate(1.8) drop-shadow(0 0 8px rgba(230, 43, 30, 0.55));
+  transform: translateY(-5px) scale(1.06);
+  transition-delay: calc(var(--i) * 20ms);
+}
+
+@keyframes letterDrop {
+  0%   { opacity: 0; transform: translateY(-48px) scaleY(1.3); }
+  60%  { opacity: 1; transform: translateY(6px)  scaleY(0.94); }
+  80%  { transform: translateY(-3px) scaleY(1.02); }
+  100% { opacity: 1; transform: translateY(0)    scaleY(1); }
+}
+
+/* Solid red accent bar below the title — fires after last letter lands */
+.theme-title-bar {
+  width: clamp(60px, 14vw, 160px);
+  height: 6px;
+  background: var(--red, #E62B1E);
+  margin: 18px auto 0;
+  transform-origin: left center;
+  opacity: 0;
+  animation: barSlideIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) 1.86s forwards;
+}
+
+/* barSlideIn fires after the last letter (index 11) lands: 0.7s + 11*55ms + 0.55s ≈ 1.86s */
+@keyframes barSlideIn {
+  from { transform: scaleX(0); opacity: 0; }
+  to   { transform: scaleX(1); opacity: 1; }
 }
 
 .hero-sub {
@@ -246,34 +365,98 @@ nav {
   animation: fadeUp 0.8s ease 1.45s forwards;
 }
 
+/* ── Global shared button base ── */
+.btn-primary,
+.btn-outline {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  padding: 13px 32px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  border: 1px solid transparent;
+  line-height: 1;
+}
+
+/* ── Solid red — primary action ── */
 .btn-primary {
   background: var(--red);
   color: var(--white);
-  border: none;
-  padding: 14px 36px;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  cursor: pointer;
-  border-radius: 2px;
-  text-decoration: none;
-  transition: background 0.2s, transform 0.2s;
-  display: inline-block;
+  border-color: var(--red);
+  box-shadow: 0 4px 20px rgba(230, 43, 30, 0.30);
 }
 
 .btn-primary:hover {
-  background: #c42216;
+  background: #c9241a;
+  border-color: #c9241a;
+  color: var(--white);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(230, 43, 30, 0.45);
+}
+
+.btn-primary:active {
+  transform: translateY(0) scale(0.97);
+  transition: none;
+  box-shadow: none;
+}
+
+/* ── Ghost outline — secondary action ── */
+.btn-outline {
+  background: transparent;
+  color: var(--white);
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+.btn-outline::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--red);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: -1;
+}
+
+.btn-outline:hover {
+  border-color: var(--red);
+  color: var(--white);
   transform: translateY(-2px);
 }
 
-/* Mid CTA — slightly darker than btn-primary */
-.btn-secondary {
-  background: #a81c12;
+.btn-outline:hover::before {
+  transform: scaleX(1);
+}
+
+.btn-outline:active {
+  transform: translateY(0) scale(0.97);
+  border-color: var(--red);
+  background: var(--red);
+  transition: none;
+}
+
+.btn-outline:active::before {
+  transform: scaleX(1);
+  transition: none;
+}
+
+/* ── Unified Hero CTA button ── */
+/* Default: outline style (like old btn-outline) */
+/* Hover/touch: fills red (like old btn-primary) */
+.btn-hero {
+  position: relative;
+  overflow: hidden;
+  background: transparent;
   color: var(--white);
-  border: none;
-  padding: 14px 36px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  padding: 14px 32px;
   font-family: 'DM Sans', sans-serif;
   font-size: 12px;
   font-weight: 600;
@@ -282,35 +465,46 @@ nav {
   cursor: pointer;
   border-radius: 2px;
   text-decoration: none;
-  transition: background 0.2s, transform 0.2s;
   display: inline-block;
+  transition: border-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+  z-index: 0;
 }
 
-.btn-secondary:hover {
-  background: #8e170f;
-  transform: translateY(-2px);
-}
-
-.btn-outline {
-  background: transparent;
-  color: var(--white);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 14px 36px;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 12px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  cursor: pointer;
+/* Red fill that sweeps in from left on hover */
+.btn-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--red);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: -1;
   border-radius: 2px;
-  text-decoration: none;
-  transition: border-color 0.2s, transform 0.2s;
-  display: inline-block;
 }
 
-.btn-outline:hover {
-  border-color: rgba(255, 255, 255, 0.6);
+.btn-hero:hover {
+  border-color: var(--red);
   transform: translateY(-2px);
 }
+
+.btn-hero:hover::before {
+  transform: scaleX(1);
+}
+
+/* Active/touch: instant red fill for snappy mobile feel */
+.btn-hero:active {
+  border-color: var(--red);
+  background: var(--red);
+  transform: translateY(0px) scale(0.97);
+  transition: none;
+}
+
+.btn-hero:active::before {
+  transform: scaleX(1);
+  transition: none;
+}
+
 
 /* scroll indicator */
 .scroll-hint {
@@ -711,7 +905,7 @@ nav {
   transform: translateX(0);
 }
 
-.tl-dot {
+/* .tl-dot {
   position: absolute;
   left: -5px;
   top: 5px;
@@ -720,7 +914,7 @@ nav {
   background: var(--red);
   border-radius: 50%;
   box-shadow: 0 0 12px rgba(230, 43, 30, 0.5);
-}
+} */
 
 .tl-time {
   font-size: 10px;
@@ -886,6 +1080,25 @@ nav {
 .sp-box.featured {
   border-color: rgba(230, 43, 30, 0.3);
   color: rgba(245, 240, 234, 0.7);
+  width: 200px;
+  height: 90px;
+  padding: 12px 20px;
+}
+
+.sp-logo {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  filter: brightness(0) invert(1);
+  opacity: 0.85;
+  transition: opacity 0.3s ease;
+}
+
+.sp-box.featured:hover .sp-logo {
+  opacity: 1;
 }
 
 /* ── FAQ ── */
@@ -1066,15 +1279,15 @@ nav {
 .soc-btn {
   width: 38px;
   height: 38px;
-  background: var(--mid);
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: rgba(107, 63, 160, 0.12);
+  border: 1px solid rgba(107, 63, 160, 0.25);
   border-radius: 2px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--text-muted);
+  color: rgba(107, 63, 160, 0.9);
   text-decoration: none;
-  transition: border-color 0.2s, color 0.2s;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
 }
 
 .soc-btn:hover {
@@ -1147,8 +1360,13 @@ footer {
   #hero {
     min-height: 95svh;
     /* don't over-extend on portrait phones */
+  }
+
+  .hero-bg-img {
     background-position: center center;
-    /* keep gate arch centred on narrow crop */
+    /* keep focal point centred on narrow mobile crop */
+    animation-duration: 25s;
+    /* slightly slower pan on mobile for a calmer feel */
   }
 
   .hero-overlay {
@@ -1256,16 +1474,58 @@ footer {
     padding-top: 6px;
   }
 
-  /* Hero: center logo on mobile (remove desktop offset) */
+  /* Hero: logo row — already centred via flexbox, no offset needed */
   .hero-logo-row {
-    margin-left: 60px;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: nowrap;
+    max-width: 100%;
   }
 
-  /* Hero: scale down TESSELLATION, desc, and CTA buttons */
-  .hero-title {
-    font-size: clamp(52px, 16vw, 100px);
-    letter-spacing: 4px;
+  .hero-logo-tedx {
+    height: clamp(36px, 11vw, 60px);
+    max-width: 45vw;
   }
+
+  .hero-logo-divider {
+    width: 1px;
+    margin: 3px 0;
+  }
+
+  .hero-logo-iul {
+    height: clamp(36px, 11vw, 60px);
+    max-width: 30vw;
+  }
+
+  /* Tagline: smaller on mobile */
+  .hl-tagline {
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    margin-bottom: 16px;
+  }
+
+
+  /* Hero: scale down TESSELLATION, desc, and CTA buttons */
+  .tessellation-block {
+    gap: 6px;
+    padding: 0 8px;
+    width: 100%;
+    max-width: 100vw;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  .tess-orn-line {
+    max-width: 40px;
+  }
+
+  .hero-title {
+    /* 8vw × 11 chars ≈ 88vw — fits safely within screen with small margin */
+    font-size: clamp(28px, 7.5vw, 80px);
+    letter-spacing: clamp(1px, 0.4vw, 5px);
+    white-space: nowrap;
+  }
+
 
   .hero-desc {
     font-size: 13px;
@@ -1280,8 +1540,7 @@ footer {
     margin-top: 28px;
   }
 
-  .btn-primary,
-  .btn-outline {
+  .btn-hero {
     padding: 11px 28px;
     font-size: 11px;
     width: 100%;

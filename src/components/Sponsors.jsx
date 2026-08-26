@@ -1,4 +1,5 @@
 import './Sponsors.css';
+import iulLogo from '../assets/iul-A.png';
 
 export default function Sponsors() {
   return (
@@ -9,7 +10,13 @@ export default function Sponsors() {
         Sponsorship opportunities are open. Be part of this movement.
       </p>
       <div className="sp-row">
-        <div className="sp-box featured">Integral University</div>
+        <div className="sp-box featured">
+          <img
+            src={iulLogo.src || iulLogo}
+            alt="Integral University"
+            className="sp-logo"
+          />
+        </div>
         <div className="sp-box">Sponsor TBA</div>
         <div className="sp-box">Sponsor TBA</div>
         <div className="sp-box">Sponsor TBA</div>

@@ -1,4 +1,4 @@
-q/* ── Full-page scroll background layers ── */
+/* ── Full-page scroll background layers ── */
 .homepage-wrapper {
   position: relative;
 }
@@ -7,38 +7,22 @@ q/* ── Full-page scroll background layers ── */
   position: fixed;
   inset: -20px;
   z-index: 0;
+  background-image: url('/assets/images/website-bg.png');
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
-  will-change: opacity, transform;
+  opacity: 0.55;
+  will-change: transform;
   pointer-events: none;
-  transition: opacity 0.7s ease, transform 0.7s ease;
-  animation: kenBurnsDrift 25s ease-in-out infinite alternate;
+  animation: kenBurnsDrift 30s ease-in-out infinite alternate;
 }
-
-/* Stagger animation start for each layer so they don't move in sync */
-.page-bg-layer:nth-child(1) { animation-delay: 0s; }
-.page-bg-layer:nth-child(2) { animation-delay: -6s; animation-name: kenBurnsDrift2; }
-.page-bg-layer:nth-child(3) { animation-delay: -12s; animation-name: kenBurnsDrift3; }
-.page-bg-layer:nth-child(4) { animation-delay: -18s; animation-name: kenBurnsDrift2; }
 
 @keyframes kenBurnsDrift {
   0%   { transform: scale(1.00) translate(0, 0); }
-  50%  { transform: scale(1.08) translate(-10px, -8px); }
-  100% { transform: scale(1.04) translate(6px, -4px); }
+  50%  { transform: scale(1.05) translate(-8px, -6px); }
+  100% { transform: scale(1.03) translate(5px, -3px); }
 }
 
-@keyframes kenBurnsDrift2 {
-  0%   { transform: scale(1.02) translate(5px, 0); }
-  50%  { transform: scale(1.10) translate(8px, -12px); }
-  100% { transform: scale(1.05) translate(-6px, -6px); }
-}
-
-@keyframes kenBurnsDrift3 {
-  0%   { transform: scale(1.04) translate(-4px, 4px); }
-  50%  { transform: scale(1.06) translate(10px, -6px); }
-  100% { transform: scale(1.08) translate(-8px, -10px); }
-}
 
 /* ── Atmospheric glow pulse ── */
 .page-bg-glow {

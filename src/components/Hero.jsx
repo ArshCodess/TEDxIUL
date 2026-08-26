@@ -1,17 +1,39 @@
 import './Hero.css';
-import tedxHeroLogo from '../assets/tedx-logo-clean.svg';
 import Image from 'next/image';
+import logoWhite from '../../assets/images/logo-white.png';
+import iulLogo  from '../../assets/images/iul.png';
 
 export default function Hero() {
+  const word = 'TESSELLATION';
   return (
     <section id="hero">
-      <canvas id="heroCanvas"></canvas>
+      {/* Background image with Ken Burns animation */}
+      <div className="hero-bg-img" aria-hidden="true"></div>
+      <div className="hero-overlay" aria-hidden="true"></div>
       <div className="hero-content">
         <div className="hero-logo-row">
-          <Image unoptimized width={1200} height={800} src={tedxHeroLogo} alt="TEDxIntegralUniversity" className="hero-logo-img" />
+          <Image unoptimized width={320} height={80} src={logoWhite} alt="TEDx Integral University" className="hero-logo-tedx" />
+          <span className="hero-logo-divider" aria-hidden="true"></span>
+          <Image unoptimized width={120} height={80} src={iulLogo}   alt="Integral University Lucknow" className="hero-logo-iul" />
         </div>
         <p className="hl-tagline">x = independently organized TED event</p>
-        <h1 className="hero-title">TESSELLATION</h1>
+        {/* TEDx-style theme block */}
+        <div className="tessellation-block">
+          <span className="theme-eyebrow">THEME</span>
+          <h1 className="hero-title" aria-label="Tessellation">
+            {word.split('').map((letter, i) => (
+              <span
+                key={i}
+                className="hero-title-letter"
+                style={{ '--i': i }}
+                aria-hidden="true"
+              >
+                {letter}
+              </span>
+            ))}
+          </h1>
+          <div className="theme-title-bar" aria-hidden="true"></div>
+        </div>
         <p className="hero-sub">From Individual Ideas to Collective Impact</p>
         <p className="hero-date">September, 2026</p>
         <div className="hero-line"></div>
@@ -20,10 +42,10 @@ export default function Hero() {
           connected ideas, people, and perspectives create collective transformation.
         </p>
         <div className="hero-ctas">
-          <a href="#contact" className="btn-primary">Get Your Ticket</a>
-          <a href="#about" className="btn-secondary">Read More</a>
-          <a href="#about" className="btn-outline">Explore Theme</a>
-        </div>
+            <a href="/register" className="btn-hero">Get Your Ticket</a>
+            <a href="#about" className="btn-hero">Read More</a>
+            <a href="#about" className="btn-hero">Explore Theme</a>
+          </div>
       </div>
       <div className="scroll-hint">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

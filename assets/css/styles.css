@@ -710,7 +710,7 @@ nav {
   transform: translateX(0);
 }
 
-.tl-dot {
+/* .tl-dot {
   position: absolute;
   left: -5px;
   top: 5px;
@@ -719,7 +719,7 @@ nav {
   background: var(--red);
   border-radius: 50%;
   box-shadow: 0 0 12px rgba(230, 43, 30, 0.5);
-}
+} */
 
 .tl-time {
   font-size: 10px;

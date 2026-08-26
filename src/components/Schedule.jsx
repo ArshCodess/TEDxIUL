@@ -4,6 +4,70 @@ import './Schedule.css';
 
 const LED_STRIP_COUNT = 45;
 
+const SCHEDULE_DATA = [
+  { time: '09:00 AM', name: 'Registration Opens', desc: 'Registration and attendee check-in.', tag: 'Registration' },
+  { time: '10:00 AM', name: 'Welcome Address', desc: 'Welcome address marking the beginning of TEDx Integral University.', tag: 'Opening' },
+  { time: '10:10 AM', name: 'Opening Performance', desc: 'Opening performance by the Outreach team.', tag: 'Performance' },
+  { time: '10:20 AM', name: 'Speaker 1', desc: 'TEDx talk.', tag: 'Talk' },
+  { time: '10:40 AM', name: 'Speaker 2', desc: 'TEDx talk.', tag: 'Talk' },
+  { time: '11:00 AM', name: 'Speaker 3', desc: 'TEDx talk.', tag: 'Talk' },
+  { time: '11:20 AM', name: 'Performer 1', desc: 'Live performance.', tag: 'Performance' },
+  { time: '11:40 AM', name: 'Speaker 4', desc: 'TEDx talk.', tag: 'Talk' },
+  { time: '12:00 PM', name: 'Speaker 5', desc: 'TEDx talk.', tag: 'Talk' },
+  { time: '12:20 PM', name: 'Speaker 6', desc: 'TEDx talk.', tag: 'Talk' },
+  { time: '12:40 PM', name: 'Performer 2', desc: 'Live performance.', tag: 'Performance' },
+  { time: '1:00 PM', name: 'Break', desc: 'Refreshments and networking.', tag: 'Break' },
+  { time: '1:20 PM', name: 'Speaker 7', desc: 'TEDx talk.', tag: 'Talk' },
+  { time: '1:40 PM', name: 'Speaker 8', desc: 'TEDx talk.', tag: 'Talk' },
+  { time: '2:00 PM', name: 'Speaker 9', desc: 'TEDx talk.', tag: 'Talk' },
+  { time: '2:20 PM', name: 'Speaker 10', desc: 'TEDx talk.', tag: 'Talk' },
+  { time: '2:20 PM', name: 'Performer 3', desc: 'Live performance.', tag: 'Performance' },
+  { time: 'Closing', name: 'Closing Ceremony', desc: 'Closing ceremony marking the end of the event.', tag: 'Closing' },
+  { time: 'Final', name: 'Vote of Thanks', desc: 'Vote of thanks by the organizing committee core team.', tag: 'Closing' }
+];
+
+const ScheduleCard = ({ time, name, desc, tag, isLast }) => {
+  const cardRef = useRef(null);
+  const [isActive, setIsActive] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsActive(entry.isIntersecting);
+      },
+      {
+        // For the last card, we increase the bottom margin so it triggers earlier
+        // because it might not be able to scroll up high enough if it's near the page bottom.
+        rootMargin: isLast ? '-20% 0px 0px 0px' : '-20% 0px -50% 0px',
+        threshold: 0
+      }
+    );
+
+    if (cardRef.current) {
+      observer.observe(cardRef.current);
+    }
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [isLast]);
+
+  return (
+    <div 
+      className={`tl-item schedule-card ${isActive ? 'schedule-card--active' : ''}`} 
+      tabIndex={0} 
+      ref={cardRef}
+    >
+      <div className="schedule-card-content">
+        <div className="tl-time">{time}</div>
+        <div className="tl-name schedule-card-title">{name}</div>
+        <div className="tl-desc">{desc}</div>
+        <span className="tl-tag">{tag}</span>
+      </div>
+    </div>
+  );
+};
+
 export default function Schedule({ hideHeader = false }) {
   const timelineRef = useRef(null);
   const [activeStrips, setActiveStrips] = useState(0);
@@ -28,10 +92,7 @@ export default function Schedule({ hideHeader = false }) {
       const maxScrollTop = Math.max(0, scrollHeight - viewportHeight);
       const remainingScroll = Math.max(0, maxScrollTop - scrollTop);
       
-      // Maximum distance this timeline can scroll relative to the viewport
       const maxScrolledDistance = scrolledDistance + remainingScroll;
-      
-      // Distribute progress over whichever distance is shorter to ensure smooth completion
       const travelDistance = Math.max(1, Math.min(idealTravelDistance, maxScrolledDistance));
       
       const rawProgress = scrolledDistance / travelDistance;
@@ -77,160 +138,17 @@ export default function Schedule({ hideHeader = false }) {
           </div>
         </aside>
         <div className="timeline" ref={timelineRef}>
-
-  <div className="tl-item">
-    <div className="tl-dot"></div>
-    <div className="tl-time">09:00 AM</div>
-    <div className="tl-name">Registration Opens</div>
-    <div className="tl-desc">Registration and attendee check-in.</div>
-    <span className="tl-tag">Registration</span>
-  </div>
-
-  <div className="tl-item">
-    <div className="tl-dot"></div>
-    <div className="tl-time">10:00 AM</div>
-    <div className="tl-name">Welcome Address</div>
-    <div className="tl-desc">Welcome address marking the beginning of TEDx Integral University.</div>
-    <span className="tl-tag">Opening</span>
-  </div>
-
-  <div className="tl-item">
-    <div className="tl-dot"></div>
-    <div className="tl-time">10:10 AM</div>
-    <div className="tl-name">Opening Performance</div>
-    <div className="tl-desc">Opening performance by the Outreach team.</div>
-    <span className="tl-tag">Performance</span>
-  </div>
-
-  <div className="tl-item">
-    <div className="tl-dot"></div>
-    <div className="tl-time">10:20 AM</div>
-    <div className="tl-name">Speaker 1</div>
-    <div className="tl-desc">TEDx talk.</div>
-    <span className="tl-tag">Talk</span>
-  </div>
-
-  <div className="tl-item">
-    <div className="tl-dot"></div>
-    <div className="tl-time">10:40 AM</div>
-    <div className="tl-name">Speaker 2</div>
-    <div className="tl-desc">TEDx talk.</div>
-    <span className="tl-tag">Talk</span>
-  </div>
-
-  <div className="tl-item">
-    <div className="tl-dot"></div>
-    <div className="tl-time">11:00 AM</div>
-    <div className="tl-name">Speaker 3</div>
-    <div className="tl-desc">TEDx talk.</div>
-    <span className="tl-tag">Talk</span>
-  </div>
-
-  <div className="tl-item">
-    <div className="tl-dot"></div>
-    <div className="tl-time">11:20 AM</div>
-    <div className="tl-name">Performer 1</div>
-    <div className="tl-desc">Live performance.</div>
-    <span className="tl-tag">Performance</span>
-  </div>
-
-  <div className="tl-item">
-    <div className="tl-dot"></div>
-    <div className="tl-time">11:40 AM</div>
-    <div className="tl-name">Speaker 4</div>
-    <div className="tl-desc">TEDx talk.</div>
-    <span className="tl-tag">Talk</span>
-  </div>
-
-  <div className="tl-item">
-    <div className="tl-dot"></div>
-    <div className="tl-time">12:00 PM</div>
-    <div className="tl-name">Speaker 5</div>
-    <div className="tl-desc">TEDx talk.</div>
-    <span className="tl-tag">Talk</span>
-  </div>
-
-  <div className="tl-item">
-    <div className="tl-dot"></div>
-    <div className="tl-time">12:20 PM</div>
-    <div className="tl-name">Speaker 6</div>
-    <div className="tl-desc">TEDx talk.</div>
-    <span className="tl-tag">Talk</span>
-  </div>
-
-  <div className="tl-item">
-    <div className="tl-dot"></div>
-    <div className="tl-time">12:40 PM</div>
-    <div className="tl-name">Performer 2</div>
-    <div className="tl-desc">Live performance.</div>
-    <span className="tl-tag">Performance</span>
-  </div>
-
-  <div className="tl-item">
-    <div className="tl-dot"></div>
-    <div className="tl-time">1:00 PM</div>
-    <div className="tl-name">Break</div>
-    <div className="tl-desc">Refreshments and networking.</div>
-    <span className="tl-tag">Break</span>
-  </div>
-
-  <div className="tl-item">
-    <div className="tl-dot"></div>
-    <div className="tl-time">1:20 PM</div>
-    <div className="tl-name">Speaker 7</div>
-    <div className="tl-desc">TEDx talk.</div>
-    <span className="tl-tag">Talk</span>
-  </div>
-
-  <div className="tl-item">
-    <div className="tl-dot"></div>
-    <div className="tl-time">1:40 PM</div>
-    <div className="tl-name">Speaker 8</div>
-    <div className="tl-desc">TEDx talk.</div>
-    <span className="tl-tag">Talk</span>
-  </div>
-
-  <div className="tl-item">
-    <div className="tl-dot"></div>
-    <div className="tl-time">2:00 PM</div>
-    <div className="tl-name">Speaker 9</div>
-    <div className="tl-desc">TEDx talk.</div>
-    <span className="tl-tag">Talk</span>
-  </div>
-
-  <div className="tl-item">
-    <div className="tl-dot"></div>
-    <div className="tl-time">2:20 PM</div>
-    <div className="tl-name">Speaker 10</div>
-    <div className="tl-desc">TEDx talk.</div>
-    <span className="tl-tag">Talk</span>
-  </div>
-
-  <div className="tl-item">
-    <div className="tl-dot"></div>
-    <div className="tl-time">2:20 PM</div>
-    <div className="tl-name">Performer 3</div>
-    <div className="tl-desc">Live performance.</div>
-    <span className="tl-tag">Performance</span>
-  </div>
-
-  <div className="tl-item">
-    <div className="tl-dot"></div>
-    <div className="tl-time">Closing</div>
-    <div className="tl-name">Closing Ceremony</div>
-    <div className="tl-desc">Closing ceremony marking the end of the event.</div>
-    <span className="tl-tag">Closing</span>
-  </div>
-
-  <div className="tl-item">
-    <div className="tl-dot"></div>
-    <div className="tl-time">Final</div>
-    <div className="tl-name">Vote of Thanks</div>
-    <div className="tl-desc">Vote of thanks by the organizing committee core team.</div>
-    <span className="tl-tag">Closing</span>
-  </div>
-
-</div>
+          {SCHEDULE_DATA.map((event, index) => (
+            <ScheduleCard 
+              key={index} 
+              time={event.time} 
+              name={event.name} 
+              desc={event.desc} 
+              tag={event.tag}
+              isLast={index === SCHEDULE_DATA.length - 1} 
+            />
+          ))}
+        </div>
       </div>
     </section>
   );

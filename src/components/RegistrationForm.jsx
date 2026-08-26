@@ -2,161 +2,155 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import toast, { Toaster } from 'react-hot-toast';
-import auditorium from '../assets/auditorium.png';
 import './RegistrationForm.css';
+import { PASSES_DATA } from '../data/passesData';
 
-function HeroSection() {
-  return (
-    <section className="registration-hero">
-      <img src={auditorium.src} alt="Auditorium background" className="hero-bg-image" />
-      <div className="hero-overlay" />
-      <div className="hero-inner">
-        <div className="brand-logo">
-          <span className="brand-red">TEDx</span>
-          <span className="brand-white">IntegralUniversity</span>
-        </div>
-        <p className="hero-tagline">IDEAS WORTH SPREADING</p>
-        <h1>Register</h1>
-        <p className="hero-copy">
-          Join innovators, researchers, entrepreneurs and creators for an inspiring TEDx experience.
-        </p>
-        <div className="hero-meta">
-          <div className="meta-item">
-            <span className="meta-label">VENUE</span>
-            <span className="meta-value">Integral University</span>
-          </div>
-          <div className="meta-item">
-            <span className="meta-label">DATE</span>
-            <span className="meta-value">26th September 2026</span>
-          </div>
-          <div className="meta-item">
-            <span className="meta-label">THEME</span>
-            <span className="meta-value">TESSELLATION</span>
-          </div>
-        </div>
-        <button className="hero-cta">Reserve Your Seat</button>
-      </div>
-    </section>
-  );
-}
+const PASS_KEYS = Object.keys(PASSES_DATA);
 
 export default function RegistrationForm() {
   const searchParams = useSearchParams();
   const passParam = searchParams.get('pass');
+  const selectedPass = PASS_KEYS.includes(passParam) ? PASSES_DATA[passParam] : null;
+  const selectedPassKey = selectedPass ? passParam : '';
 
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
     phone: '',
-    ticketType: passParam || '',
     category: '',
     organization: '',
     industry: '',
     specialRequirements: '',
     referral: '',
+    consent: false,
   });
   const [errors, setErrors] = useState({});
   const [success, setSuccess] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
-    if (passParam) {
-      setFormData((prev) => ({ ...prev, ticketType: passParam }));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [passParam]);
+    setErrors((previous) => ({ ...previous, pass: selectedPass ? undefined : 'Please return to the Register page and choose a valid pass.' }));
+  }, [selectedPass]);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    const { name, value, type, checked } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: type === 'checkbox' ? checked : value }));
+    setErrors((previous) => ({ ...previous, [name]: undefined }));
   };
 
   const handleCategory = (value) => {
     setFormData((prev) => ({ ...prev, category: value }));
+    setErrors((previous) => ({ ...previous, category: undefined }));
   };
 
   const validateForm = () => {
     const newErrors = {};
-    if (!formData.fullName.trim()) newErrors.fullName = 'Full name is required';
-    if (!formData.email.trim()) newErrors.email = 'Email is required';
-    else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = 'Enter a valid email address';
-    if (!formData.phone.trim()) newErrors.phone = 'Phone number is required';
-    else if (!/^[0-9]{10}$/.test(formData.phone)) newErrors.phone = 'Phone number must be exactly 10 digits';
-    if (!formData.ticketType) newErrors.ticketType = 'Please select a ticket type';
-    if (!formData.category) newErrors.category = 'Please select a category';
-    if (!formData.organization.trim()) newErrors.organization = 'Organization is required';
-    if (!formData.industry) newErrors.industry = 'Please select an industry';
+    const fullName = formData.fullName.trim();
+    const email = formData.email.trim();
+    const phone = formData.phone.trim().replace(/[\s()-]/g, '');
+    const organization = formData.organization.trim();
+
+    if (!selectedPass) newErrors.pass = 'Please return to the Register page and choose a valid pass.';
+    if (fullName.length < 2 || fullName.length > 100) newErrors.fullName = 'Enter a name between 2 and 100 characters.';
+    if (!email) newErrors.email = 'Email address is required.';
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) newErrors.email = 'Enter a valid email address.';
+    if (!phone) newErrors.phone = 'Phone number is required.';
+    else if (!/^(?:\+91|91)?[6-9]\d{9}$/.test(phone)) newErrors.phone = 'Enter a valid Indian mobile number.';
+    if (!formData.category) newErrors.category = 'Please select an attendee category.';
+    if (organization.length < 2 || organization.length > 150) newErrors.organization = 'Enter an organization between 2 and 150 characters.';
+    if (!formData.consent) newErrors.consent = 'Please confirm that your information is accurate.';
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    if (isSubmitting) return;
     if (!validateForm()) return;
-    console.log('registration payload', formData);
-    toast.success('Registration Submitted Successfully!');
-    setFormData({
-      fullName: '',
-      email: '',
-      phone: '',
-      ticketType: '',
-      category: '',
-      organization: '',
-      industry: '',
-      specialRequirements: '',
-      referral: '',
-    });
-    setSuccess(true);
+    setIsSubmitting(true);
+    try {
+      // Mock-only until a payment initialization endpoint is available. Submit only the pass key.
+      const registrationPayload = {
+        passKey: selectedPassKey,
+        fullName: formData.fullName.trim(),
+        email: formData.email.trim().toLowerCase(),
+        phone: formData.phone.trim().replace(/[\s()-]/g, ''),
+        category: formData.category,
+        organization: formData.organization.trim(),
+        industry: formData.industry,
+        specialRequirements: formData.specialRequirements.trim(),
+        referral: formData.referral,
+      };
+      void registrationPayload;
+      await new Promise((resolve) => setTimeout(resolve, 400));
+      toast.success('Details received. Payment integration is coming next.');
+      setSuccess(true);
+    } catch {
+      setErrors((previous) => ({ ...previous, submit: 'We could not prepare your registration. Please try again.' }));
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
-    <div className="registration-page">
-      <HeroSection />
-      <main className="registration-form-panel">
-        <div className="form-shell">
-          <div className="form-header">
-            <p className="form-subtitle">Secure your seat</p>
-            <h2>Registration Form</h2>
-            <p className="form-description">
-              Complete the details below to confirm your TEDxIntegralUniversity pass.
-            </p>
+    <main className="form-shell">
+      <div className="form-header">
+        <p className="form-subtitle">Secure Your Seat</p>
+        <h2>Registration Form</h2>
+        <p className="form-description">Complete the details below to continue with your TEDxIntegralUniversity pass.</p>
+      </div>
+
+      <Toaster position="top-right" toastOptions={{ style: { background: '#121212', color: '#fff', border: '1px solid #E62B1E' } }} />
+
+      {selectedPass ? (
+        <section className={`selected-pass selected-pass--${selectedPassKey}`} aria-labelledby="selected-pass-title">
+          <div>
+            <span className="selected-pass-label" id="selected-pass-title">Selected Pass</span>
+            <strong>{selectedPass.name}</strong>
           </div>
+          <span className="selected-pass-price">₹{selectedPass.price.toLocaleString('en-IN')}</span>
+        </section>
+      ) : (
+        <section className="form-error form-error-pass" role="alert">
+          <strong>No valid pass selected.</strong>
+          <span>Please return to the Register page to choose your pass before continuing.</span>
+          <a href="/register">Back to Register</a>
+        </section>
+      )}
 
-          <Toaster
-            position="top-right"
-            toastOptions={{
-              style: {
-                background: '#121212',
-                color: '#fff',
-                border: '1px solid #E62B1E',
-              },
-            }}
-          />
+      {success && <div className="success-message" role="status">Details received. We will connect payment verification here.</div>}
+      {errors.submit && <div className="form-error" role="alert">{errors.submit}</div>}
 
-          {success && <div className="success-message">✅ Registration submitted successfully!</div>}
-
-          <form className="registration-form" onSubmit={handleSubmit}>
+      <form className="registration-form" onSubmit={handleSubmit} noValidate>
             <div className="form-row">
               <label>
-                Full Name <span className="required">*</span>
+                <span className="field-label">Full Name <span className="required" aria-hidden="true">*</span></span>
                 <input
                   name="fullName"
                   value={formData.fullName}
                   onChange={handleChange}
                   placeholder="Enter your full name"
+                  autoComplete="name"
+                  aria-invalid={Boolean(errors.fullName)}
+                  aria-describedby={errors.fullName ? 'fullName-error' : 'fullName-helper'}
                 />
+                <span className="field-helper" id="fullName-helper">Use the name you would like to appear on your booking and certificate, if applicable.</span>
               </label>
-              {errors.fullName && <span className="field-error">{errors.fullName}</span>}
+              {errors.fullName && <span className="field-error" id="fullName-error">{errors.fullName}</span>}
             </div>
 
             <div className="form-row">
               <label>
-                Email Address <span className="required">*</span>
+                <span className="field-label">Email Address <span className="required" aria-hidden="true">*</span></span>
                 <input
                   type="email"
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  placeholder="Enter your email address"
+                  placeholder="you@example.com"
+                  autoComplete="email"
+                  inputMode="email"
+                  aria-invalid={Boolean(errors.email)}
                 />
               </label>
               {errors.email && <span className="field-error">{errors.email}</span>}
@@ -164,38 +158,27 @@ export default function RegistrationForm() {
 
             <div className="form-row">
               <label>
-                Phone Number <span className="required">*</span>
+                <span className="field-label">Phone Number <span className="required" aria-hidden="true">*</span></span>
                 <input
                   type="tel"
                   name="phone"
                   value={formData.phone}
                   onChange={handleChange}
-                  placeholder="Enter your phone number"
+                  placeholder="Enter your 10-digit mobile number"
+                  autoComplete="tel"
+                  inputMode="tel"
+                  aria-invalid={Boolean(errors.phone)}
                 />
               </label>
               {errors.phone && <span className="field-error">{errors.phone}</span>}
             </div>
 
             <div className="form-row">
-              <label>
-                Ticket Type <span className="required">*</span>
-                <select name="ticketType" value={formData.ticketType} onChange={handleChange}>
-                  <option value="">Select Ticket Type</option>
-                  <option value="general">General Pass</option>
-                  <option value="early">VIP Pass</option>
-                  <option value="student">Student Pass</option>
-                </select>
-              </label>
-              {errors.ticketType && <span className="field-error">{errors.ticketType}</span>}
-            </div>
-
-            <div className="form-row">
-              <div className="field-label-row">
-                <span>Category</span>
-                <span className="required">*</span>
-              </div>
+              <fieldset className="category-fieldset">
+                <legend className="field-label">Attendee Category <span className="required" aria-hidden="true">*</span></legend>
+                <span className="field-helper">This helps us understand attendee background and verify eligibility where applicable.</span>
               <div className="category-pills">
-                {['Student', 'Teacher', 'Professional'].map((option) => (
+                {['Student', 'Teacher/Faculty', 'Professional'].map((option) => (
                   <button
                     key={option}
                     type="button"
@@ -206,25 +189,27 @@ export default function RegistrationForm() {
                   </button>
                 ))}
               </div>
+              </fieldset>
               {errors.category && <span className="field-error">{errors.category}</span>}
             </div>
 
             <div className="form-row">
               <label>
-                School / University / Company <span className="required">*</span>
+                <span className="field-label">School / University / Company <span className="required" aria-hidden="true">*</span></span>
                 <input
                   name="organization"
                   value={formData.organization}
                   onChange={handleChange}
                   placeholder="Enter your organization"
+                  autoComplete="organization"
                 />
               </label>
               {errors.organization && <span className="field-error">{errors.organization}</span>}
             </div>
-
+            {/*
             <div className="form-row">
               <label>
-                Industry / Domain <span className="required">*</span>
+                <span className="field-label">Industry / Domain <span className="optional">(optional)</span></span>
                 <select name="industry" value={formData.industry} onChange={handleChange}>
                   <option value="">Select Industry</option>
                   <option value="Technology">Technology</option>
@@ -241,40 +226,47 @@ export default function RegistrationForm() {
 
             <div className="form-row">
               <label>
-                Special Requirements
+                <span className="field-label">Accessibility or Special Requirements <span className="optional">(optional)</span></span>
                 <textarea
                   name="specialRequirements"
                   value={formData.specialRequirements}
                   onChange={handleChange}
                   rows={5}
-                  placeholder="Mention accessibility or any special requirements"
+                  placeholder="Let us know about any accessibility, dietary, or other event-related requirements."
                 />
               </label>
             </div>
-
+            */}
             <div className="form-row">
               <label>
-                How did you hear about TEDx?
+                <span className="field-label">How did you hear about TEDx? <span className="optional">(optional)</span></span>
                 <select name="referral" value={formData.referral} onChange={handleChange}>
                   <option value="">Select</option>
                   <option value="Instagram">Instagram</option>
                   <option value="LinkedIn">LinkedIn</option>
                   <option value="Google Search">Google Search</option>
-                  <option value="Friend">Friend</option>
+                  <option value="Friend or colleague">Friend or colleague</option>
                   <option value="University">University</option>
                   <option value="Other">Other</option>
                 </select>
               </label>
             </div>
 
-            <button type="submit" className="register-btn">Reserve My Seat</button>
+            <label className="consent-row">
+              <input type="checkbox" name="consent" checked={formData.consent} onChange={handleChange} aria-invalid={Boolean(errors.consent)} />
+              <span>I confirm that the information provided is accurate and may be used for TEDxIntegralUniversity registration, payment-related processing, event communication, and ticket delivery. <span className="required" aria-hidden="true">*</span></span>
+            </label>
+            {errors.consent && <span className="field-error">{errors.consent}</span>}
+
+            <button type="submit" className="register-btn" disabled={isSubmitting || !selectedPass}>
+              {isSubmitting ? 'Preparing payment...' : 'Continue to Payment'}
+            </button>
+            <p className="payment-note">Your pass will be confirmed only after successful payment verification.</p>
           </form>
 
           <p className="privacy-note">
-            Your information will only be used for TEDxIntegralUniversity event registration and communication.
+            Your information will be used for TEDxIntegralUniversity registration, payment-related processing, event communication, and ticket delivery.
           </p>
-        </div>
-      </main>
-    </div>
+    </main>
   );
 }
