@@ -7,6 +7,7 @@ import { PremiumScrollReveal } from './MotionReveal';
 import { PASSES_DATA, STORE_PAGE_CONTENT } from '../data/passesData';
 import Footer from '../components/Footer';
 import Script from 'next/script';
+import VerificationModal from '../components/VerificationModel';
 
 // ─────────────────────────────────────────────────────────────
 // CONFIGURATION
@@ -254,7 +255,7 @@ function ErrorPopup({ message, onClose }) {
 // ─────────────────────────────────────────────────────────────
 // VERIFICATION MODAL COMPONENT
 // ─────────────────────────────────────────────────────────────
-function VerificationModal({ isOpen, onClose, onVerifySuccess, onError, passName }) {
+function OldVerificationModal({ isOpen, onClose, onVerifySuccess, onError, passName }) {
   const [step, setStep] = useState(1);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -714,6 +715,7 @@ export default function RegisterPage() {
       document.head.appendChild(newMeta);
     }
   }, []);
+  const DEFAULT_INITIAL_DATA = {};
 
   return (
     <div className="page-root">
@@ -730,7 +732,6 @@ export default function RegisterPage() {
           </div>
         </div>
       )}
-
       {/* VERIFICATION POPUP MODAL */}
       <VerificationModal
         isOpen={isModalOpen}
@@ -738,6 +739,7 @@ export default function RegisterPage() {
         onVerifySuccess={handleVerifySuccess}
         onError={setErrorMessage}
         passName={activePass?.name}
+        initialData = {DEFAULT_INITIAL_DATA}
       />
 
       <ErrorPopup message={errorMessage} onClose={() => setErrorMessage('')} />

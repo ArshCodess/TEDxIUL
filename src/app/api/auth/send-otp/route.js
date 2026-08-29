@@ -11,7 +11,7 @@ export async function POST(request) {
   try {
     await connectdb();
 
-    const { name, email, phoneNumber } = await request.json();
+    const { name, email, phoneNumber, category, organization, heardAboutTedx, } = await request.json();
 
     if (!email || !name || !phoneNumber) {
       return NextResponse.json(
@@ -49,6 +49,10 @@ export async function POST(request) {
           expiresAt,
           attempts: 0,
         },
+        email,
+        category,
+        organization,
+        heardAboutTedx,
       },
       { upsert: true, returnDocument: 'after' }
     );

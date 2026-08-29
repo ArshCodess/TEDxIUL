@@ -16,6 +16,27 @@ const userSchema = new mongoose.Schema(
       trim: true,
       index: true,
     },
+    category: {
+      type: String,
+      required: true,
+      enum: ['Student', 'Teacher/Faculty', 'Professional'],
+    },
+    heardAboutTedx: {
+      type: String,
+      enum: [
+        'Instagram',
+        'LinkedIn',
+        'Google Search',
+        'Friend or colleague',
+        'University',
+        'Other',
+      ]
+    },
+    organization:{
+      type:String,
+      required:true,
+      trim:true,
+    },
     phoneNumber: {
       type: String,
       required: true,
@@ -30,9 +51,9 @@ const userSchema = new mongoose.Schema(
       expiresAt: { type: Date, default: null },
       attempts: { type: Number, default: 0 },
     },
-    ticketId:{
-      type:mongoose.Schema.Types.ObjectId,
-      ref:'Ticket'
+    ticketId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Ticket'
     }
   },
   { timestamps: true }
