@@ -1019,8 +1019,8 @@
 
 .team-card {
   width: 100%;
-  max-width: 420px;
-  aspect-ratio: 2 / 3;
+  max-width: 320px;
+  aspect-ratio: 3 / 4;
   height: auto;
   position: relative;
   overflow: hidden;
@@ -1088,7 +1088,7 @@
 .team-overlay h3 {
   color: var(--white);
   font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(3rem, 4rem, 5rem);
+  font-size:  2.5rem;
   font-weight: 400;
   letter-spacing: 1.5px;
   line-height: 1.15;
@@ -1428,11 +1428,11 @@
   }
 
   .team-overlay h3 {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
   }
 
   .leadership-section .team-overlay h3 {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
   }
 
   .last-card {
