@@ -2,9 +2,11 @@
 import { NextResponse } from 'next/server';
 import Tickets from '../../../../lib/models/Ticket'
 import User from '../../../../lib/models/User'
+import { connectdb } from '../../../../lib/mongo';
 
 export async function GET(req) {
   try {
+    await connectdb()
     const { searchParams } = new URL(req.url);
     const passCode = searchParams.get('passCode')?.trim();
 
@@ -25,6 +27,7 @@ export async function GET(req) {
 
 export async function PATCH(req) {
   try {
+    await connectdb();
     const { passCode, action, perkKey, staffEmail } = await req.json();
 
     const ticket = await Tickets.findOne({ passCode });
