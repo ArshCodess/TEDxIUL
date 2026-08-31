@@ -15,7 +15,7 @@ import reemhamraz from '../assets/team-photos/organizers/Reem-Hamraz.png';
 
 import aliyahmohammadazam from '../assets/team-photos/core-committee/Aliyah_Mohammad_Azam.jpg';
 import arifsheikh from '../assets/team-photos/core-committee/Arif_Sheikh.jpeg';
-import haidermaseeh from '../assets/team-photos/core-committee/Haider-Maseeh.jpg';
+import haidermaseeh from '../assets/team-photos/core-committee/Haider-Maseeh.png';
 import jamizqamar from '../assets/team-photos/core-committee/Jamiz-Qamar.jpg';
 
 export default function TeamPage() {
