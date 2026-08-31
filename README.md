@@ -1,224 +1,336 @@
-# TEDxIntegral University – Website Prototype
+# TEDxIntegralUniversity — Frontend (Next.js)
 
-This repository contains the official website prototype for **TEDxIntegral University 2026**, the first-ever TEDx edition at Integral University, Lucknow.
+Official frontend repository for the TEDxIntegralUniversity event website.
 
-The goal is to build a **single-page, component-based React site** that follows TED/TEDx branding rules, is easy for multiple volunteers to work on in parallel, and can later connect to a Supabase backend for registration and ticketing.
-
----
-
-## Tech Stack
-
-- **Frontend**: React (Vite)
-- **Styling**: CSS (global design tokens + section-level styles)
-- **Animations (planned)**: GSAP / canvas (from original prototype) – to be ported gradually
-- **Original prototype**: HTML5, CSS3, JS (kept in `tedx-integral_1.html` and `assets/` as reference)
-- **Planned backend**: Supabase (Postgres + Auth) + Node/Next-style API routes
+This repository contains **frontend-only** code (Next.js + React).  
+The backend (API, database, payment gateway, admin dashboard) is developed in a **separate forked repository** maintained by the backend team. The backend repository syncs UI updates from this repository and deploys the full-stack application to the official domain.
 
 ---
 
-## Project structure
-
-```text
-TEDxIUL/
-├── index.html                        ← Vite entry point (mounts React app)
-├── tedx-integral_1.html              ← Archived HTML prototype (commented out)
-├── vite.config.js
-├── package.json
-├── package-lock.json
-├── eslint.config.js
-├── CHANGELOG.md
-├── README.md
-│
-├── public/
-│   ├── favicon.svg
-│   └── icons.svg
-│
-├── src/                              ← LIVE REACT APP (edit these)
-│   ├── main.jsx
-│   ├── App.jsx
-│   ├── index.css                     ← Main stylesheet (tokens + base)
-│   │
-│   ├── assets/                       ← Images used by React components
-│   │   ├── LKO.png                   ← Hero background illustration (Imambara skyline)
-│   │   ├── IUL.jpg                   ← Integral University image (Venue section)
-│   │   ├── tedx-logo.png
-│   │   └── tedx-network.png          ← About section graphic
-│   │
-│   ├── data/
-│   │   └── eventData.js              ← FAQs, schedule, tickets, etc.
-│   │
-│   └── components/
-│       ├── Navbar.jsx / Navbar.css
-│       ├── Hero.jsx / Hero.css
-│       ├── Countdown.jsx / Countdown.css
-│       ├── Tickets.jsx / Tickets.css
-│       ├── About.jsx / About.css
-│       ├── AboutTed.jsx / AboutTed.css
-│       ├── Theme.jsx / Theme.css
-│       ├── Schedule.jsx / Schedule.css
-│       ├── Speakers.jsx / Speakers.css
-│       ├── Sponsors.jsx / Sponsors.css
-│       ├── FAQ.jsx / FAQ.css
-│       ├── Venue.jsx / Venue.css
-│       ├── Contact.jsx / Contact.css
-│       └── Footer.jsx / Footer.css
-│
-└── assets/                           ← PROTOTYPE ONLY (ignore these)
-    ├── css/styles.css
-    ├── js/main.js
-    └── images/tedx-logo.png
-```
-
-**Key rule:**
-
-- ✅ Edit anything inside **`src/`** — that’s what the live site uses.  
-- 🗄️ **`assets/`** (root) and **`tedx-integral_1.html`** are **archived prototype** files for reference only.
-
----
-
-## Getting started
+## 🚀 Quick Start
 
 ### Prerequisites
 
-- Node.js (LTS)
+- Node.js 18+ (LTS recommended)
+- npm or pnpm
 - Git
 
-### Installation
+### Install dependencies
 
 ```bash
-git clone https://github.com/GPA95/TEDxIUL.git
-cd TEDxIUL
-
 npm install
+```
+
+### Run development server
+
+```bash
 npm run dev
 ```
 
-Then open the printed `http://localhost:5173` (or similar) in your browser.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+### Build for production
+
+```bash
+npm run build
+```
+
+### Start production server locally
+
+```bash
+npm run start
+```
 
 ---
 
-## Development workflow
+## 🏗 Architecture
 
-We use a **branch-per-feature** workflow to avoid conflicts:
+- **Frontend**: Next.js 15 (App Router), React 19, CSS.
+- **Backend**: Separate repository (forked from this one) that:
+  - Syncs frontend updates from this repository.
+  - Implements API routes, database, authentication, payment gateway, and admin dashboard.
+  - Deploys the full-stack application to the official domain.
 
-1. Update local `main`:
+### Repository relationship
 
-   ```bash
-   git checkout main
-   git pull origin main
-   ```
+```text
+[Frontend Repo]  --(sync)-->  [Backend Fork Repo]  --(deploy)-->  [Official Domain]
+```
 
-2. Create a feature branch:
-
-   ```bash
-   git checkout -b feature/<short-description>
-   ```
-
-3. Make changes, then:
-
-   ```bash
-   git add .
-   git commit -m "feat: short message"
-   git push -u origin feature/<short-description>
-   ```
-
-4. Open a **Pull Request** on GitHub into `main`.
-5. After review and merge, clean up locally:
-
-   ```bash
-   git checkout main
-   git pull origin main
-   git branch -d feature/<short-description>
-   ```
+The backend team is responsible for:
+- Keeping their fork in sync with this repository.
+- Integrating backend services.
+- Managing environment variables and secrets.
+- Deploying the production website.
 
 ---
 
-## Deployment (Netlify)
+## 📁 Project Structure
 
-The prototype is deployed via **Netlify** for easy sharing with organizers and other teams.
-
-### Production deploy
-
-- The **`main`** branch is connected to Netlify.
-- Every push to `main` triggers a new production build (`npm run build`) and deploy (output from `dist`).
-
-### Preview deploys
-
-- Every Pull Request gets its own **preview URL** from Netlify.
-- Use this link to review changes visually before merging.
-
-If you are a collaborator and need access to Netlify, contact the repo owner to be added to the project.
+```text
+TEDxIUL/
+├── 📦 PROJECT ROOT FILES
+│   ├── package.json                    │ npm dependencies: Next.js 15, React 19, Embla Carousel react-hot-toast
+│   ├── package-lock.json               │ Locked versions for reproducible installs
+│   ├── next.config.mjs                 │ Next.js configuration (currently empty as it's not in use)
+│   ├── netlify.toml                    │ Build command "npm run build" → publish ".next"
+│   ├── README.md                       │ ⚠️ Old Vite
+│   ├── CHANGELOG.md                    │ Empty placeholder for version history
+│   ├── .gitignore                      │ Excludes node_modules, .next, .vscode, .DS_Store
+│   ├── .git/                           │ Git repository metadata
+│   └── .vscode/                        │ VS Code workspace settings
+│
+├── 🌐 DEPLOYMENT & BUILD OUTPUTS (ignore in development)
+│   ├── .next/                          │ Next.js production build output (gitignored)
+│   ├── dist/                           │ Legacy Vite output (gitignored)
+│   ├── out.html                        │ Generated HTML snapshot
+│   ├── backup-rebase-conflicts.patch   │ Git conflict resolution reference
+│   └── node_modules/                   │ Installed dependencies
+│
+├── 📄 LEGACY PROTOTYPE FILES (reference only, not active)
+│   ├── tedx-integral_1.html            │ Original HTML5 prototype with canvas, GSAP animations
+│   ├── assets/                         │ Legacy CSS, JS, images from prototype
+│   │   ├── css/styles.css
+│   │   ├── js/main.js
+│   │   └── images/
+│   └── RegistrationPage.md             │ Old Vite registration page component reference
+│
+├── 🎯 PUBLIC ASSETS (served at /)
+│   └── public/
+│       ├── assets/images/              │ Legacy image folder
+│       └── _redirects                  │ Netlify redirect configuration
+│
+└── 💻 ACTIVE APPLICATION SOURCE (src/)
+    ├── 🎨 GLOBAL STYLING
+    │   └── index.css                   │ Design tokens (--red, --white, --black, --gray, etc.)
+    │                                   │ Base element styles, animations, responsive breakpoints
+    │                                   │ Z-index hierarchy, section-level defaults
+    │
+    ├── 🔀 NEXT.JS APP ROUTER (src/app)
+    │   ├── layout.jsx                  │ Root layout: global navbar, metadata, font imports
+    │   ├── page.jsx                    │ Homepage route (/)
+    │   ├── about/                      │ About section routes
+    │   │   ├── tedx/page.jsx           │ /about/tedx → AboutTEDxPage
+    │   │   ├── tedxiul/page.jsx        │ /about/tedxiul → AboutTEDxIULPage
+    │   │   └── iul/page.jsx            │ /about/iul → AboutIULPage (Integral University)
+    │   ├── contact/page.jsx            │ /contact → ContactPage
+    │   ├── faq/page.jsx                │ /faq → FAQPage (standalone FAQ with back button)
+    │   ├── register/                   │ Registration routes
+    │   │   ├── page.jsx                │ /register → RegisterPage (pass selection + carousel)
+    │   │   └── form/page.jsx           │ /register/form → RegistrationForm (collect attendee info)
+    │   ├── schedule/page.jsx           │ /schedule → SchedulePage (full event timeline)
+    │   ├── speakers/page.jsx           │ /speakers → SpeakersPage (TBA placeholder cards)
+    │   ├── sponsors/page.jsx           │ /sponsors → SponsorsPage (Integral Univ + TBA boxes)
+    │   ├── team/page.jsx               │ /team → TeamPage (leadership, organizers, core committee)
+    │   └── venue/page.jsx              │ /venue → VenuePage (map, travel modes, local tips)
+    │
+    ├── 🧩 REUSABLE COMPONENTS (src/components)
+    │   │
+    │   ├── Navigation & Layout
+    │   │   ├── Navbar.jsx / Navbar.css            │ Fixed top nav with About dropdown, mobile menu
+    │   │   ├── Footer.jsx / Footer.css            │ TEDx license text, footer links
+    │   │   └── Theme.jsx / Theme.css              │ TODO: Empty placeholder section
+    │   │
+    │   ├── Hero & Branding
+    │   │   ├── Hero.jsx / Hero.css                │ Main hero with TEDx + IUL logos, theme, CTA
+    │   │   └── Tickets.jsx / Tickets.css          │ Ticket CTA section (text-based, not interactive)
+    │   │
+    │   ├── Event Information
+    │   │   ├── About.jsx / About.css              │ About TEDxIntegralUniversity section
+    │   │   ├── AboutTed.jsx / AboutTed.css        │ About TEDx program with external TED links
+    │   │   ├── Countdown.jsx / Countdown.css      │ Live countdown to Sept 26, 2026 @ 9 AM
+    │   │   ├── Schedule.jsx / Schedule.css        │ Timeline with LED progress indicator
+    │   │   ├── FAQ.jsx / FAQ.css                  │ 14-item accordion, shows 4 + "View More"
+    │   │   ├── Venue.jsx / Venue.css              │ Embedded Google Map + venue details panel
+    │   │   ├── Contact.jsx / Contact.css          │ Contact form UI (no backend) + email/socials
+    │   │   ├── Speakers.jsx / Speakers.css        │ Placeholder speaker cards ("TBA")
+    │   │   └── Sponsors.jsx / Sponsors.css        │ Integral University + sponsor TBA boxes
+    │
+    ├── 📄 PAGE COMPOSITIONS (src/views)
+    │   │   // Each view composes components into full-page layouts
+    │   │
+    │   ├── HomePage.jsx                │ Main homepage: Hero → Countdown → all sections → Footer
+    │   ├── RegisterPage.jsx            │ Embla carousel for pass selection, magnetic button effects
+    │   ├── RegistrationForm.jsx        │ Form inputs, client-side validation, success toast
+    │   ├── SchedulePage.jsx            │ Schedule component + footer (standalone route)
+    │   ├── SpeakersPage.jsx            │ Speakers component + footer + back link
+    │   ├── SponsorsPage.jsx            │ Sponsors component + footer + back link
+    │   ├── TeamPage.jsx                │ Team photos & metadata by role + stats
+    │   ├── VenuePage.jsx               │ Extended venue: map, travel guides, local tips
+    │   ├── ContactPage.jsx             │ Contact form + footer + back link
+    │   ├── FAQPage.jsx                 │ FAQ component + footer + back link
+    │   ├── AboutTEDxPage.jsx           │ About TEDx program + footer + back link
+    │   ├── AboutTEDxIULPage.jsx        │ About the event + theme explanation + footer
+    │   ├── AboutIULPage.jsx            │ About Integral University + campus imagery + footer
+    │   ├── MotionReveal.jsx            │ Scroll animation utility component (used sparingly)
+    │   ├── pages.css                   │ Shared styles for all view pages (hero, back link, grid)
+    │   └── RegisterPage.css            │ Standalone register page styles (animations, ticket cards)
+    │
+    ├── 📊 STATIC DATA (src/data)
+    │   ├── passesData.js               │ Active data source: 4 pass tiers (General, Gold, Platinum, Faculty)
+    │   │                               │ Features, prices, codes, eligibility for each tier
+    │   │                               │ ✓ Connected to registration form
+    │   │
+    │   └── eventData.js                │ Empty exports: timelineEvents[], speakers[], faqs[], tickets[]
+    │
+    ├── 🖼️ VISUAL ASSETS (src/assets)
+    │   │   // All images imported directly into components
+    │   ├── Logo & Branding
+    │   ├── Hero & Backgrounds
+    │   ├── Venue & Location
+    │   └── Team Photography (src/assets/team-photos/)
+```
 
 ---
 
-## Sections & components (current)
+## 🎨 Features
 
-Each major section of the TEDx site is its own React component:
+### Event Information
+- Home, About, Venue, Schedule, Speakers, Sponsors, Team, FAQ, Contact pages.
+- Responsive design for mobile, tablet, and desktop.
 
-- `Navbar` – top navigation + anchor links, mobile hamburger menu
-- `Hero` – Imambara skyline hero, event name, theme, date, CTAs
-- `Countdown` – countdown to event date (placeholder until date is finalized)
-- `Tickets` – ticket CTA and planned ticket tiers (content via `eventData.js`)
-- `About` – About TEDxIntegral University and the 2026 edition
-- `AboutTed` – “About TEDx, x = independently organized event” and “About TED” with official links
-- `Theme` – “Tessellation: From Individual Ideas to Collective Impact”
-- `Schedule` – event timeline (days + sessions, powered by `eventData.js`)
-- `Speakers` – speaker cards (currently placeholder; to be filled once speakers are confirmed)
-- `Sponsors` – sponsor thank-you section (separate from hero, per TEDx rules)
-- `FAQ` – FAQs about the event (accordion, data from `eventData.js`)
-- `Venue` – Integral University info + Google Maps embed for the event location
-- `Contact` – contact details and links (email, social, optional Google Form)
-- `Footer` – links + TEDx license text
+### Ticket Selection
+- Four pass types: General, Gold, Platinum, Faculty.
+- Interactive card selection with Embla Carousel.
 
-Static content (FAQs, schedule items, ticket info, etc.) is defined in `src/data/eventData.js` so non-frontend contributors can update copy without touching component logic.
+### Registration Form
+- Client-side validation.
+- Collects attendee details.
+- Success feedback (mock-only in frontend).
 
----
-
-## TEDx branding and content rules
-
-We follow official TED/TEDx website guidelines as closely as possible.
-
-- **Homepage must include:**
-  - “What is TEDx?” language with a visible link to the [TEDx program](https://www.ted.com/about/programs-initiatives/tedx-program).
-  - Footer text: **“This independent TEDx event is operated under license from TED.”**
-  - Event name, date, theme, venue, and city.
-- **About section** includes:
-  - Official “About TEDx, x = independently organized event” text.
-  - Official “About TED” text.
-- **Sponsors**:
-  - Sponsor logos/names **do not appear in the hero**.
-  - Sponsor logos are smaller than the TEDx event logo.
-  - No ads or disallowed sponsor categories (weapons, gambling, sex-related, etc.).
-- **Logos**:
-  - Only the TEDxIntegralUniversity event logo and permitted TEDx imagery are used (no TED Conference logo).
-
-As the event details evolve, we’ll keep refining the copy and layout while staying within these rules.
+### Interactive Elements
+- Countdown timer.
+- FAQ accordion.
+- Schedule timeline with LED progress indicator.
+- Scroll animations and hover effects.
 
 ---
 
-## Backend & database (planned)
+## ⚠️ Important Notes
 
-Planned (not yet integrated):
+### Frontend-only repository
 
-- Supabase/Postgres for:
-  - User profiles
-  - Events and sessions
-  - Tickets and registrations
-  - Roles (attendee, organizer, admin)
-  - Future: coupons, feedback, certificates, volunteers, FAQs
-- Integration plan:
-  - Tickets CTA → registration/login → dashboard (via API + Supabase)
-  - Admin view(s) with role-based access and Row-Level Security (RLS)
+This repository **does not include**:
+- Backend API routes.
+- Database connections.
+- Payment gateway integration.
+- Authentication or user accounts.
+- Admin dashboard.
+- Email/SMS notifications.
 
-For now, the focus is a stable, presentable **frontend prototype**.
+The registration form is **mock-only** in this repository. Real registration, payment, and data persistence are handled in the backend repository.
+
+### Backend synchronization
+
+The backend team maintains a fork of this repository. They:
+- Sync UI updates from this repository.
+- Add backend functionality.
+- Deploy the full application.
+
+To keep the backend fork in sync, the backend team uses:
+- GitHub’s “Fetch upstream” / “Sync fork” feature.
+- Or automated GitHub Actions workflows.
+
+### Environment variables
+
+Frontend environment variables (if any) should be prefixed with `NEXT_PUBLIC_`.  
+Backend environment variables (API keys, database URLs, payment secrets) are managed in the backend repository and **must not** be committed to this repository.
+
+---
+
+## 🛠 Development Workflow
+
+### For frontend developers
+
+1. Create a feature branch from `main`.
+2. Make changes and test locally.
+3. Push to your branch and create a pull request.
+4. After review and approval, merge into `main`.
+5. The backend team will sync your changes into their fork.
+
+### For backend developers
+
+1. Fork this repository.
+2. Add backend functionality in your fork.
+3. Regularly sync your fork with this repository:
+   - Via GitHub UI: “Fetch upstream” → “Update branch”.
+   - Or via CLI:
+     ```bash
+     git remote add upstream https://github.com/GPA95/TEDxIUL.git
+     git fetch upstream
+     git checkout main
+     git merge upstream/main
+     git push origin main
+     ```
+4. Deploy your fork to the official domain.
+
+---
+
+## 📦 Dependencies
+
+### Core
+
+- `next` — Next.js 15 framework.
+- `react` — React 19.
+- `react-dom` — React DOM.
+
+### UI and Interaction
+
+- `embla-carousel-react` — Ticket carousel.
+- `react-hot-toast` — Toast notifications.
+
+### Development
+
+- `eslint` — Code quality.
+- `@types/react`, `@types/react-dom` — TypeScript types (optional).
+
+---
+
+## 🚀 Deployment
+
+### Frontend (static)
+
+This repository can be deployed as a static site via:
+- Netlify
+- Vercel
+- Other static hosting services
+
+Build command: `npm run build`  
+Output directory: `.next`
+
+### Full-stack (with backend)
+
+The backend repository deploys the full application (frontend + backend) to the official domain.  
+Frontend updates are synced from this repository to the backend fork before deployment.
+
+---
+
+## 📝 Documentation
+
+- [Next.js Documentation](https://nextjs.org/docs)
+- [React Documentation](https://react.dev)
+- [GitHub Fork Sync Documentation](https://docs.github.com/articles/syncing-a-fork)
 
 ---
 
 ## Contributors
 
-- **[Ammaar Ahmad Khan](https://github.com/GPA95)** – Repo owner, React structure, architecture, Venue/AboutTed, Navbar/Hero responsiveness
-- **[Abdul Malik](https://github.com/abdulmalik812)** – Original HTML/CSS/JS prototype
-- **[Mohammad Yazdaan Wali Khan](https://github.com/yazdaanwali)** – Content (About, Theme, FAQs, Schedule), UI copy and text refinements
-- **[Owais Raza](https://github.com/oraza7867)** – Inspired the React components and advanced features for future updates
+- **[Ammaar Ahmad Khan](https://github.com/GPA95)** – Repo owner, React structure, Venue page, Mutli-device responsiveness
+- **[Abdul Malik](https://github.com/abdulmalik812)** – Original frontend prototype, Home page designer
+- **[Mohammad Yazdaan Wali Khan](https://github.com/yazdaanwali)** – Content (About, Theme, FAQs, Schedule, Teams)
+- **[Owais Raza](https://github.com/oraza7867)** – Vite to NextJs migration, Special Effects, NextJs architecture
 
-New contributors: please open an issue or contact the team before starting work on a new feature or large refactor.
+## 📄 License
+
+This project is part of TEDxIntegralUniversity.  
+All rights reserved.
+
+---
+
+## 🙏 Acknowledgments
+
+- TED and TEDx for the platform and guidelines.
+- Integral University for support and venue.
+- All team members and contributors.
+
+---
