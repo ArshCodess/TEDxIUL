@@ -560,11 +560,12 @@ export default function TeamPage() {
                             <h3>Logistics Committee</h3>
 
                             <span className="committee-count">
-                                4 Leads
+                                3 Leads
                             </span>
 
                         </div>
 
+                        {/*
                         <div className="committee-member">
 
                             <div className="member-dot"></div>
@@ -574,6 +575,7 @@ export default function TeamPage() {
                             </div>
 
                         </div>
+                        */}
 
                         <div className="committee-member">
 
@@ -757,7 +759,7 @@ export default function TeamPage() {
                             <div className="member-dot"></div>
                             <div className="member-info">
                                 <h4>Humaira</h4>
-                                <p></p>
+                                <p>Networking</p>
                             </div>
 
                         </div>
