@@ -1,5 +1,5 @@
 
-import tedxNetwork from '../assets/tedx-network.png';
+import tedxIULogo from '../assets/tedxintegraluniversity_dark.png';
 import './About.css';
 
 export default function About() {
@@ -21,7 +21,7 @@ export default function About() {
         </a>
       </div>
       <div className="about-img-box">
-  <img src={tedxNetwork.src || tedxNetwork} alt="TEDxIUL Network" className="about-image" />
+  <img src={tedxIULogo.src || tedxIULogo} alt="TEDxIUL Logo" className="about-image" />
 </div>
     </section>
   );
