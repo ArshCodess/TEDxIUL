@@ -446,7 +446,7 @@ export default function TeamPage() {
                             <h3>Content Committee</h3>
 
                             <span className="committee-count">
-                                3 Leads
+                                2 Leads
                             </span>
 
                         </div>
@@ -456,17 +456,6 @@ export default function TeamPage() {
                             <div className="member-info">
                                 <h4>Imama Bint Anwar</h4>
                                 <p>Curation</p>
-                            </div>
-
-                        </div>
-
-                        <div className="committee-member">
-
-                            <div className="member-dot"></div>
-
-                            <div className="member-info">
-                                <h4>Neda Fatima</h4>
-                                <p>Content</p>
                             </div>
 
                         </div>
@@ -571,11 +560,12 @@ export default function TeamPage() {
                             <h3>Logistics Committee</h3>
 
                             <span className="committee-count">
-                                4 Leads
+                                3 Leads
                             </span>
 
                         </div>
 
+                        {/*
                         <div className="committee-member">
 
                             <div className="member-dot"></div>
@@ -585,6 +575,7 @@ export default function TeamPage() {
                             </div>
 
                         </div>
+                        */}
 
                         <div className="committee-member">
 
@@ -767,7 +758,7 @@ export default function TeamPage() {
 
                             <div className="member-dot"></div>
                             <div className="member-info">
-                                <h4>Zuriel Shatab</h4>
+                                <h4>Humaira</h4>
                                 <p>Networking</p>
                             </div>
 

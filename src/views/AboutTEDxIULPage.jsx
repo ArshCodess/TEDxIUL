@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Footer from '../components/Footer';
 import './pages.css';
-import tedxiulGraphic from "../assets/tedx-network.png";
+import tedxIULogo from "../assets/tedxintegraluniversity_red.png";
 
 export default function AboutTEDxIULPage() {
   return (
@@ -80,7 +80,7 @@ export default function AboutTEDxIULPage() {
 
             {/* RIGHT — image */}
             <div className="about-image">
-              <img src={tedxiulGraphic.src || tedxiulGraphic} alt="TEDxIntegralUniversity" className="about-large-image" />
+              <img src={tedxIULogo.src || tedxIULogo} alt="TEDxIntegralUniversity" className="about-large-image" />
             </div>
 
           </div>
