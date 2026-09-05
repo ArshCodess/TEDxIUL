@@ -727,7 +727,7 @@ export default function RegisterPage() {
           <div className="tedx-success-modal">
             <div className="tedx-success-icon">✓</div>
             <h2>Pass Registration Confirmed!</h2>
-            <p>Your identity has been linked to the pass and stored successfully.</p>
+            <p>Your identity has been linked to the pass and stored successfully.Check your Email for ticket</p>
             <div className="tedx-confetti-emitter" />
           </div>
         </div>
