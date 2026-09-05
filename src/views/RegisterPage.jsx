@@ -527,6 +527,7 @@ export default function RegisterPage() {
   const [showSuccessAnim, setShowSuccessAnim] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [syncCtx, setSyncCtx] = useState(0);
+  const [orderId, setorderId] = useState("");
 
   const passesList = Object.values(PASSES_DATA);
   const passCount = passesList.length;
@@ -617,7 +618,7 @@ export default function RegisterPage() {
       const { order, razorpayId } = data;
       if (!order?.id || !razorpayId) throw new Error('Payment order was not created. Please try again.');
       if (!window.Razorpay) throw new Error('Payment service is unavailable. Please refresh and try again.');
-
+      setorderId(order.id);
       const paymentobj = new window.Razorpay({
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         amount: pass.price * 100,
@@ -666,8 +667,26 @@ export default function RegisterPage() {
         },
         theme: { color: "#EB0028" },
       });
-      paymentobj.on('payment.failed', (failure) => {
-        setErrorMessage(failure?.error?.description || 'Payment failed. Please try again.');
+      paymentobj.on('payment.failed', async (failure) => {
+        // setErrorMessage(failure?.error?.description || 'Payment failed. Please try again.');
+        try {
+          const res = await fetch("/api/verify-payment/failure",
+            {
+              method: "POST",
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                failureReason: failure?.error?.description,
+                order_id: failure?.error?.metadata?.order_id || orderId,
+              })
+            }
+          )
+          if (!res.ok) {
+            console.error("Failed to sync failure status with backend server.");
+          }
+        } catch (apiError) {
+          console.error("Network error while reporting payment failure:", apiError);
+        }
+
       });
       paymentobj.open();
     } catch (error) {
@@ -739,7 +758,7 @@ export default function RegisterPage() {
         onVerifySuccess={handleVerifySuccess}
         onError={setErrorMessage}
         passName={activePass?.name}
-        initialData = {DEFAULT_INITIAL_DATA}
+        initialData={DEFAULT_INITIAL_DATA}
       />
 
       <ErrorPopup message={errorMessage} onClose={() => setErrorMessage('')} />
@@ -797,14 +816,17 @@ export default function RegisterPage() {
             <h2 className="tedx-title">
               <span onPointerDown={handleSyncRef} style={{ cursor: syncCtx > 0 ? 'default' : 'auto' }}>Secure</span> Your Seat.
             </h2>
+            <h2 className="tedx-subtitle">
+              <span onPointerDown={handleSyncRef} style={{ cursor: syncCtx > 0 ? 'default' : 'auto',marginTop:"4px" }}> &#40; Participation Certificate</span> For ALL &#41;
+            </h2>
           </PremiumScrollReveal>
         </div>
 
         <div className="tedx-carousel-wrapper">
           <button className="tedx-carousel-nav prev" onClick={scrollPrev} aria-label="Previous Pass">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6" /></svg>
           </button>
-          
+
           <div className="embla-viewport" ref={emblaRef}>
             <div className="tedx-carousel">
               {passesList.map((p, idx) => (
@@ -824,7 +846,7 @@ export default function RegisterPage() {
           </div>
 
           <button className="tedx-carousel-nav next" onClick={scrollNext} aria-label="Next Pass">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6" /></svg>
           </button>
 
           {/* Mobile dot indicators + slide counter + swipe hint */}
@@ -844,9 +866,9 @@ export default function RegisterPage() {
             <span className="tedx-slide-total">{String(passCount).padStart(2, '0')}</span>
           </div>
           <div className="tedx-swipe-hint">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
             <span>Swipe to explore</span>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="m19 12H5M12 5l-7 7 7 7"/></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="m19 12H5M12 5l-7 7 7 7" /></svg>
           </div>
         </div>
 

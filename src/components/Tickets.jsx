@@ -58,7 +58,7 @@ export default function Tickets() {
                 <li key={feature}><span className="tick">✓</span> {feature}</li>
               ))}
             </ul>
-            <a href={`/register/form?pass=${ticket.key}`} className={ticket.featured ? 'btn-primary ticket-btn' : 'btn-outline ticket-btn'}>
+            <a href={`/register/`} className={ticket.featured ? 'btn-primary ticket-btn' : 'btn-outline ticket-btn'}>
               Get {ticket.name} →
             </a>
           </div>

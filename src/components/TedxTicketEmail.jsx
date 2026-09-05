@@ -4,6 +4,7 @@ import * as React from 'react';
 export const TedxTicketEmail = ({ 
   name = 'Attendee', 
   passCode = '',
+  uri='',
   eventName = 'TEDxIntegralUniversity' 
 }) => {
   return (
@@ -37,7 +38,7 @@ export const TedxTicketEmail = ({
 
             {/* QR Code Container Pass Box */}
             <Section style={styles.ticketBox}>
-              {passCode ? (
+              {uri ? (
                 <Img
                   src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${passCode}`}
                   width="200"
@@ -49,6 +50,7 @@ export const TedxTicketEmail = ({
                 <Text style={styles.errorText}>[QR Pass Generation Error]</Text>
               )}
               <Text style={styles.ticketLabel}>DIGITAL ACCESS KEY</Text>
+              <Text style={styles.ticketLabel}>{passCode}</Text>
             </Section>
 
             <Text style={styles.gateNote}>

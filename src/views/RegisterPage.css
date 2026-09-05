@@ -245,6 +245,14 @@
   padding: 0 24px;
 }
 
+.tedx-subtitle {
+  font-family: var(--font-serif);
+  font-size: clamp(32px, 2.5vw, 32px);
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  font-weight: 400;
+  color: #fff;
+}
 .tedx-title {
   font-family: var(--font-serif);
   font-size: clamp(40px, 5vw, 64px);
@@ -858,6 +866,9 @@
   .tedx-title {
     font-size: 36px;
   }
+  .tedx-subtitle {
+    font-size: 28px;
+  }
 
   .tedx-hero-theme {
     font-size: clamp(36px, 10vw, 84px);
@@ -1326,7 +1337,7 @@
 
   .tedx-carousel {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 24px;
     align-items: stretch;
   }

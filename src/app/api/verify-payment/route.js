@@ -3,13 +3,14 @@ import crypto from 'crypto';
 import Counter from '../../../lib/models/counter';
 import Ticket from '../../../lib/models/Ticket';
 import User from '../../../lib/models/User';
+import Razorpay from '../../../lib/models/Razorpay';
 import TedxTicketEmail from '../../../components/TedxTicketEmail';
 import QRCode from 'qrcode'
 import { Resend } from 'resend';
 const resend = new Resend(process.env.RESEND_API_KEY);
 export async function POST(request) {
   try {
-    const { razorpay_order_id, razorpay_payment_id, razorpay_signature,razorpayId, user ,passTier, totalAmount} =
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature, razorpayId, user, passTier, totalAmount } =
       await request.json();
 
     if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature || !razorpayId || !user?.email || !passTier || !totalAmount) {
@@ -43,7 +44,7 @@ export async function POST(request) {
       const counter = await Counter.findByIdAndUpdate(
         { _id: 'ticketSequence' },
         { $inc: { seq: 1 } },
-        { returnDocument:'after', upsert: true }
+        { returnDocument: 'after', upsert: true }
       );
       const tierPrefixes = {
         general: 'GEN',
@@ -59,8 +60,8 @@ export async function POST(request) {
 
       const newTicket = await Ticket.create({
         ticketId,
-        userId:userDoc._id,
-        email:normalizedEmail,
+        userId: userDoc._id,
+        email: normalizedEmail,
         passTier,
         passCode,
         totalAmount,
@@ -73,13 +74,20 @@ export async function POST(request) {
 
       await User.findByIdAndUpdate(userDoc._id, { ticketId: newTicket._id });
       console.log("DB: Ticket Creation DONE");
+      await Razorpay.findOneAndUpdate({ orderId: razorpay_order_id }, {
+        paymentId: razorpay_payment_id,
+        signature: razorpay_signature,
+        status:"CAPTURED",
+        failureReason:"None"
+      });
+      console.log("DB: Ticket Creation DONE");
 
       const URI_IMG = encodeURIComponent(passCode);
       await resend.emails.send({
-        from:`Here is your Ticket! <${process.env.SENDER_TICKET_EMAIL}>`,
-        to:[normalizedEmail],
-        subject:"Your ticket is generated successfully",
-        react:<TedxTicketEmail name={userDoc.name} passCode={URI_IMG}/>
+        from: `Here is your Ticket! <${process.env.SENDER_TICKET_EMAIL}>`,
+        to: [normalizedEmail],
+        subject: "Your ticket is generated successfully",
+        react: <TedxTicketEmail name={userDoc.name} uri={URI_IMG} passCode={passCode} />
       });
 
       return NextResponse.json({
