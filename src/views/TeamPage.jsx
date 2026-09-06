@@ -17,10 +17,11 @@ import aliyahmohammadazam from '../assets/team-photos/core-committee/Aliyah_Moha
 import arifsheikh from '../assets/team-photos/core-committee/Arif_Sheikh.jpeg';
 import haidermaseeh from '../assets/team-photos/core-committee/Haider-Maseeh.png';
 import jamizqamar from '../assets/team-photos/core-committee/Jamiz-Qamar.jpg';
+
 import abdulmalik from '../assets/team-photos/web_dev/Abdul.jpg';
 import ammar from '../assets/team-photos/web_dev/Ammaar.jpg';
 import arsalaan from '../assets/team-photos/web_dev/Arsalaan.jpg';
-import owais from '../assets/team-photos/web_dev/Owais.jpg';
+import owais from '../assets/team-photos/web_dev/Owais1.jpg';
 import ashja from '../assets/team-photos/web_dev/Ashjaa.jpeg';
 import yazdaan from '../assets/team-photos/web_dev/Yazdan.jpg';
 
