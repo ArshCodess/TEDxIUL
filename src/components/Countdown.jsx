@@ -11,8 +11,8 @@ export default function Countdown() {
   });
 
   useEffect(() => {
-    // Target deadline: 26 September 2026 at 9 AM
-    const eventDate = new Date('2026-09-26T09:00:00').getTime();
+    // Target deadline: 23 September 2026 at 10 AM
+    const eventDate = new Date('2026-09-23T10:00:00').getTime();
 
     function tick() {
       const diff = eventDate - Date.now();

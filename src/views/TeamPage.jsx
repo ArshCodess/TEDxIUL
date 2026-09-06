@@ -7,7 +7,7 @@ import syedwaseemAkhtar from '../assets/team-photos/leadership/syed-waseem-akhta
 import furqanqamar from '../assets/team-photos/leadership/furqan-qamar.png';
 import monowarAlamKhalid from '../assets/team-photos/leadership/monowar-alam-khalid.png';
 import shishAhmad from '../assets/team-photos/leadership/shish-ahmad.png';
-import anumKamal from '../assets/team-photos/leadership/anum-kamal.png';
+import anumKamal from '../assets/team-photos/leadership/anum-kamal.jpeg';
 import syedNadeemAkhtar from '../assets/team-photos/leadership/syed-nadeem-akhtar.png';
 
 import maazsiddiqui from '../assets/team-photos/organizers/Maaz-Siddiqui.jpg';
@@ -90,7 +90,7 @@ export default function TeamPage() {
                             </p>
 
                             <span className="team-badge">
-                                Chancellor, Integral University
+                                Hon'ble Chancellor, Integral University
                             </span>
 
                             <div className="team-divider"></div>
@@ -117,7 +117,7 @@ export default function TeamPage() {
                             </p>
 
                             <span className="team-badge">
-                                Pro-Chancellor, Integral University
+                                Hon'ble Pro-Chancellor, Integral University
                             </span>
 
                             <div className="team-divider"></div>
@@ -146,7 +146,7 @@ export default function TeamPage() {
                                 Patron
                             </p>
                             <span className="team-badge">
-                                Vice-Chancellor, Integral University
+                                Hon'ble Vice-Chancellor, Integral University
                             </span>
                             <div className="team-divider"></div>
 

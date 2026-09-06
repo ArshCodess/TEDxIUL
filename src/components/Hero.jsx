@@ -35,7 +35,7 @@ export default function Hero() {
           <div className="theme-title-bar" aria-hidden="true"></div>
         </div>
         <p className="hero-sub">From Individual Ideas to Collective Impact</p>
-        <p className="hero-date">September, 2026</p>
+        <p className="hero-date"> 23 September, 2026</p>
         <div className="hero-line"></div>
         <p className="hero-desc">
           Where individual pieces come together to form something greater. Join us as we explore how

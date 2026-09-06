@@ -23,9 +23,9 @@ const EVENT = {
   year: '2026',
   theme: 'Tessellation',
   themeLine: 'From Individual Ideas to Collective Impact',
-  venue: 'Main Auditorium',
-  date: 'September 2026',
-  time: '09:00 AM',
+  venue: 'Central Auditorium',
+  date: '23 September 2026',
+  time: '10:00 AM',
   city: 'Lucknow',
   legal: 'This independent TEDx event is operated under license from TED.',
 };
@@ -844,7 +844,7 @@ export default function RegisterPage() {
             <h2 className="tedx-title">
               <span onPointerDown={handleSyncRef} style={{ cursor: syncCtx > 0 ? 'default' : 'auto' }}>Secure</span> Your Seat.
             </h2>
-            <div className="page-hero-label" style={{ animation: "bounce" }}>Get 15% discount if you book your ticket before 15 September</div>
+            <div className="page-hero-label" style={{ animation: "bounce" }}>Active discount 15%</div>
             <h2 className="tedx-subtitle">
               <span onPointerDown={handleSyncRef} style={{ cursor: syncCtx > 0 ? 'default' : 'auto', marginTop: "4px" }}> &#40; Participation Certificate</span> For ALL &#41;
             </h2>

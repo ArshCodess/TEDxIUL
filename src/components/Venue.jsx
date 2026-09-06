@@ -33,7 +33,7 @@ const VENUE_DATA = {
   region: 'Uttar Pradesh',
   description: 'Integral University, Lucknow, is a premier educational institution committed to academic excellence, research, innovation, and holistic development. With a vibrant and diverse student community, the university provides an environment that nurtures creativity, critical thinking, leadership, and entrepreneurship. Through its dedication to quality education and societal impact, Integral University continues to empower future leaders who are prepared to address global challenges and contribute meaningfully to society.',
   location: 'Dasauli, Kursi Road, Lucknow – 226026',
-  date: 'September 26, 2026',
+  date: '23 September 26, 2026',
   time: '9:00 AM onwards',
   capacity: '500+ Attendees',
   campus: '120 Acres',
