@@ -664,7 +664,26 @@ export default function RegisterPage() {
           }
         },
         modal: {
-          ondismiss: () => setErrorMessage('Payment was cancelled. You can try again whenever you are ready.'),
+          ondismiss: async () => {
+            setErrorMessage('Payment was cancelled. You can try again whenever you are ready.')
+            try {
+              const res = await fetch("/api/verify-payment/failure",
+                {
+                  method: "POST",
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                    failureReason: "Modal Closed by User",
+                    order_id: orderId,
+                  })
+                }
+              )
+              if (!res.ok) {
+                console.error("Failed to sync failure status with backend server.");
+              }
+            } catch (apiError) {
+              console.error("Network error while reporting payment failure:", apiError);
+            }
+          },
         },
         notes: {
           pass: pass.name,
@@ -825,9 +844,9 @@ export default function RegisterPage() {
             <h2 className="tedx-title">
               <span onPointerDown={handleSyncRef} style={{ cursor: syncCtx > 0 ? 'default' : 'auto' }}>Secure</span> Your Seat.
             </h2>
-            <div className="page-hero-label" style={{animation:"bounce"}}>Get 15% discount if you book your ticket before 15 September</div>
+            <div className="page-hero-label" style={{ animation: "bounce" }}>Get 15% discount if you book your ticket before 15 September</div>
             <h2 className="tedx-subtitle">
-              <span onPointerDown={handleSyncRef} style={{ cursor: syncCtx > 0 ? 'default' : 'auto',marginTop:"4px" }}> &#40; Participation Certificate</span> For ALL &#41;
+              <span onPointerDown={handleSyncRef} style={{ cursor: syncCtx > 0 ? 'default' : 'auto', marginTop: "4px" }}> &#40; Participation Certificate</span> For ALL &#41;
             </h2>
           </PremiumScrollReveal>
         </div>
