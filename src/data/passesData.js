@@ -9,7 +9,7 @@ export const PASSES_DATA = {
     key: "general",
     id: "pass-general",
     name: "General Pass",
-    price: 100,
+    price: 799,
     code: "GEN-SOT-2026",
     deck: "Back Seating Access",
     link: "..",
