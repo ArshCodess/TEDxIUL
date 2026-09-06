@@ -17,6 +17,13 @@ import aliyahmohammadazam from '../assets/team-photos/core-committee/Aliyah_Moha
 import arifsheikh from '../assets/team-photos/core-committee/Arif_Sheikh.jpeg';
 import haidermaseeh from '../assets/team-photos/core-committee/Haider-Maseeh.png';
 import jamizqamar from '../assets/team-photos/core-committee/Jamiz-Qamar.jpg';
+import abdulmalik from '../assets/team-photos/web_dev/Abdul.jpg';
+import ammar from '../assets/team-photos/web_dev/Ammaar.jpg';
+import arsalaan from '../assets/team-photos/web_dev/Arsalaan.jpg';
+import owais from '../assets/team-photos/web_dev/Owais.jpg';
+import ashja from '../assets/team-photos/web_dev/Ashjaa.jpeg';
+import yazdaan from '../assets/team-photos/web_dev/Yazdan.jpg';
+
 
 export default function TeamPage() {
     return (
@@ -407,6 +414,175 @@ export default function TeamPage() {
 
                             <p className="team-role">
                                 Treasurer
+                            </p>
+
+                            <div className="team-divider"></div>
+
+                            <p className="team-event">
+                                TEDxIntegralUniversity
+                            </p>
+
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+            <section className="team-section">
+
+                <div className="section-divider"></div>
+
+                <div className="team-section-header">
+
+                    <h2 className="section-title">
+                        Web Development <span className="accent">Committee</span>
+                    </h2>
+
+                    <p className="section-subtitle">
+                        The strategic minds driving creativity, operations, logistics,
+                        and execution behind TEDxIntegralUniversity.
+                    </p>
+
+                </div>
+                <div className="team-grid">
+                    <div className="team-card" style={{borderColor:" #e62b1e",borderWidth:"1px"}}>
+                        <p className="team-role web-lead">
+                            Team Lead
+                        </p>
+                        <Image unoptimized width={1200} height={900}
+                            src={arsalaan}
+                            alt="Arsalaan Ul Hasan"
+                            className="team-image"
+                        />
+
+                        <div className="team-overlay">
+
+                            <h3>Arsalaan Ul Hasan</h3>
+                            <p className="team-role">
+                                Code review
+                            </p>
+
+                            <div className="team-divider"></div>
+
+                            <p className="team-event">
+                                TEDxIntegralUniversity
+                            </p>
+
+                        </div>
+                    </div>
+                    <div className="team-card" style={{borderColor:" #e62b1e",borderWidth:"1px"}}>
+                        <p className="team-role web-lead">
+                            Team Lead
+                        </p>
+                        <Image unoptimized width={1200} height={900}
+                            src={ashja}
+                            alt="Mohammad Ashjaa Khan"
+                            className="team-image"
+                        />
+
+                        <div className="team-overlay">
+
+                            <h3>Mohammad Ashjaa Khan</h3>
+
+                            <p className="team-role">
+                                Quality Assurance
+                            </p>
+
+                            <div className="team-divider"></div>
+
+                            <p className="team-event">
+                                TEDxIntegralUniversity
+                            </p>
+
+                        </div>
+                    </div>
+
+                    <div className="team-card">
+
+                        <Image unoptimized width={1200} height={900}
+                            src={ammar}
+                            alt="Haider Maseeh"
+                            className="team-image"
+                        />
+
+                        <div className="team-overlay">
+
+                            <h3>Ammaar Ahmad Khan</h3>
+
+                            <p className="team-role">
+                                Member-1
+                            </p>
+
+                            <div className="team-divider"></div>
+
+                            <p className="team-event">
+                                TEDxIntegralUniversity
+                            </p>
+
+                        </div>
+                    </div>
+
+                    <div className="team-card">
+
+                        <Image unoptimized width={1200} height={900}
+                            src={owais}
+                            alt="Jamiz Qamar"
+                            className="team-image"
+                        />
+
+                        <div className="team-overlay">
+
+                            <h3>Owais Raza</h3>
+
+                            <p className="team-role">
+                                Member-2
+                            </p>
+
+                            <div className="team-divider"></div>
+
+                            <p className="team-event">
+                                TEDxIntegralUniversity
+                            </p>
+
+                        </div>
+                    </div>
+                    <div className="team-card">
+
+                        <Image unoptimized width={1200} height={900}
+                            src={abdulmalik}
+                            alt="Jamiz Qamar"
+                            className="team-image"
+                        />
+
+                        <div className="team-overlay">
+
+                            <h3>Abdul Malik</h3>
+
+                            <p className="team-role">
+                                Member-3
+                            </p>
+
+                            <div className="team-divider"></div>
+
+                            <p className="team-event">
+                                TEDxIntegralUniversity
+                            </p>
+
+                        </div>
+                    </div>
+                    <div className="team-card">
+
+                        <Image unoptimized width={1200} height={900}
+                            src={yazdaan}
+                            alt="Yazdaan"
+                            className="team-image"
+                        />
+
+                        <div className="team-overlay">
+
+                            <h3>Mohammad Yazdaan Wali Khan</h3>
+
+                            <p className="team-role">
+                                Member-4
                             </p>
 
                             <div className="team-divider"></div>

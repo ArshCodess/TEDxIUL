@@ -24,6 +24,7 @@ const userSchema = new mongoose.Schema(
     heardAboutTedx: {
       type: String,
       enum: [
+        '',
         'Instagram',
         'LinkedIn',
         'Google Search',

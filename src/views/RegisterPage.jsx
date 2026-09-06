@@ -4,7 +4,12 @@ import useEmblaCarousel from 'embla-carousel-react';
 import './RegisterPage.css';
 import './pages.css';
 import { PremiumScrollReveal } from './MotionReveal';
-import { PASSES_DATA, STORE_PAGE_CONTENT } from '../data/passesData';
+import {
+  EARLY_BOOKING_DISCOUNT_PERCENT,
+  getDiscountedPassPrice,
+  PASSES_DATA,
+  STORE_PAGE_CONTENT,
+} from '../data/passesData';
 import Footer from '../components/Footer';
 import Script from 'next/script';
 import VerificationModal from '../components/VerificationModel';
@@ -91,6 +96,7 @@ function Ticket({ pass, isSelected, isPurchased, userDetails, onSelect }) {
   const cardRef = useRef(null);
   const [isLeaving, setIsLeaving] = useState(false);
   const isPremium = pass.key === 'platinum' || pass.key === 'faculty' || pass.key === 'gold';
+  const discountedPrice = getDiscountedPassPrice(pass.price);
   const barcodeData = generateBarcode(pass.code, 50);
 
   const handleMouseMove = (e) => {
@@ -130,7 +136,7 @@ function Ticket({ pass, isSelected, isPurchased, userDetails, onSelect }) {
         role="button"
         tabIndex={isPurchased ? -1 : 0}
         aria-pressed={isSelected}
-        aria-label={`${pass.name}, ₹${pass.price?.toLocaleString('en-IN')}`}
+        aria-label={`${pass.name}, ₹${discountedPrice.toLocaleString('en-IN')} after ${EARLY_BOOKING_DISCOUNT_PERCENT}% discount`}
         style={{
           border: isPurchased ? '1px solid #10B981' : undefined,
           boxShadow: isPurchased ? '0 0 25px rgba(16, 185, 129, 0.2)' : undefined,
@@ -155,8 +161,9 @@ function Ticket({ pass, isSelected, isPurchased, userDetails, onSelect }) {
           {pass.deck && <p className="tedx-pass-deck">{pass.deck}</p>}
 
           <div className="tedx-price-row">
-            <span className="tedx-price">₹{pass.price?.toLocaleString('en-IN')}</span>
-            {pass.originalPrice && <span className="tedx-price-strike">₹{pass.originalPrice}</span>}
+            <span className="tedx-price">₹{discountedPrice.toLocaleString('en-IN')}</span>
+            <span className="tedx-price-strike">₹{pass.price.toLocaleString('en-IN')}</span>
+            <span className="tedx-badge premium">{EARLY_BOOKING_DISCOUNT_PERCENT}% OFF</span>
           </div>
         </div>
 
@@ -609,8 +616,9 @@ export default function RegisterPage() {
         method: "POST",
         headers: { "Content-type": "application/json" },
         body: JSON.stringify({
-          amount: pass.price * 100,
+          amount: getDiscountedPassPrice(pass.price) * 100,
           email: userData.email || "",
+          passKey: pass.key,
         }),
       });
       const data = await response.json().catch(() => ({}));
@@ -621,7 +629,7 @@ export default function RegisterPage() {
       setorderId(order.id);
       const paymentobj = new window.Razorpay({
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-        amount: pass.price * 100,
+        amount: getDiscountedPassPrice(pass.price) * 100,
         currency: "INR",
         name: EVENT.org,
         description: `${pass.name} Registration`,
@@ -637,7 +645,7 @@ export default function RegisterPage() {
               razorpayId,
               user: userData,
               passTier: pass.key.replace('pass-', ''),
-              totalAmount: pass.price * 100,
+              totalAmount: getDiscountedPassPrice(pass.price) * 100,
             }),
           });
 
@@ -769,6 +777,7 @@ export default function RegisterPage() {
         <p className="page-hero-sub">
           Choose your pass and secure your seat for the TEDxIntegralUniversity experience.
         </p>
+        <h2 className="early-booking-heading">Get {EARLY_BOOKING_DISCOUNT_PERCENT}% discount if you book your ticket before 15 September</h2>
       </div>
 
       <div className="tedx-store-root">
@@ -816,6 +825,7 @@ export default function RegisterPage() {
             <h2 className="tedx-title">
               <span onPointerDown={handleSyncRef} style={{ cursor: syncCtx > 0 ? 'default' : 'auto' }}>Secure</span> Your Seat.
             </h2>
+            <div className="page-hero-label" style={{animation:"bounce"}}>Get 15% discount if you book your ticket before 15 September</div>
             <h2 className="tedx-subtitle">
               <span onPointerDown={handleSyncRef} style={{ cursor: syncCtx > 0 ? 'default' : 'auto',marginTop:"4px" }}> &#40; Participation Certificate</span> For ALL &#41;
             </h2>
@@ -881,7 +891,7 @@ export default function RegisterPage() {
               </div>
               <div className="tedx-island-col" style={{ alignItems: 'flex-end' }}>
                 <span className="tedx-island-lbl">Total</span>
-                <span className="tedx-island-price">₹{activePass?.price?.toLocaleString('en-IN')}</span>
+                <span className="tedx-island-price">₹{activePass ? getDiscountedPassPrice(activePass.price).toLocaleString('en-IN') : '0'}</span>
               </div>
             </div>
 

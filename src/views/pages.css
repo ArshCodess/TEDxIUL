@@ -65,6 +65,17 @@
   margin: 0 auto;
 }
 
+.early-booking-heading {
+  position: relative;
+  margin: 22px auto 0;
+  color: var(--red);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: 0.2px;
+}
+
 /* Content container */
 .page-wrap {
   max-width: 1100px;

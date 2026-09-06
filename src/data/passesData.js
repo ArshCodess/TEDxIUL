@@ -1,3 +1,9 @@
+export const EARLY_BOOKING_DISCOUNT_PERCENT = 15;
+
+export function getDiscountedPassPrice(price) {
+  return Math.round(price * (1 - EARLY_BOOKING_DISCOUNT_PERCENT / 100));
+}
+
 export const PASSES_DATA = {
   general: {
     key: "general",

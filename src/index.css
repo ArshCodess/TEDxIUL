@@ -1866,3 +1866,12 @@ footer {
   border-radius: 6px;
   cursor: pointer;
 }
+
+.web-lead{
+  background: #e62b1e;
+    position: absolute;
+    padding: 5px;
+    padding-inline: 31px;
+    z-index: 10;
+    border-bottom-right-radius: 17px;
+}

@@ -7,13 +7,16 @@ import Razorpay from '../../../lib/models/Razorpay';
 import TedxTicketEmail from '../../../components/TedxTicketEmail';
 import QRCode from 'qrcode'
 import { Resend } from 'resend';
+import { getDiscountedPassPrice, PASSES_DATA } from '../../../data/passesData';
 const resend = new Resend(process.env.RESEND_API_KEY);
 export async function POST(request) {
   try {
     const { razorpay_order_id, razorpay_payment_id, razorpay_signature, razorpayId, user, passTier, totalAmount } =
       await request.json();
+    const pass = PASSES_DATA[passTier];
+    const expectedTotalAmount = pass ? getDiscountedPassPrice(pass.price) * 100 : null;
 
-    if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature || !razorpayId || !user?.email || !passTier || !totalAmount) {
+    if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature || !razorpayId || !user?.email || !pass || totalAmount !== expectedTotalAmount) {
       return NextResponse.json(
         { success: false, message: 'Missing or invalid payment details' },
         { status: 400 }

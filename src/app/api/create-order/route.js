@@ -2,11 +2,14 @@ import { NextResponse } from "next/server";
 import { instance } from "../../../lib/razorpay";
 import User from "../../../lib/models/User";
 import Razorpay from "../../../lib/models/Razorpay";
+import { getDiscountedPassPrice, PASSES_DATA } from "../../../data/passesData";
 
 export async function POST(request) {
     try {
-        const { amount, email } = await request.json();
+        const { email, passKey } = await request.json();
         const normalizedEmail = email?.toLowerCase().trim();
+        const pass = PASSES_DATA[passKey];
+        const amount = pass ? getDiscountedPassPrice(pass.price) * 100 : null;
         if (!Number.isInteger(amount) || amount <= 0 || !normalizedEmail) {
             return NextResponse.json(
                 { success: false, message: "A valid amount and email are required" },
