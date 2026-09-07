@@ -1353,6 +1353,25 @@ footer {
   transform: translateY(0);
 }
 
+[data-aos='fade-up'] {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+[data-aos='fade-up'].aos-animate {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-aos='fade-up'] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
 /* ── RESPONSIVE ── */
 @media (max-width: 768px) {
 

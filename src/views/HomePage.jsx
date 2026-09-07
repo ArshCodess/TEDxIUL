@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import Hero from '../components/Hero';
 import Countdown from '../components/Countdown';
+import PreEvent from '../components/PreEvent';
 import Tickets from '../components/Tickets';
 import About from '../components/About';
 import AboutTed from '../components/AboutTed';
@@ -28,6 +29,28 @@ export default function HomePage() {
         size: `${1.5 + Math.random() * 2.5}px`,
       }))
     );
+  }, []);
+
+  useEffect(() => {
+    const sections = document.querySelectorAll('.homepage-wrapper > section, .homepage-wrapper > footer');
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('aos-animate');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12 }
+    );
+
+    sections.forEach((section) => {
+      section.setAttribute('data-aos', 'fade-up');
+      observer.observe(section);
+    });
+
+    return () => observer.disconnect();
   }, []);
 
   return (
@@ -61,6 +84,7 @@ export default function HomePage() {
       {/* Page content */}
       <Hero />
       <Countdown />
+      <PreEvent />
       <Tickets />
       <About />
       <AboutTed />

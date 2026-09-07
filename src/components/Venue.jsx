@@ -35,7 +35,7 @@ const VENUE_DATA = {
   location: 'Dasauli, Kursi Road, Lucknow – 226026',
   date: '23 September 26, 2026',
   time: '9:00 AM onwards',
-  capacity: '500+ Attendees',
+  capacity: '100+ Attendees',
   campus: '120 Acres',
   coordinates: '26.9582° N, 80.9963° E',
   mapEmbedUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3556.276235799362!2d80.99633883965782!3d26.958150276717447!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x399bff2addd9b239%3A0xc21a9bbd557936ec!2sIntegral%20University!5e0!3m2!1sen!2sin!4v1781526188618!5m2!1sen!2sin',

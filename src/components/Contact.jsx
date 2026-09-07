@@ -37,7 +37,7 @@ export default function Contact({ hideHeader = false }) {
             <div className="cd-icon">✉</div>
             <div>
               <div className="cd-lbl2">Email Us</div>
-              <div className="cd-val">tedxiul@gmail.com</div>
+              <div className="cd-val">info@tedx.iul.ac.in</div>
             </div>
           </div>
           <div className="cd-row">
@@ -45,13 +45,6 @@ export default function Contact({ hideHeader = false }) {
             <div>
               <div className="cd-lbl2">Find Us</div>
               <div className="cd-val">Integral University, Dasauli,<br />Kursi Road, Lucknow – 226026</div>
-            </div>
-          </div>
-          <div className="cd-row">
-            <div className="cd-icon">📞</div>
-            <div>
-              <div className="cd-lbl2">Call Us</div>
-              <div className="cd-val">+91 XXXXX XXXXX</div>
             </div>
           </div>
           <div className="socials">
