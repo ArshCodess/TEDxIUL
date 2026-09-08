@@ -5,10 +5,6 @@ import './Schedule.css';
 const LED_STRIP_COUNT = 45;
 
 const SCHEDULE_DATA = [
-  { time: '10:00 AM onwards', name: 'The Traitor Game', desc: '7 September 2026 · CSE Seminar Hall', tag: 'Pre Event' },
-  { time: '10:30 AM onwards', name: 'Banner Reveal', desc: '17 September 2026 · Front of Central Auditorium', tag: 'Pre Event' },
-  { time: '11:00 AM onwards', name: 'Influencers Meet', desc: '17 September 2026 · Central Auditorium', tag: 'Pre Event' },
-  { time: '10:00 AM onwards', name: 'Gamers Meet', desc: '18 September 2026 · CSE Seminar Hall', tag: 'Pre Event' },
   { time: '09:00 AM', name: 'Registration Opens', desc: 'Registration and attendee check-in.', tag: 'Registration' },
   { time: '10:00 AM', name: 'Welcome Address', desc: 'Welcome address marking the beginning of TEDx Integral University.', tag: 'Opening' },
   { time: '10:10 AM', name: 'Opening Performance', desc: 'Opening performance by the Outreach team.', tag: 'Performance' },

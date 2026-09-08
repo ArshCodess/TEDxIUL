@@ -259,8 +259,8 @@ nav {
 .hero-title-letter {
   display: inline-block;
   opacity: 0;
-  animation: letterDrop 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
-  animation-delay: calc(0.7s + var(--i) * 55ms);
+  animation: letterDrop 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: calc(5s + var(--i) * 55ms);
 
   /*
    * Gradient colour grading across the word:
@@ -297,8 +297,8 @@ nav {
 
 @keyframes letterDrop {
   0%   { opacity: 0; transform: translateY(-48px) scaleY(1.3); }
-  60%  { opacity: 1; transform: translateY(6px)  scaleY(0.94); }
-  80%  { transform: translateY(-3px) scaleY(1.02); }
+  60%  { opacity: 1; transform: translateY(6px)  scaleY(0.84); }
+  80%  { transform: translateY(-3px) scaleY(0.94); }
   100% { opacity: 1; transform: translateY(0)    scaleY(1); }
 }
 

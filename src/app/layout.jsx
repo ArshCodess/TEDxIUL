@@ -1,5 +1,5 @@
 import '../index.css';
-import Navbar from '../components/Navbar';
+import AppShell from '../components/AppShell';
 
 export const metadata = {
   title: 'TEDxIntegralUniversity – TESSELLATION',
@@ -28,8 +28,7 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body>
-        <Navbar />
-        {children}
+        <AppShell>{children}</AppShell>
       </body>
     </html>
   );
