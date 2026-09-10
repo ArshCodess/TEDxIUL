@@ -1,66 +1,58 @@
 import Link from 'next/link';
 import Footer from '../components/Footer';
+import SpeakerCard from '../components/SpeakerCard';
 import './pages.css';
 
 const SPEAKERS = [
   {
     id: 'sp-1',
-    name: 'Speaker TBA',
-    topic: 'Topic to be announced',
+    name: 'Vesmir',
+    headline: 'Writer, Poet, Content Creator',
+    topic: 'Slow Storytelling & Emotional Resilience',
     designation: 'Featured Speaker',
-    org: 'Organisation TBA',
-    bio: 'Details about this speaker will be announced soon. Stay tuned for a lineup of visionary thinkers and change-makers joining us at TEDxIntegralUniversity 2026.',
-    photo: null,
+    org: 'Tangerine Circle',
+    bio: 'Vesmir is a New Delhi-based independent writer, poet, and cultural organizer who has built a deeply resonant community around slow, raw storytelling. By moving away from brief, hyper-fast digital trends, his platform serves as a vital mirror to modern human vulnerabilities, grief, and emotional resilience. He is also the driving force behind Tangerine Circle, an independent collective dedicated to nurturing alternative creative voices and fine art conversations.',
+    photo: '/assets/images/speakers/vesmir.jpg', // update with actual path
     tag: 'Featured Speaker',
+    social: {
+      instagram: 'https://instagram.com/vesmir', // update if available
+      linkedin: null,
+      twitter: null,
+    },
   },
   {
     id: 'sp-2',
-    name: 'Speaker TBA',
-    topic: 'Topic to be announced',
+    name: 'Kushal Vijay',
+    headline: 'Software Engineer & AI Professional',
+    topic: 'Generative AI & Career Building in Tech',
     designation: 'Speaker',
-    org: 'Organisation TBA',
-    bio: 'Details about this speaker will be announced soon. Stay tuned for a lineup of visionary thinkers and change-makers joining us at TEDxIntegralUniversity 2026.',
-    photo: null,
+    org: 'Microsoft',
+    bio: 'Kushal Vijay is a Microsoft Software Engineer and AI professional who simplifies Generative AI, Python, and backend engineering through his educational content and mentorship. An NIT Jalandhar alumnus, he has delivered over 80 global talks—including at PyCon Japan and Hong Kong—inspiring students and young professionals to build successful careers in tech.',
+    photo: '/assets/images/speakers/kushal-vijay.jpg', // update with actual path
     tag: 'Speaker',
+    social: {
+      linkedin: 'https://linkedin.com/in/kushalvijay', // update if available
+      twitter: 'https://twitter.com/kushalvijay', // update if available
+      instagram: null,
+    },
   },
   {
     id: 'sp-3',
-    name: 'Speaker TBA',
-    topic: 'Topic to be announced',
+    name: 'Vipul V. Gaur',
+    headline: 'Media & Communications Professional',
+    topic: 'Storytelling, Communication & Leadership',
     designation: 'Speaker',
-    org: 'Organisation TBA',
-    bio: 'Details about this speaker will be announced soon. Stay tuned for a lineup of visionary thinkers and change-makers joining us at TEDxIntegralUniversity 2026.',
-    photo: null,
+    org: 'Repertwahr Festival',
+    bio: 'Vipul V. Gaur is a veteran media and communications professional with extensive experience across radio, television, and live events. Known for his work with the Repertwahr Festival, he excels at blending storytelling and cultural programming to connect with diverse crowds. Through his deep industry knowledge, Vipul provides young audiences with practical, engaging insights into creativity, communication, and leadership.',
+    photo: '/assets/images/speakers/vipul-gaur.jpg', // update with actual path
     tag: 'Speaker',
-  },
-  {
-    id: 'sp-4',
-    name: 'Speaker TBA',
-    topic: 'Topic to be announced',
-    designation: 'Speaker',
-    org: 'Organisation TBA',
-    bio: 'Details about this speaker will be announced soon. Stay tuned for a lineup of visionary thinkers and change-makers joining us at TEDxIntegralUniversity 2026.',
-    photo: null,
-    tag: 'Speaker',
+    social: {
+      linkedin: 'https://linkedin.com/in/vipulvgaur', // update if available
+      instagram: null,
+      twitter: null,
+    },
   },
 ];
-
-function PersonIcon() {
-  return (
-    <svg
-      width="52"
-      height="52"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1"
-      aria-hidden="true"
-    >
-      <circle cx="12" cy="8" r="4" />
-      <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
-    </svg>
-  );
-}
 
 export default function SpeakersPage() {
   return (
@@ -78,32 +70,13 @@ export default function SpeakersPage() {
 
         <div className="speakers-page-grid">
           {SPEAKERS.map((speaker) => (
-            <div key={speaker.id} className="speaker-card">
-              <div className="speaker-card-photo">
-                {speaker.photo ? (
-                  <img src={speaker.photo.src || speaker.photo} alt={speaker.name} />
-                ) : (
-                  <div className="speaker-card-photo-placeholder">
-                    <PersonIcon />
-                    <span>Photo Coming Soon</span>
-                  </div>
-                )}
-              </div>
-              <div className="speaker-card-body">
-                <div className="speaker-card-topic">"{speaker.topic}"</div>
-                <div className="speaker-card-name">{speaker.name}</div>
-                <div className="speaker-card-designation">
-                  {speaker.designation} · {speaker.org}
-                </div>
-                <div className="speaker-card-bio">{speaker.bio}</div>
-              </div>
-            </div>
+            <SpeakerCard key={speaker.id} speaker={speaker} />
           ))}
         </div>
 
         <div style={{ textAlign: 'center', marginTop: '64px' }}>
           <p style={{ color: 'var(--text-muted)', fontSize: '14px', marginBottom: '20px' }}>
-            Speaker announcements coming soon — follow us for updates.
+            More speakers to be announced soon — follow us for updates.
           </p>
           <Link href="/register" className="btn-primary">Register to Attend</Link>
         </div>
