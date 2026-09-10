@@ -5,10 +5,9 @@ import Image from 'next/image';
 
 import syedwaseemAkhtar from '../assets/team-photos/leadership/syed-waseem-akhtar.png';
 import furqanqamar from '../assets/team-photos/leadership/furqan-qamar.png';
-import monowarAlamKhalid from '../assets/team-photos/leadership/monowar-alam-khalid.png';
 import shishAhmad from '../assets/team-photos/leadership/shish-ahmad.png';
 import anumKamal from '../assets/team-photos/leadership/anum-kamal.png';
-import syedNadeemAkhtar from '../assets/team-photos/leadership/syed-nadeem-akhtar.png';
+import syedNadeemAkhtar from '../assets/team-photos/leadership/syed-nadeem-akhtar.jpeg';
 
 import maazsiddiqui from '../assets/team-photos/organizers/Maaz-Siddiqui.jpg';
 import reemhamraz from '../assets/team-photos/organizers/Reem-Hamraz.png';
@@ -140,33 +139,6 @@ export default function TeamPage() {
                             <span className="team-badge">
                                 Vice-Chancellor, Integral University
                             </span>
-                            <div className="team-divider"></div>
-
-                            <p className="team-event">
-                                TEDxIntegralUniversity
-                            </p>
-                        </div>
-                    </div>
-                    <div className="team-card">
-                        <Image
-                            src={monowarAlamKhalid}
-                            alt="Prof. Dr. Monowar Alam Khalid"
-                            className="team-image"
-                            width={1200}
-                            height={900}
-                        />
-
-                        <div className="team-overlay">
-                            <h3>Dr. Monowar Alam Khalid</h3>
-
-                            <p className="team-role">
-                                Co-Patron
-                            </p>
-
-                            <span className="team-badge">
-                                Dean of Students' Welfare, Integral University
-                            </span>
-
                             <div className="team-divider"></div>
 
                             <p className="team-event">
