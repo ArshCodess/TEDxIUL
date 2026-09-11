@@ -8,7 +8,7 @@ import furqanqamar from '../assets/team-photos/leadership/furqan-qamar.png';
 import monowarAlamKhalid from '../assets/team-photos/leadership/monowar-alam-khalid.png';
 import shishAhmad from '../assets/team-photos/leadership/shish-ahmad.png';
 import anumKamal from '../assets/team-photos/leadership/anum-kamal.jpeg';
-import syedNadeemAkhtar from '../assets/team-photos/leadership/syed-nadeem-akhtar.png';
+import syedNadeemAkhtar from '../assets/team-photos/leadership/syed-nadeem-akhtar.jpeg';
 
 import maazsiddiqui from '../assets/team-photos/organizers/Maaz-Siddiqui.jpg';
 import reemhamraz from '../assets/team-photos/organizers/Reem-Hamraz.png';
@@ -148,33 +148,6 @@ export default function TeamPage() {
                             <span className="team-badge">
                                 Hon'ble Vice-Chancellor, Integral University
                             </span>
-                            <div className="team-divider"></div>
-
-                            <p className="team-event">
-                                TEDxIntegralUniversity
-                            </p>
-                        </div>
-                    </div>
-                    <div className="team-card">
-                        <Image
-                            src={monowarAlamKhalid}
-                            alt="Prof. Dr. Monowar Alam Khalid"
-                            className="team-image"
-                            width={1200}
-                            height={900}
-                        />
-
-                        <div className="team-overlay">
-                            <h3>Dr. Monowar Alam Khalid</h3>
-
-                            <p className="team-role">
-                                Co-Patron
-                            </p>
-
-                            <span className="team-badge">
-                                Dean of Students' Welfare, Integral University
-                            </span>
-
                             <div className="team-divider"></div>
 
                             <p className="team-event">
@@ -620,7 +593,7 @@ export default function TeamPage() {
 
                         <div className="committee-header">
 
-                            <h3>Content Committee</h3>
+                            <h3>Sponsorship Committee</h3>
 
                             <span className="committee-count">
                                 2 Leads
@@ -631,8 +604,8 @@ export default function TeamPage() {
 
                             <div className="member-dot"></div>
                             <div className="member-info">
-                                <h4>Imama Bint Anwar</h4>
-                                <p>Curation</p>
+                                <h4>Aarish Ahmad</h4>
+                                <p>Networking</p>
                             </div>
 
                         </div>
@@ -642,59 +615,14 @@ export default function TeamPage() {
                             <div className="member-dot"></div>
 
                             <div className="member-info">
-                                <h4>Faria Ahmad Quraishi</h4>
-                                <p>Blogs</p>
+                                <h4>Humaira Khan</h4>
+                                <p>Communication</p>
                             </div>
 
                         </div>
 
                     </div>
 
-                    <div className="committee-card">
-
-                        <div className="committee-header">
-
-                            <h3>Decor Committee</h3>
-
-                            <span className="committee-count">
-                                3 Leads
-                            </span>
-
-                        </div>
-                        <div className="committee-member">
-
-                            <div className="member-dot"></div>
-                            <div className="member-info">
-                                <h4>Gulafshan Bano</h4>
-                                <p>Props</p>
-                            </div>
-
-                        </div>
-
-                        <div className="committee-member">
-
-                            <div className="member-dot"></div>
-
-                            <div className="member-info">
-                                <h4>Umra Khanam</h4>
-                                <p>Venue</p>
-                            </div>
-
-                        </div>
-
-                        <div className="committee-member">
-
-                            <div className="member-dot"></div>
-
-                            <div className="member-info">
-                                <h4>Fazaz Ali Khan</h4>
-                                <p>Decor</p>
-                            </div>
-
-                        </div>
-
-
-                    </div>
 
                     <div className="committee-card">
 
@@ -712,7 +640,7 @@ export default function TeamPage() {
 
                             <div className="member-dot"></div>
                             <div className="member-info">
-                                <h4>Arman Ahmad</h4>
+                                <h4>Hashmat Zehra</h4>
                                 <p>Visual</p>
                             </div>
 
@@ -742,23 +670,11 @@ export default function TeamPage() {
 
                         </div>
 
-                        {/*
                         <div className="committee-member">
 
                             <div className="member-dot"></div>
                             <div className="member-info">
-                                <h4>Jamiz Qamar</h4>
-                                <p>Inventory</p>
-                            </div>
-
-                        </div>
-                        */}
-
-                        <div className="committee-member">
-
-                            <div className="member-dot"></div>
-                            <div className="member-info">
-                                <h4>Mohd Arsh Nafis</h4>
+                                <h4>Devansh Shrivastava</h4>
                                 <p>Inventory</p>
                             </div>
 
@@ -787,43 +703,6 @@ export default function TeamPage() {
                         </div>
 
                     </div>
-
-                    {/*
-                    <div className="committee-card">
-
-                        <div className="committee-header">
-
-                            <h3>Media Committee</h3>
-
-                            <span className="committee-count">
-                                2 Leads
-                            </span>
-
-                        </div>
-
-                        <div className="committee-member">
-
-                            <div className="member-dot"></div>
-                            <div className="member-info">
-                                <h4>Not assigned</h4>
-                                <p>Curation Lead</p>
-                            </div>
-
-                        </div>
-
-                        <div className="committee-member">
-
-                            <div className="member-dot"></div>
-
-                            <div className="member-info">
-                                <h4>Not assigned</h4>
-                                <p>Content Lead</p>
-                            </div>
-
-                        </div>
-                    </div>
-                    */}
-
                     <div className="committee-card">
 
                         <div className="committee-header">
@@ -863,7 +742,7 @@ export default function TeamPage() {
                             <div className="member-dot"></div>
 
                             <div className="member-info">
-                                <h4>Rohan Khan</h4>
+                                <h4>Rohaan Khan</h4>
                                 <p>Speakers</p>
                             </div>
 
