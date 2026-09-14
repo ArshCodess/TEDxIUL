@@ -50,24 +50,6 @@ export const PASSES_DATA = {
     ],
     noteTitle: "Eligibility",
     noteText: "Open for all attendees."
-  },
-  faculty: {
-    id: "pass-faculty",
-    name: "Faculty Pass",
-    price: 2599,
-    code: "FACULTY-SOT-2026",
-    deck: "Faculty",
-    link: "..",
-    features: [
-      "Full Auditorium Access",
-      "All Talks",
-      "VIP Seating",
-      "TEDx Kit",
-      "Meal & Refreshment",
-      "Meet & Greet with Speakers"
-    ],
-    noteTitle: "Eligibility",
-    noteText: "Available for faculty members."
   }
 };
 

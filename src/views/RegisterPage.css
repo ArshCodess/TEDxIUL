@@ -201,6 +201,46 @@
   transition: background 0.3s;
 }
 
+.registration-active-card {
+  width: 100%;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  flex: 1;
+}
+
+.info-grid .tedx-info-block {
+  border-bottom: 1px solid var(--surface-border);
+}
+
+.info-grid .tedx-info-block:nth-child(odd) {
+  border-right: 1px solid var(--surface-border);
+}
+
+.info-grid .tedx-info-block:nth-last-child(-n+2) {
+  border-bottom: none;
+}
+
+@media (max-width: 768px) {
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .info-grid .tedx-info-block:nth-child(odd) {
+    border-right: none;
+  }
+  
+  .info-grid .tedx-info-block {
+    border-bottom: 1px solid var(--surface-border) !important;
+  }
+  
+  .info-grid .tedx-info-block:last-child {
+    border-bottom: none !important;
+  }
+}
+
 .tedx-info-block:hover {
   background: rgba(255, 255, 255, 0.01);
 }
@@ -208,6 +248,7 @@
 .tedx-info-block:last-child {
   border-bottom: none;
 }
+
 
 .tedx-info-label {
   font-family: var(--font-mono);

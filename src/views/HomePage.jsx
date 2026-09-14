@@ -7,12 +7,13 @@ import About from '../components/About';
 import AboutTed from '../components/AboutTed';
 import Theme from '../components/Theme';
 import Schedule from '../components/Schedule';
-import Speakers from '../components/Speakers';
+import SpeakerCardHome from '../components/SpeakerCardHome';
 import Sponsors from '../components/Sponsors';
 import FAQ from '../components/FAQ';
 import Venue from '../components/Venue';
 import Contact from '../components/Contact';
 import Footer from '../components/Footer';
+import { SPEAKERS } from '../data/speakersData';
 
 export default function HomePage() {
   const [particles, setParticles] = useState([]);
@@ -63,10 +64,32 @@ export default function HomePage() {
       <Countdown />
       <Tickets />
       <About />
+      <section className="video-section">
+        <div className="video-section-inner">
+          <p className="section-label fade-in">Watch</p>
+          {/*<h2 className="section-title fade-in">THE <span className="accent">EXPERIENCE</span></h2>*/}
+          <div className="video-embed-wrap fade-in">
+            <iframe
+              src="https://www.youtube.com/embed/DQBNjVmLHKU"
+              title="TEDxIntegralUniversity — Experience the Event"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+            />
+          </div>
+        </div>
+      </section>
       <AboutTed />
       <Theme />
       <Schedule />
-      <Speakers />
+      <section id="speakers">
+        <p className="section-label fade-in">The Voices</p>
+        <h2 className="section-title fade-in">OUR <span className="accent">SPEAKERS</span></h2>
+        <p style={{ color: 'var(--text-muted)', fontSize: '14px', marginTop: '10px' }} className="fade-in">
+          Meet the incredible thinkers who will share their stories at TEDxIntegralUniversity 2026.
+        </p>
+        <SpeakerCardHome speakers={SPEAKERS} />
+      </section>
       <Sponsors />
       <FAQ />
       <Venue />

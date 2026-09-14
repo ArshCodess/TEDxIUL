@@ -1,58 +1,8 @@
 import Link from 'next/link';
 import Footer from '../components/Footer';
-import SpeakerCard from '../components/SpeakerCard';
+import SpeakerCardPage from '../components/SpeakerCardPage';
 import './pages.css';
-
-const SPEAKERS = [
-  {
-    id: 'sp-1',
-    name: 'Vesmir',
-    headline: 'Writer, Poet, Content Creator',
-    topic: 'Slow Storytelling & Emotional Resilience',
-    designation: 'Featured Speaker',
-    org: 'Tangerine Circle',
-    bio: 'Vesmir is a New Delhi-based independent writer, poet, and cultural organizer who has built a deeply resonant community around slow, raw storytelling. By moving away from brief, hyper-fast digital trends, his platform serves as a vital mirror to modern human vulnerabilities, grief, and emotional resilience. He is also the driving force behind Tangerine Circle, an independent collective dedicated to nurturing alternative creative voices and fine art conversations.',
-    photo: '/assets/images/speakers/vesmir.jpg', // update with actual path
-    tag: 'Featured Speaker',
-    social: {
-      instagram: 'https://instagram.com/vesmir', // update if available
-      linkedin: null,
-      twitter: null,
-    },
-  },
-  {
-    id: 'sp-2',
-    name: 'Kushal Vijay',
-    headline: 'Software Engineer & AI Professional',
-    topic: 'Generative AI & Career Building in Tech',
-    designation: 'Speaker',
-    org: 'Microsoft',
-    bio: 'Kushal Vijay is a Microsoft Software Engineer and AI professional who simplifies Generative AI, Python, and backend engineering through his educational content and mentorship. An NIT Jalandhar alumnus, he has delivered over 80 global talks—including at PyCon Japan and Hong Kong—inspiring students and young professionals to build successful careers in tech.',
-    photo: '/assets/images/speakers/kushal-vijay.jpg', // update with actual path
-    tag: 'Speaker',
-    social: {
-      linkedin: 'https://linkedin.com/in/kushalvijay', // update if available
-      twitter: 'https://twitter.com/kushalvijay', // update if available
-      instagram: null,
-    },
-  },
-  {
-    id: 'sp-3',
-    name: 'Vipul V. Gaur',
-    headline: 'Media & Communications Professional',
-    topic: 'Storytelling, Communication & Leadership',
-    designation: 'Speaker',
-    org: 'Repertwahr Festival',
-    bio: 'Vipul V. Gaur is a veteran media and communications professional with extensive experience across radio, television, and live events. Known for his work with the Repertwahr Festival, he excels at blending storytelling and cultural programming to connect with diverse crowds. Through his deep industry knowledge, Vipul provides young audiences with practical, engaging insights into creativity, communication, and leadership.',
-    photo: '/assets/images/speakers/vipul-gaur.jpg', // update with actual path
-    tag: 'Speaker',
-    social: {
-      linkedin: 'https://linkedin.com/in/vipulvgaur', // update if available
-      instagram: null,
-      twitter: null,
-    },
-  },
-];
+import { SPEAKERS } from '../data/speakersData';
 
 export default function SpeakersPage() {
   return (
@@ -68,9 +18,9 @@ export default function SpeakersPage() {
       <div className="page-wrap">
         <Link href="/" className="page-back-link">Home</Link>
 
-        <div className="speakers-page-grid">
+        <div className="speakers-page-list">
           {SPEAKERS.map((speaker) => (
-            <SpeakerCard key={speaker.id} speaker={speaker} />
+            <SpeakerCardPage key={speaker.id} speaker={speaker} />
           ))}
         </div>
 

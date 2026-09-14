@@ -1,0 +1,407 @@
+/* ═══════════════════════════════════════════════════════
+   SpeakerCardHome — Home page speaker cards
+   Desktop: photo-row thumbnails + animated expand panel
+   Mobile:  Embla carousel (full card)
+═══════════════════════════════════════════════════════ */
+
+/* ── Visibility toggles ──────────────────────────────── */
+.spkh-desktop { display: block; }
+.spkh-mobile  { display: none;  }
+
+@media (max-width: 768px) {
+  .spkh-desktop { display: none;  }
+  .spkh-mobile  { display: block; }
+}
+
+/* ──────────────────────────────────────────────────────
+   DESKTOP — Thumbnail row
+────────────────────────────────────────────────────── */
+.spkh-thumb-row {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 32px;
+  flex-wrap: wrap;
+  padding: 32px 0 20px;
+}
+
+/* Individual thumb button */
+.spkh-thumb {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  transition: transform 0.25s ease;
+}
+
+.spkh-thumb:hover {
+  transform: translateY(-6px);
+}
+
+/* The ring wrapper */
+.spkh-thumb-ring {
+  width: 108px;
+  height: 108px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid #2a2a2a;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.5);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  background: #111;
+  position: relative;
+}
+
+.spkh-thumb:hover .spkh-thumb-ring,
+.spkh-thumb.active .spkh-thumb-ring {
+  border-color: var(--accent, #EB0028);
+  box-shadow: 0 0 0 3px rgba(235, 0, 40, 0.25), 0 6px 24px rgba(0, 0, 0, 0.6);
+}
+
+.spkh-thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  filter: grayscale(20%);
+  transition: filter 0.3s ease, transform 0.3s ease;
+  display: block;
+}
+
+.spkh-thumb:hover .spkh-thumb-img,
+.spkh-thumb.active .spkh-thumb-img {
+  filter: grayscale(0%);
+  transform: scale(1.06);
+}
+
+.spkh-thumb-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #555;
+  background: #181818;
+}
+
+/* Name label below thumb */
+.spkh-thumb-name {
+  font-size: 0.82rem;
+  font-family: 'DM Sans', sans-serif;
+  color: var(--text-secondary, #b3b3b3);
+  letter-spacing: 0.04em;
+  text-align: center;
+  transition: color 0.25s ease;
+}
+
+.spkh-thumb.active .spkh-thumb-name,
+.spkh-thumb:hover .spkh-thumb-name {
+  color: var(--text-primary, #ffffff);
+}
+
+/* ──────────────────────────────────────────────────────
+   DESKTOP — Expanded panel (grid height animation)
+────────────────────────────────────────────────────── */
+.spkh-expand-wrapper {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.38s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-top: 12px;
+}
+
+.spkh-expand-wrapper.open {
+  grid-template-rows: 1fr;
+}
+
+.spkh-expand-inner {
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* The expanded card itself (button for click-to-close) */
+.spkh-expanded-card {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  min-height: 460px;
+  background: var(--card-bg, #141414);
+  border: 1px solid #222;
+  border-top: 2px solid var(--accent, #EB0028);
+  overflow: hidden;
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
+  font-family: inherit;
+  transition: box-shadow 0.25s ease;
+}
+
+.spkh-expanded-card:hover {
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.55);
+}
+
+/* Photo pane */
+.spkh-exp-photo-wrap {
+  flex: 0 0 40%;
+  min-height: 100%;
+  overflow: hidden;
+  position: relative;
+  background: #0a0a0a;
+}
+
+.spkh-exp-photo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.spkh-expanded-card:hover .spkh-exp-photo-img {
+  transform: scale(1.04);
+}
+
+.spkh-exp-photo-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #444;
+}
+
+/* Info pane */
+.spkh-exp-info {
+  flex: 1;
+  padding: 44px 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* ── Shared text styles (used on desktop expand + mobile card) */
+.spkh-exp-kicker {
+  color: var(--accent, #EB0028);
+  font-size: 0.73rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-family: 'DM Sans', sans-serif;
+  margin-bottom: 12px;
+}
+
+.spkh-exp-name {
+  font-family: 'Bebas Neue', 'DM Sans', sans-serif;
+  font-size: clamp(2.2rem, 3.2vw, 3.2rem);
+  color: var(--text-primary, #ffffff);
+  letter-spacing: 1.5px;
+  line-height: 1.05;
+  margin: 0 0 8px 0;
+}
+
+.spkh-exp-headline {
+  color: var(--accent, #EB0028);
+  font-size: 0.95rem;
+  font-weight: 500;
+  font-family: 'DM Sans', sans-serif;
+  margin-bottom: 8px;
+}
+
+.spkh-exp-topic {
+  color: var(--text-secondary, #b3b3b3);
+  font-size: 0.88rem;
+  font-style: italic;
+  font-family: 'DM Sans', sans-serif;
+  margin-bottom: 18px;
+  border-left: 2px solid var(--accent, #EB0028);
+  padding-left: 12px;
+}
+
+.spkh-exp-bio {
+  color: var(--text-secondary, #b3b3b3);
+  font-size: 0.93rem;
+  line-height: 1.7;
+  font-family: 'DM Sans', sans-serif;
+  margin-bottom: 24px;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Social row */
+.spkh-exp-social {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.spkh-social-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 20px;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  font-family: 'DM Sans', sans-serif;
+  text-decoration: none;
+  border: 1px solid;
+  transition: background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.spkh-instagram {
+  color: #e1306c;
+  border-color: rgba(225, 48, 108, 0.5);
+}
+.spkh-instagram:hover {
+  background: rgba(225, 48, 108, 0.12);
+  border-color: #e1306c;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(225, 48, 108, 0.18);
+}
+
+.spkh-linkedin {
+  color: #0a66c2;
+  border-color: rgba(10, 102, 194, 0.45);
+}
+.spkh-linkedin:hover {
+  background: rgba(10, 102, 194, 0.1);
+  border-color: #0a66c2;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(10, 102, 194, 0.18);
+}
+
+/* Close hint text */
+.spkh-close-hint {
+  display: block;
+  margin-top: 24px;
+  font-size: 0.73rem;
+  color: #444;
+  font-family: 'DM Sans', sans-serif;
+  letter-spacing: 0.03em;
+}
+
+/* ──────────────────────────────────────────────────────
+   MOBILE — Embla carousel
+────────────────────────────────────────────────────── */
+.spkh-carousel-viewport {
+  overflow: hidden;
+  width: 100%;
+}
+
+.spkh-carousel-container {
+  display: flex;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.spkh-carousel-slide {
+  flex: 0 0 100%;
+  min-width: 0;
+  padding: 4px 4px 8px;
+}
+
+/* Full mobile card */
+.spkh-mobile-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--card-bg, #141414);
+  border: 1px solid #222;
+  border-top: 2px solid var(--accent, #EB0028);
+  overflow: hidden;
+}
+
+.spkh-mobile-photo-wrap {
+  width: 100%;
+  flex-shrink: 0;          /* prevent photo from being squeezed */
+  height: auto;
+  aspect-ratio: auto;
+  overflow: hidden;
+  background: #0a0a0a;
+}
+
+.spkh-mobile-photo-img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+.spkh-mobile-photo-placeholder {
+  width: 100%;
+  height: 100%;
+  min-height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #444;
+}
+
+.spkh-mobile-info {
+  padding: 24px 22px 28px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Dots + counter row */
+.spkh-dots-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.spkh-dots {
+  display: flex;
+  gap: 8px;
+}
+
+.spkh-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #333;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.25s ease, transform 0.25s ease;
+}
+
+.spkh-dot.active {
+  background: var(--accent, #EB0028);
+  transform: scale(1.4);
+}
+
+.spkh-counter {
+  font-size: 0.8rem;
+  color: var(--text-secondary, #b3b3b3);
+  font-family: 'DM Sans', sans-serif;
+  margin: 0;
+  letter-spacing: 0.05em;
+}
+
+/* ──────────────────────────────────────────────────────
+   Responsive tweaks
+────────────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .spkh-thumb-ring {
+    width: 92px;
+    height: 92px;
+  }
+
+  .spkh-exp-info {
+    padding: 32px 36px;
+  }
+}
+
+@media (max-width: 900px) {
+  .spkh-thumb-row {
+    gap: 20px;
+  }
+}

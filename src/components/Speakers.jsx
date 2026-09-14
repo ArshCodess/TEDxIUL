@@ -1,52 +1,6 @@
 import SpeakerCard from './SpeakerCard';
 import './Speakers.css';
-
-const SPEAKERS = [
-  {
-    id: 'sp-1',
-    name: 'Speaker TBA',
-    headline: 'Topic to be announced',
-    topic: 'Topic to be announced',
-    designation: 'Featured Speaker',
-    org: 'Organisation TBA',
-    bio: 'Details about this speaker will be announced soon. Stay tuned for a lineup of visionary thinkers and change-makers joining us at TEDxIntegralUniversity 2026.',
-    photo: null,
-    tag: 'Featured Speaker',
-  },
-  {
-    id: 'sp-2',
-    name: 'Speaker TBA',
-    headline: 'Topic to be announced',
-    topic: 'Topic to be announced',
-    designation: 'Speaker',
-    org: 'Organisation TBA',
-    bio: 'Details about this speaker will be announced soon. Stay tuned for a lineup of visionary thinkers and change-makers joining us at TEDxIntegralUniversity 2026.',
-    photo: null,
-    tag: 'Speaker',
-  },
-  {
-    id: 'sp-3',
-    name: 'Speaker TBA',
-    headline: 'Topic to be announced',
-    topic: 'Topic to be announced',
-    designation: 'Speaker',
-    org: 'Organisation TBA',
-    bio: 'Details about this speaker will be announced soon. Stay tuned for a lineup of visionary thinkers and change-makers joining us at TEDxIntegralUniversity 2026.',
-    photo: null,
-    tag: 'Speaker',
-  },
-  {
-    id: 'sp-4',
-    name: 'Speaker TBA',
-    headline: 'Topic to be announced',
-    topic: 'Topic to be announced',
-    designation: 'Speaker',
-    org: 'Organisation TBA',
-    bio: 'Details about this speaker will be announced soon. Stay tuned for a lineup of visionary thinkers and change-makers joining us at TEDxIntegralUniversity 2026.',
-    photo: null,
-    tag: 'Speaker',
-  },
-];
+import { SPEAKERS } from '../data/speakersData';
 
 export default function Speakers() {
   return (
