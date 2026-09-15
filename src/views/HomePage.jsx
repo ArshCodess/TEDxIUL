@@ -14,6 +14,7 @@ import Venue from '../components/Venue';
 import Contact from '../components/Contact';
 import Footer from '../components/Footer';
 import { SPEAKERS } from '../data/speakersData';
+import { PremiumScrollReveal } from './MotionReveal';
 
 export default function HomePage() {
   const [particles, setParticles] = useState([]);
@@ -61,39 +62,46 @@ export default function HomePage() {
 
       {/* Page content */}
       <Hero />
-      <Countdown />
-      <Tickets />
-      <About />
-      <section className="video-section">
-        <div className="video-section-inner">
-          <p className="section-label fade-in">Watch</p>
-          {/*<h2 className="section-title fade-in">THE <span className="accent">EXPERIENCE</span></h2>*/}
-          <div className="video-embed-wrap fade-in">
-            <iframe
-              src="https://www.youtube.com/embed/DQBNjVmLHKU"
-              title="TEDxIntegralUniversity — Experience the Event"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowFullScreen
-            />
+      <PremiumScrollReveal variant="slideUp" delay={0.1}><Countdown /></PremiumScrollReveal>
+      <PremiumScrollReveal variant="slideUp" delay={0.1}><Tickets /></PremiumScrollReveal>
+      <PremiumScrollReveal variant="slideUp" delay={0.1}><About /></PremiumScrollReveal>
+      <PremiumScrollReveal variant="slideUp">
+        <section className="video-section">
+          <div className="video-section-inner">
+            <p className="section-label">Watch</p>
+            {/*<h2 className="section-title fade-in">THE <span className="accent">EXPERIENCE</span></h2>*/}
+            <div className="video-embed-wrap">
+              <iframe
+                src="https://www.youtube.com/embed/DQBNjVmLHKU"
+                title="TEDxIntegralUniversity — Experience the Event"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+              />
+            </div>
           </div>
-        </div>
-      </section>
-      <AboutTed />
-      <Theme />
-      <Schedule />
-      <section id="speakers">
-        <p className="section-label fade-in">The Voices</p>
-        <h2 className="section-title fade-in">OUR <span className="accent">SPEAKERS</span></h2>
-        <p style={{ color: 'var(--text-muted)', fontSize: '14px', marginTop: '10px' }} className="fade-in">
-          Meet the incredible thinkers who will share their stories at TEDxIntegralUniversity 2026.
-        </p>
-        <SpeakerCardHome speakers={SPEAKERS} />
-      </section>
-      <Sponsors />
-      <FAQ />
-      <Venue />
-      <Contact />
+        </section>
+      </PremiumScrollReveal>
+      
+      <PremiumScrollReveal variant="slideUp"><AboutTed /></PremiumScrollReveal>
+      <PremiumScrollReveal variant="slideUp"><Theme /></PremiumScrollReveal>
+      <PremiumScrollReveal variant="slideUp"><Schedule /></PremiumScrollReveal>
+      
+      <PremiumScrollReveal variant="slideUp">
+        <section id="speakers">
+          <p className="section-label">The Voices</p>
+          <h2 className="section-title">OUR <span className="accent">SPEAKERS</span></h2>
+          <p style={{ color: 'var(--text-muted)', fontSize: '14px', marginTop: '10px' }}>
+            Meet the incredible thinkers who will share their stories at TEDxIntegralUniversity 2026.
+          </p>
+          <SpeakerCardHome speakers={SPEAKERS} />
+        </section>
+      </PremiumScrollReveal>
+      
+      <PremiumScrollReveal variant="slideUp"><Sponsors /></PremiumScrollReveal>
+      <PremiumScrollReveal variant="slideUp"><FAQ /></PremiumScrollReveal>
+      <PremiumScrollReveal variant="slideUp"><Venue /></PremiumScrollReveal>
+      <PremiumScrollReveal variant="slideUp"><Contact /></PremiumScrollReveal>
       <Footer />
     </div>
   );

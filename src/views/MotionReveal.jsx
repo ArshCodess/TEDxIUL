@@ -1,17 +1,47 @@
+"use client";
 import React from 'react';
+import { motion } from 'framer-motion';
 
-export function PremiumScrollReveal({ children, delay = 0 }) {
-  // A simple wrapper since framer-motion might not be installed, 
-  // keeping the structure intact and allowing css animations if desired.
+const variants = {
+  fadeIn: {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1 },
+  },
+  slideUp: {
+    hidden: { opacity: 0, y: 50 },
+    visible: { opacity: 1, y: 0 },
+  },
+  scaleUp: {
+    hidden: { opacity: 0, scale: 0.9 },
+    visible: { opacity: 1, scale: 1 },
+  },
+  blurIn: {
+    hidden: { opacity: 0, filter: 'blur(10px)' },
+    visible: { opacity: 1, filter: 'blur(0px)' },
+  }
+};
+
+export function PremiumScrollReveal({ 
+  children, 
+  variant = 'slideUp', 
+  delay = 0, 
+  duration = 0.8, 
+  className = "" 
+}) {
   return (
-    <div className="motion-reveal-wrapper" style={{ animationDelay: `${delay}s`, animation: 'fadeIn 0.8s ease-out both' }}>
+    <motion.div
+      className={className}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-50px" }}
+      variants={variants[variant] || variants.slideUp}
+      transition={{ 
+        duration: duration, 
+        delay: delay, 
+        ease: [0.25, 0.1, 0.25, 1], // Custom premium easing (cubic-bezier)
+      }}
+    >
       {children}
-      <style>{`
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(20px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-      `}</style>
-    </div>
+    </motion.div>
   );
 }

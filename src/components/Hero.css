@@ -105,3 +105,26 @@
       transparent 30%,
       rgba(5, 5, 16, 0.35) 100%);
 }
+.hero-title {
+  background: linear-gradient(90deg, #e62b1e, #6b3fa0, #ff6f61);
+  background-size: 200% 200%;
+  animation: liquidGradient 8s ease infinite;
+  -webkit-background-clip: text;
+          background-clip: text;
+  color: transparent;
+}
+
+@keyframes liquidGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.cursor-spotlight {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at var(--cursor-x, 50%) var(--cursor-y, 50%), rgba(255,255,255,0.15), transparent 60%);
+  mix-blend-mode: screen;
+  transition: background 0.1s ease-out;
+}
