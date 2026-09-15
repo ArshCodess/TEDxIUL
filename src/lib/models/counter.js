@@ -5,7 +5,7 @@ const counterSchema = new mongoose.Schema({
   seq: { type: Number, default: 0 },
   geneSeq: { type: Number, default: 0 },
   goldSeq: { type: Number, default: 0 },
-  paltSeq: { type: Number, default: 0 },
+  platSeq: { type: Number, default: 0 },
   facSeq: { type: Number, default: 0 },
   studSeq: { type: Number, default: 0 },
 });

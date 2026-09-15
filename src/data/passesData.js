@@ -1,6 +1,11 @@
 export const EARLY_BOOKING_DISCOUNT_PERCENT = 15;
 export const COUPON_CODES = Array.from({ length: 10 }, (_, index) => `COUP-SPECIAL-${String(index + 1).padStart(4, '0')}`);
 export const COUPON_DISCOUNT_PERCENT = 5;
+export const PASS_SEAT_CAPS = {
+  general: 28,
+  gold: 48,
+  platinum: 24,
+};
 
 export function getDiscountedPassPrice(price) {
   return Math.round(price * (1 - EARLY_BOOKING_DISCOUNT_PERCENT / 100));

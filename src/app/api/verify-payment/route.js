@@ -71,13 +71,13 @@ export async function POST(request) {
       const cappingObject = {
         general: 'genSeq',
         gold: 'goldSeq',
-        platinum: 'platSeq ',
+        platinum: 'platSeq',
         faculty: 'facSeq'
       };
 
       const counter = await Counter.findByIdAndUpdate(
         { _id: 'ticketSequence' },
-        { $inc: { seq: 1, [cappingObject[pass]]: 1 } },
+        { $inc: { seq: 1, [cappingObject[passTier]]: 1 } },
         { returnDocument: 'after', upsert: true }
       );
 

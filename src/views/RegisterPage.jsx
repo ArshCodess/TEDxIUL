@@ -8,6 +8,7 @@ import {
   EARLY_BOOKING_DISCOUNT_PERCENT,
   COUPON_CODES,
   COUPON_DISCOUNT_PERCENT,
+  PASS_SEAT_CAPS,
   getCouponDiscountedPassPrice,
   getDiscountedPassPrice,
   PASSES_DATA,
@@ -35,60 +36,6 @@ const EVENT = {
 
 const WIDE_GRID_BREAKPOINT = 1280;
 
-const PASSES = {
-  general: {
-    key: 'general',
-    tier: '01',
-    label: PASSES_DATA.general.deck,
-    name: PASSES_DATA.general.name,
-    price: PASSES_DATA.general.price,
-    originalPrice: null,
-    code: PASSES_DATA.general.code,
-    eligibility: PASSES_DATA.general.noteText,
-    features: PASSES_DATA.general.features,
-    note: 'Standard seating. No pre-registration required.',
-    link: PASSES_DATA.general.link,
-  },
-  gold: {
-    key: 'gold',
-    tier: '02',
-    label: PASSES_DATA.gold.deck,
-    name: PASSES_DATA.gold.name,
-    price: PASSES_DATA.gold.price,
-    originalPrice: null,
-    code: PASSES_DATA.gold.code,
-    eligibility: PASSES_DATA.gold.noteText,
-    features: PASSES_DATA.gold.features,
-    note: 'Premium seating and added event benefits.',
-    link: PASSES_DATA.gold.link,
-  },
-  platinum: {
-    key: 'platinum',
-    tier: '03',
-    label: PASSES_DATA.platinum.deck,
-    name: PASSES_DATA.platinum.name,
-    price: PASSES_DATA.platinum.price,
-    originalPrice: null,
-    code: PASSES_DATA.platinum.code,
-    eligibility: PASSES_DATA.platinum.noteText,
-    features: PASSES_DATA.platinum.features,
-    note: 'Front-row seating and exclusive access.',
-    link: PASSES_DATA.platinum.link,
-  },
-  faculty: {
-    key: 'faculty',
-    tier: '04',
-    label: PASSES_DATA.faculty.deck,
-    name: PASSES_DATA.faculty.name,
-    price: PASSES_DATA.faculty.price,
-    originalPrice: null,
-    code: PASSES_DATA.faculty.code,
-    eligibility: PASSES_DATA.faculty.noteText,
-    features: PASSES_DATA.faculty.features,
-    note: 'Exclusive faculty seating and access.',
-    link: PASSES_DATA.faculty.link,
-  },
-};
 
 function generateBarcode(seed, count = 64) {
   let s = 0;
@@ -177,7 +124,7 @@ function Ticket({ pass, isSelected, isPurchased, userDetails, onSelect, ticketLe
   };
 
   const handleKeyDown = (event) => {
-    if (isPurchased) return;
+    if (isPurchased || ticketLeft <= 0) return;
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
       onSelect(pass.key);
@@ -352,7 +299,8 @@ export default function RegisterPage() {
   const [couponCode, setCouponCode] = useState('');
   const [appliedCoupon, setAppliedCoupon] = useState('');
   const [couponMessage, setCouponMessage] = useState('');
-  const [counters, setCounters] = useState()
+  const [counters, setCounters] = useState(null);
+  const [isRefreshingSeats, setIsRefreshingSeats] = useState(false);
 
   const passesList = Object.values(PASSES_DATA);
   const passCount = passesList.length;
@@ -394,6 +342,37 @@ export default function RegisterPage() {
     emblaApi.on('select', onSelectEmbla);
     emblaApi.on('reInit', onSelectEmbla);
   }, [emblaApi, onSelectEmbla]);
+
+  const handleSeatAvail = useCallback(async () => {
+    setIsRefreshingSeats(true);
+    try {
+      const response = await fetch('/api/counter', { cache: 'no-store' });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok || !data.counter) {
+        throw new Error(data.message || 'Unable to fetch seat availability.');
+      }
+      setCounters(data.counter);
+    } catch (error) {
+      console.error(error);
+      setErrorMessage(error.message || 'Unable to fetch seat availability.');
+    } finally {
+      setIsRefreshingSeats(false);
+    }
+  }, []);
+
+  const getRemainingSeats = (passKey) => {
+    const counterKey = {
+      general: 'geneSeq',
+      gold: 'goldSeq',
+      platinum: 'platSeq',
+    }[passKey];
+    const sold = Number(counters?.[counterKey] || 0);
+    return Math.max(0, (PASS_SEAT_CAPS[passKey] || 0) - sold);
+  };
+
+  useEffect(() => {
+    handleSeatAvail();
+  }, [handleSeatAvail]);
 
 
 
@@ -494,6 +473,18 @@ export default function RegisterPage() {
             setisverified(true)
             setCouponCode("")
             setSelected(null)
+            const counterKey = {
+              general: 'geneSeq',
+              gold: 'goldSeq',
+              platinum: 'platSeq',
+            }[pass.key];
+            if (counterKey) {
+              setCounters((currentCounters) => currentCounters
+                ? { ...currentCounters, [counterKey]: Number(currentCounters[counterKey] || 0) + 1 }
+                : currentCounters);
+            }
+            await handleSeatAvail();
+
             // Trigger Success Animation
             setShowSuccessAnim(true);
 
@@ -564,6 +555,10 @@ export default function RegisterPage() {
   };
 
   const handleclick = async () => {
+    if (activePass && getRemainingSeats(activePass.key) <= 0) {
+      setErrorMessage('This pass is sold out. Please choose another pass.');
+      return;
+    }
     return isverified ? await handlepay(activePass, cachedUser) : startCheckoutProcess();
   }
 
@@ -710,7 +705,7 @@ export default function RegisterPage() {
                       isPurchased={Boolean(purchasedPasses[p.key])}
                       userDetails={cachedUser}
                       onSelect={setSelected}
-                    // ticketLeft={[counters.geneSeq] || 0}
+                      ticketLeft={getRemainingSeats(p.key)}
                     />
                   </PremiumScrollReveal>
                 </div>
@@ -748,6 +743,7 @@ export default function RegisterPage() {
         <div className={`tedx-island-wrapper`}>
           <div className={`${isverified?"tedx-island":"tedx-island"} ${activePass ? 'visible' : ''}`}>
             {isverified && <div className="tedx-coupon-wrapper">
+              
               <label className="tedx-island-lbl" htmlFor="tedx-coupon-code">Coupon code</label>
               <div className="tedx-coupon-controls">
                 <input
@@ -759,7 +755,7 @@ export default function RegisterPage() {
                     setCouponCode(event.target.value);
                     setCouponMessage('');
                   }}
-                  placeholder="COUPON-5"
+                  placeholder="COUPXX-XXXX"
                   aria-describedby="tedx-coupon-message"
                 />
                 <button type="button" className="tedx-coupon-button" onClick={handleCoupon}>Apply</button>
@@ -782,8 +778,29 @@ export default function RegisterPage() {
                 </div>
               </div>
 
+              {activePass && (
+                <div className="tedx-seat-availability">
+                  <span className="tedx-island-lbl">Seat Remaining: {String(getRemainingSeats(activePass.key)).padStart(2, '0')}</span>
+                  <button
+                    type="button"
+                    className={`tedx-seat-refresh ${isRefreshingSeats ? 'is-refreshing' : ''}`}
+                    onClick={handleSeatAvail}
+                    disabled={isRefreshingSeats}
+                    aria-label="Refresh seat availability"
+                    title="Refresh seat availability"
+                  >
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <path d="M20 11a8.1 8.1 0 0 0-14.9-3L3 11" />
+                      <path d="M3 4v7h7" />
+                      <path d="M4 13a8.1 8.1 0 0 0 14.9 3L21 13" />
+                      <path d="M21 20v-7h-7" />
+                    </svg>
+                  </button>
+                </div>
+              )}
+
               <MagneticButton
-                disabled={purchasedPasses[activePass?.key]}
+                disabled={purchasedPasses[activePass?.key] || (activePass && getRemainingSeats(activePass.key) <= 0)}
                 onClick={handleclick}
                 verified={isverified}
               />

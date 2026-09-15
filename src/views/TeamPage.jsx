@@ -6,8 +6,8 @@ import Image from 'next/image';
 import syedwaseemAkhtar from '../assets/team-photos/leadership/syed-waseem-akhtar.png';
 import furqanqamar from '../assets/team-photos/leadership/furqan-qamar.png';
 import shishAhmad from '../assets/team-photos/leadership/shish-ahmad.png';
-import anumKamal from '../assets/team-photos/leadership/anum-kamal.png';
-import syedNadeemAkhtar from '../assets/team-photos/leadership/syed-nadeem-akhtar-new.png';
+import anumKamal from '../assets/team-photos/leadership/anum-kamal.jpeg';
+import syedNadeemAkhtar from '../assets/team-photos/leadership/syed-nadeem-akhtar.jpeg';
 
 import maazsiddiqui from '../assets/team-photos/organizers/Maaz-Siddiqui.jpg';
 import reemhamraz from '../assets/team-photos/organizers/Reem-Hamraz.png';

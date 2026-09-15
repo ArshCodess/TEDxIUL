@@ -1545,3 +1545,36 @@
 .tedx-coupon-message.invalid {
   color: #ff6b81;
 }
+
+.tedx-seat-availability {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tedx-seat-refresh {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: 1px solid var(--surface-border);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.tedx-seat-refresh:hover {
+  border-color: var(--red);
+  color: #fff;
+}
+
+.tedx-seat-refresh.is-refreshing svg {
+  animation: tedx-seat-refresh-spin 0.8s linear infinite;
+}
+
+@keyframes tedx-seat-refresh-spin {
+  to { transform: rotate(360deg); }
+}
