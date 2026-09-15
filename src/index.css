@@ -32,6 +32,19 @@ body {
   overflow-x: hidden;
 }
 
+/* ── PRELOADER LOCK ── */
+body.loading-preloader {
+  overflow: hidden !important;
+}
+body.loading-preloader .homepage-wrapper,
+body.loading-preloader nav {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+body.loading-preloader * {
+  animation-play-state: paused !important;
+}
+
 /* Ensure all sections sit above the fixed background layers */
 #hero,
 #countdown,

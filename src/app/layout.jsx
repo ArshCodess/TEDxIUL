@@ -1,5 +1,6 @@
 import '../index.css';
 import Navbar from '../components/Navbar';
+import Preloader from '../components/Preloader';
 
 export const metadata = {
   title: 'TEDxIntegralUniversity – TESSELLATION',
@@ -27,6 +28,8 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body>
+        <script dangerouslySetInnerHTML={{ __html: "document.body.classList.add('loading-preloader');" }} />
+        <Preloader />
         <Navbar />
         {children}
       </body>
