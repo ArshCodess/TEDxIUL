@@ -27,6 +27,7 @@ export const PASSES_DATA = {
     code: "GEN-SOT-2026",
     deck: "Back Seating",
     link: "..",
+    seat:10,
     features: [
       "Full auditorium access",
       "All talks",
@@ -45,6 +46,7 @@ export const PASSES_DATA = {
     code: "GOLD-SOT-2026",
     deck: "Middle Seating",
     link: "..",
+    seat:17,
     features: [
       "Full auditorium access",
       "All talks",
@@ -63,6 +65,7 @@ export const PASSES_DATA = {
     code: "PLAT-SOT-2026",
     deck: "Front-Row",
     link: "..",
+    seat:10,
     features: [
       "Full auditorium access",
       "All talks",

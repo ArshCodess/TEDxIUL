@@ -69,7 +69,7 @@ export async function POST(request) {
         }
       }
       const cappingObject = {
-        general: 'genSeq',
+        general: 'geneSeq',
         gold: 'goldSeq',
         platinum: 'platSeq',
         faculty: 'facSeq'

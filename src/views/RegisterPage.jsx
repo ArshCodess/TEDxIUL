@@ -371,7 +371,7 @@ export default function RegisterPage() {
   };
 
   useEffect(() => {
-    handleSeatAvail();
+    // handleSeatAvail();
   }, [handleSeatAvail]);
 
 
@@ -705,7 +705,8 @@ export default function RegisterPage() {
                       isPurchased={Boolean(purchasedPasses[p.key])}
                       userDetails={cachedUser}
                       onSelect={setSelected}
-                      ticketLeft={getRemainingSeats(p.key)}
+                      // ticketLeft={getRemainingSeats(p.key)}
+                      ticketLeft={p.seat}
                     />
                   </PremiumScrollReveal>
                 </div>
@@ -778,7 +779,7 @@ export default function RegisterPage() {
                 </div>
               </div>
 
-              {activePass && (
+              {/* {activePass && (
                 <div className="tedx-seat-availability">
                   <span className="tedx-island-lbl">Seat Remaining: {String(getRemainingSeats(activePass.key)).padStart(2, '0')}</span>
                   <button
@@ -797,7 +798,7 @@ export default function RegisterPage() {
                     </svg>
                   </button>
                 </div>
-              )}
+              )} */}
 
               <MagneticButton
                 disabled={purchasedPasses[activePass?.key] || (activePass && getRemainingSeats(activePass.key) <= 0)}
