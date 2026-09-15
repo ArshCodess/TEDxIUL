@@ -17,24 +17,52 @@ function PersonIcon() {
   );
 }
 
-export default function SpeakerCard({ speaker }) {
+export default function SpeakerCard({ speaker, variant = 'detailed' }) {
   const imageSource = typeof speaker.photo === 'string'
     ? speaker.photo
-    : speaker.photo?.src || speaker.photo
+    : speaker.photo?.src || speaker.photo;
 
   const topics = Array.isArray(speaker.topics)
     ? speaker.topics
     : speaker.topic
       ? [speaker.topic]
-      : []
+      : [];
 
-  const social = speaker.social || {}
+  const social = speaker.social || {};
+  const isCompact = variant === 'compact';
+
+  const imageBlock = (
+    <div className="speaker-image-container">
+      {imageSource ? (
+        <img src={imageSource} alt={speaker.name} className="speaker-image" />
+      ) : (
+        <div className="speaker-image-placeholder">
+          <PersonIcon />
+          <span>Photo Coming Soon</span>
+        </div>
+      )}
+    </div>
+  );
+
+  if (isCompact) {
+    return (
+      <article className="speaker-card speaker-card--compact">
+        {imageBlock}
+        <div className="speaker-content">
+          <div className="speaker-content-inner">
+            <h3 className="speaker-name">{speaker.name}</h3>
+            <p className="speaker-headline">{speaker.headline || speaker.topic || 'Topic to be announced'}</p>
+            <p className="speaker-topic">{speaker.topic || 'Topic to be announced'}</p>
+          </div>
+        </div>
+      </article>
+    );
+  }
 
   return (
-    <article className="speaker-card">
+    <article className="speaker-card speaker-card--detailed">
       <div className="speaker-content">
         <div className="speaker-content-inner">
-          <span className="speaker-tag">{speaker.tag || speaker.designation || 'Speaker'}</span>
           <h3 className="speaker-name">{speaker.name}</h3>
           <p className="speaker-headline">{speaker.headline || speaker.topic || 'Topic to be announced'}</p>
           <p className="speaker-bio">{speaker.bio}</p>
@@ -69,16 +97,7 @@ export default function SpeakerCard({ speaker }) {
         </div>
       </div>
 
-      <div className="speaker-image-container">
-        {imageSource ? (
-          <img src={imageSource} alt={speaker.name} className="speaker-image" />
-        ) : (
-          <div className="speaker-image-placeholder">
-            <PersonIcon />
-            <span>Photo Coming Soon</span>
-          </div>
-        )}
-      </div>
+      {imageBlock}
     </article>
   );
 }

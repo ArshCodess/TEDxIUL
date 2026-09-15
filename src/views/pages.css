@@ -73,10 +73,9 @@
 }
 
 /* ── SPEAKER CARDS ── */
-.speakers-page-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 24px;
+.speakers-page-list {
+  display: flex;
+  flex-direction: column;
   margin-top: 48px;
 }
 
@@ -840,8 +839,8 @@
     grid-template-columns: 1fr;
   }
 
-  .speakers-page-grid {
-    grid-template-columns: 1fr;
+  .speakers-page-list {
+    flex-direction: column;
   }
 
   .sponsors-page-grid {

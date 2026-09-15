@@ -17,9 +17,9 @@ const EVENT = {
   theme: 'Tessellation',
   themeLine: 'From Individual Ideas to Collective Impact',
   venue: 'Main Auditorium',
-  date: 'September 2026',
+  date: '23 September 2026',
   time: '09:00 AM',
-  city: 'Lucknow',
+  city: 'Integral University Lucknow',
   legal: 'This independent TEDx event is operated under license from TED.',
 };
 
@@ -65,19 +65,6 @@ const PASSES = {
     note: 'Front-row seating and exclusive access.',
     link: PASSES_DATA.platinum.link,
   },
-  faculty: {
-    key: 'faculty',
-    tier: '04',
-    label: PASSES_DATA.faculty.deck,
-    name: PASSES_DATA.faculty.name,
-    price: PASSES_DATA.faculty.price,
-    originalPrice: null,
-    code: PASSES_DATA.faculty.code,
-    eligibility: PASSES_DATA.faculty.noteText,
-    features: PASSES_DATA.faculty.features,
-    note: 'Exclusive faculty seating and access.',
-    link: PASSES_DATA.faculty.link,
-  },
 };
 
 function generateBarcode(seed, count = 64) {
@@ -118,27 +105,29 @@ function Hero() {
       </div>
 
       <div className="tedx-hero-right">
-        <div className="tedx-info-block" style={{ background: 'rgba(235,0,40,0.03)', borderBottom: '1px solid var(--surface-border)' }}>
+        <div className="tedx-info-block registration-active-card" style={{ background: 'rgba(235,0,40,0.03)', borderBottom: '1px solid var(--surface-border)' }}>
           <div className="tedx-status-pill" style={{ display: 'inline-flex', width: 'fit-content', background: 'rgba(235,0,40,0.1)', borderColor: 'rgba(235,0,40,0.2)' }}>
             <div className="tedx-status-dot" />
             <span style={{ color: '#fff' }}>Registration Active</span>
           </div>
         </div>
-        <div className="tedx-info-block">
-          <span className="tedx-info-label">Date</span>
-          <span className="tedx-info-val large">{EVENT.date.split(' ')[0]} <span>{EVENT.date.split(' ')[1]}</span></span>
-        </div>
-        <div className="tedx-info-block">
-          <span className="tedx-info-label">Time</span>
-          <span className="tedx-info-val">{EVENT.time}</span>
-        </div>
-        <div className="tedx-info-block">
-          <span className="tedx-info-label">Venue</span>
-          <span className="tedx-info-val">{EVENT.venue}</span>
-        </div>
-        <div className="tedx-info-block">
-          <span className="tedx-info-label">Location</span>
-          <span className="tedx-info-val">{EVENT.city}</span>
+        <div className="info-grid">
+          <div className="tedx-info-block">
+            <span className="tedx-info-label">Date</span>
+            <span className="tedx-info-val large">{EVENT.date.split(' ')[0]} {EVENT.date.split(' ')[1]} <span>{EVENT.date.split(' ')[2]}</span></span>
+          </div>
+          <div className="tedx-info-block">
+            <span className="tedx-info-label">Time</span>
+            <span className="tedx-info-val">{EVENT.time}</span>
+          </div>
+          <div className="tedx-info-block">
+            <span className="tedx-info-label">Venue</span>
+            <span className="tedx-info-val">{EVENT.venue}</span>
+          </div>
+          <div className="tedx-info-block">
+            <span className="tedx-info-label">Location</span>
+            <span className="tedx-info-val">{EVENT.city}</span>
+          </div>
         </div>
       </div>
     </section>
@@ -281,7 +270,7 @@ export default function RegisterPage() {
   const [syncCtx, setSyncCtx] = useState(0);
 
   const [emblaRef, emblaApi] = useEmblaCarousel({
-    loop: true, 
+    loop: true,
     align: 'center',
     duration: 25,
     skipSnaps: false,
@@ -437,9 +426,9 @@ export default function RegisterPage() {
 
         <div className="tedx-carousel-wrapper">
           <button className="tedx-carousel-nav prev" onClick={scrollPrev}>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6" /></svg>
           </button>
-          
+
           <div className="embla-viewport" ref={emblaRef}>
             <div className="tedx-carousel">
               {Object.values(PASSES).map((p, idx) => (
@@ -453,7 +442,7 @@ export default function RegisterPage() {
           </div>
 
           <button className="tedx-carousel-nav next" onClick={scrollNext}>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6" /></svg>
           </button>
 
           {/* Mobile dot indicators + slide counter + swipe hint */}
@@ -473,9 +462,9 @@ export default function RegisterPage() {
             <span className="tedx-slide-total">{String(passCount).padStart(2, '0')}</span>
           </div>
           <div className="tedx-swipe-hint">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
             <span>Swipe to explore</span>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="m19 12H5M12 5l-7 7 7 7"/></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="m19 12H5M12 5l-7 7 7 7" /></svg>
           </div>
         </div>
 

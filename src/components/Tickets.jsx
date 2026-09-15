@@ -26,14 +26,6 @@ const ticketTiers = [
     features: ['Full Auditorium Access', 'All Talks', 'Front-Row Seating', 'TEDx Kit', 'Meal & Refreshments', 'Meet & Greet with Speakers'],
     featured: false,
   },
-  {
-    key: 'faculty',
-    name: 'Faculty',
-    price: '₹2,599',
-    description: 'An exclusive experience for faculty members',
-    features: ['Full Auditorium Access', 'All Talks', 'VIP Seating', 'TEDx Kit', 'Meal & Refreshment', 'Meet & Greet with Speakers'],
-    featured: false,
-  },
 ];
 
 export default function Tickets() {

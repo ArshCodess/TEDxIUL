@@ -7,7 +7,7 @@ import syedwaseemAkhtar from '../assets/team-photos/leadership/syed-waseem-akhta
 import furqanqamar from '../assets/team-photos/leadership/furqan-qamar.png';
 import shishAhmad from '../assets/team-photos/leadership/shish-ahmad.png';
 import anumKamal from '../assets/team-photos/leadership/anum-kamal.png';
-import syedNadeemAkhtar from '../assets/team-photos/leadership/syed-nadeem-akhtar.jpeg';
+import syedNadeemAkhtar from '../assets/team-photos/leadership/syed-nadeem-akhtar-new.png';
 
 import maazsiddiqui from '../assets/team-photos/organizers/Maaz-Siddiqui.jpg';
 import reemhamraz from '../assets/team-photos/organizers/Reem-Hamraz.png';
