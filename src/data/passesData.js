@@ -67,7 +67,7 @@ export const PASSES_DATA = {
       "Meet & Greet with speakers"
     ],
     noteTitle: "Eligibility",
-    noteText: "Limited availability for premium experience seekers."
+    noteText: "Open for all attendees."
   }
 };
 

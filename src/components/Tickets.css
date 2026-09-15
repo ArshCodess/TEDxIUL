@@ -54,9 +54,10 @@
 }
 
 .tickets-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 280px));
-  gap: 1rem;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
   max-width: 1300px;
   margin: 0 auto;
   justify-content: center;
@@ -72,6 +73,8 @@
   box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35);
   display: flex;
   flex-direction: column;
+  flex: 1 1 300px;
+  max-width: 350px;
 }
 
 .ticket-card.featured {
@@ -187,8 +190,8 @@
 }
 
 @media (max-width: 1024px) {
-  .tickets-grid {
-    grid-template-columns: repeat(auto-fit, minmax(240px, 280px));
+  .ticket-card {
+    max-width: 400px;
   }
 }
 
@@ -221,6 +224,11 @@
   }
 
   .tickets-grid {
-    grid-template-columns: 1fr;
+    flex-direction: column;
+    align-items: center;
+  }
+  .ticket-card {
+    max-width: 100%;
+    width: 100%;
   }
 }

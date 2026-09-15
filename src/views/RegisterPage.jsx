@@ -35,6 +35,61 @@ const EVENT = {
 
 const WIDE_GRID_BREAKPOINT = 1280;
 
+const PASSES = {
+  general: {
+    key: 'general',
+    tier: '01',
+    label: PASSES_DATA.general.deck,
+    name: PASSES_DATA.general.name,
+    price: PASSES_DATA.general.price,
+    originalPrice: null,
+    code: PASSES_DATA.general.code,
+    eligibility: PASSES_DATA.general.noteText,
+    features: PASSES_DATA.general.features,
+    note: 'Standard seating. No pre-registration required.',
+    link: PASSES_DATA.general.link,
+  },
+  gold: {
+    key: 'gold',
+    tier: '02',
+    label: PASSES_DATA.gold.deck,
+    name: PASSES_DATA.gold.name,
+    price: PASSES_DATA.gold.price,
+    originalPrice: null,
+    code: PASSES_DATA.gold.code,
+    eligibility: PASSES_DATA.gold.noteText,
+    features: PASSES_DATA.gold.features,
+    note: 'Premium seating and added event benefits.',
+    link: PASSES_DATA.gold.link,
+  },
+  platinum: {
+    key: 'platinum',
+    tier: '03',
+    label: PASSES_DATA.platinum.deck,
+    name: PASSES_DATA.platinum.name,
+    price: PASSES_DATA.platinum.price,
+    originalPrice: null,
+    code: PASSES_DATA.platinum.code,
+    eligibility: PASSES_DATA.platinum.noteText,
+    features: PASSES_DATA.platinum.features,
+    note: 'Front-row seating and exclusive access.',
+    link: PASSES_DATA.platinum.link,
+  },
+  faculty: {
+    key: 'faculty',
+    tier: '04',
+    label: PASSES_DATA.faculty.deck,
+    name: PASSES_DATA.faculty.name,
+    price: PASSES_DATA.faculty.price,
+    originalPrice: null,
+    code: PASSES_DATA.faculty.code,
+    eligibility: PASSES_DATA.faculty.noteText,
+    features: PASSES_DATA.faculty.features,
+    note: 'Exclusive faculty seating and access.',
+    link: PASSES_DATA.faculty.link,
+  },
+};
+
 function generateBarcode(seed, count = 64) {
   let s = 0;
   for (let i = 0; i < (seed || '').length; i++) s = (31 * s + seed.charCodeAt(i)) >>> 0;
@@ -68,27 +123,29 @@ function Hero() {
       </div>
 
       <div className="tedx-hero-right">
-        <div className="tedx-info-block" style={{ background: 'rgba(235,0,40,0.03)', borderBottom: '1px solid var(--surface-border)' }}>
+        <div className="tedx-info-block registration-active-card" style={{ background: 'rgba(235,0,40,0.03)', borderBottom: '1px solid var(--surface-border)' }}>
           <div className="tedx-status-pill" style={{ display: 'inline-flex', width: 'fit-content', background: 'rgba(235,0,40,0.1)', borderColor: 'rgba(235,0,40,0.2)' }}>
             <div className="tedx-status-dot" />
             <span style={{ color: '#fff' }}>Registration Active</span>
           </div>
         </div>
-        <div className="tedx-info-block">
-          <span className="tedx-info-label">Date</span>
-          <span className="tedx-info-val large">{EVENT.date.split(' ')[0]} <span>{EVENT.date.split(' ')[1]}</span></span>
-        </div>
-        <div className="tedx-info-block">
-          <span className="tedx-info-label">Time</span>
-          <span className="tedx-info-val">{EVENT.time}</span>
-        </div>
-        <div className="tedx-info-block">
-          <span className="tedx-info-label">Venue</span>
-          <span className="tedx-info-val">{EVENT.venue}</span>
-        </div>
-        <div className="tedx-info-block">
-          <span className="tedx-info-label">Location</span>
-          <span className="tedx-info-val">{EVENT.city}</span>
+        <div className="info-grid">
+          <div className="tedx-info-block">
+            <span className="tedx-info-label">Date</span>
+            <span className="tedx-info-val large">{EVENT.date.split(' ')[0]} {EVENT.date.split(' ')[1]} <span>{EVENT.date.split(' ')[2]}</span></span>
+          </div>
+          <div className="tedx-info-block">
+            <span className="tedx-info-label">Time</span>
+            <span className="tedx-info-val">{EVENT.time}</span>
+          </div>
+          <div className="tedx-info-block">
+            <span className="tedx-info-label">Venue</span>
+            <span className="tedx-info-val">{EVENT.venue}</span>
+          </div>
+          <div className="tedx-info-block">
+            <span className="tedx-info-label">Location</span>
+            <span className="tedx-info-val">{EVENT.city}</span>
+          </div>
         </div>
       </div>
     </section>
