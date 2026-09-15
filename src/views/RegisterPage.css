@@ -253,6 +253,7 @@
   font-weight: 400;
   color: #fff;
 }
+
 .tedx-title {
   font-family: var(--font-serif);
   font-size: clamp(40px, 5vw, 64px);
@@ -660,9 +661,9 @@
   backdrop-filter: blur(48px);
   -webkit-backdrop-filter: blur(48px);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 100px;
+  border-radius: 24px;
   padding: 12px 12px 12px 32px;
-  display: flex;
+  gap: 12px;
   align-items: center;
   justify-content: space-between;
   box-shadow: 0 32px 64px rgba(0, 0, 0, 0.8), inset 0 1px 1px rgba(255, 255, 255, 0.15);
@@ -671,6 +672,7 @@
   pointer-events: auto;
   transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
+
 
 .tedx-island.visible {
   transform: translateY(0) scale(1);
@@ -681,6 +683,14 @@
   display: flex;
   align-items: center;
   gap: 24px;
+}
+
+.tedx-island-fields {
+  margin-top: 6px;
+  width: 100%;
+  justify-content: space-between;
+  display: flex;
+  gap: 12px;
 }
 
 .tedx-island-col {
@@ -822,8 +832,15 @@
 }
 
 @keyframes errorPopupIn {
-  from { opacity: 0; transform: translateY(10px) scale(0.98); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 /* MOBILE RESPONSIVE */
@@ -866,6 +883,7 @@
   .tedx-title {
     font-size: 36px;
   }
+
   .tedx-subtitle {
     font-size: 28px;
   }
@@ -926,6 +944,14 @@
     justify-content: space-between;
     padding: 4px 8px 0;
   }
+  .tedx-island-fields {
+  margin-top: 6px;
+  width: 100%;
+  justify-content: space-between;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
 
   .tedx-island-val {
     font-size: 13px;
@@ -951,6 +977,7 @@
     transform: none !important;
   }
 }
+
 /* CAROUSEL */
 .tedx-carousel-wrapper {
   position: relative;
@@ -1026,18 +1053,23 @@
     -webkit-mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
     mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
   }
+
   .tedx-carousel-nav {
     display: none;
   }
+
   .tedx-carousel {
     padding: 32px 0;
-    gap: 0px; /* Embla uses item widths, no gap needed if padding is on items */
+    gap: 0px;
+    /* Embla uses item widths, no gap needed if padding is on items */
   }
+
   .tedx-carousel-item {
     flex: 0 0 100%;
     min-width: 100%;
     max-width: 100%;
-    padding: 0 16px; /* Small gap from screen edges for a clean premium look */
+    padding: 0 16px;
+    /* Small gap from screen edges for a clean premium look */
   }
 }
 
@@ -1113,13 +1145,29 @@
   }
 
   @keyframes hintPulse {
-    0%, 100% { opacity: 0.4; }
-    50% { opacity: 1; }
+
+    0%,
+    100% {
+      opacity: 0.4;
+    }
+
+    50% {
+      opacity: 1;
+    }
   }
 
   @keyframes hintArrow {
-    0%, 100% { transform: translateX(0); opacity: 0.4; }
-    50% { transform: translateX(4px); opacity: 0.8; }
+
+    0%,
+    100% {
+      transform: translateX(0);
+      opacity: 0.4;
+    }
+
+    50% {
+      transform: translateX(4px);
+      opacity: 0.8;
+    }
   }
 }
 
@@ -1179,8 +1227,13 @@
     height: 24px;
   }
 
-  .tedx-cutout.left  { left: -12px; }
-  .tedx-cutout.right { right: -12px; }
+  .tedx-cutout.left {
+    left: -12px;
+  }
+
+  .tedx-cutout.right {
+    right: -12px;
+  }
 }
 
 /* ── TIER CARD SYSTEM ── */
@@ -1386,12 +1439,68 @@
 
   .tedx-slide-sep {
     font-size: 12px;
-    color: rgba(255,255,255,0.25);
+    color: rgba(255, 255, 255, 0.25);
     margin: 0 2px;
   }
 
   .tedx-slide-total {
     font-size: 13px;
-    color: rgba(255,255,255,0.3);
+    color: rgba(255, 255, 255, 0.3);
   }
+}
+
+.tedx-coupon-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.tedx-coupon-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.tedx-coupon-input {
+  flex: 1;
+  min-width: 0;
+  border: 1px solid var(--surface-border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
+  font: 12px var(--font-mono);
+  outline: none;
+}
+
+.tedx-coupon-input:focus {
+  border-color: var(--red);
+  box-shadow: 0 0 0 2px rgba(235, 0, 40, 0.14);
+}
+
+.tedx-coupon-button {
+  border: 1px solid rgba(235, 0, 40, 0.5);
+  border-radius: 8px;
+  padding: 0 16px;
+  background: rgba(235, 0, 40, 0.12);
+  color: #fff;
+  cursor: pointer;
+  font: 11px var(--font-mono);
+  text-transform: uppercase;
+}
+
+.tedx-coupon-button:hover {
+  background: var(--red);
+}
+
+.tedx-coupon-message {
+  font-size: 10px;
+}
+
+.tedx-coupon-message.valid {
+  color: #34c759;
+}
+
+.tedx-coupon-message.invalid {
+  color: #ff6b81;
 }

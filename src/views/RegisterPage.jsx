@@ -6,6 +6,9 @@ import './pages.css';
 import { PremiumScrollReveal } from './MotionReveal';
 import {
   EARLY_BOOKING_DISCOUNT_PERCENT,
+  COUPON_CODES,
+  COUPON_DISCOUNT_PERCENT,
+  getCouponDiscountedPassPrice,
   getDiscountedPassPrice,
   PASSES_DATA,
   STORE_PAGE_CONTENT,
@@ -92,7 +95,7 @@ function Hero() {
   );
 }
 
-function Ticket({ pass, isSelected, isPurchased, userDetails, onSelect }) {
+function Ticket({ pass, isSelected, isPurchased, userDetails, onSelect, ticketLeft = 4 }) {
   const cardRef = useRef(null);
   const [isLeaving, setIsLeaving] = useState(false);
   const isPremium = pass.key === 'platinum' || pass.key === 'faculty' || pass.key === 'gold';
@@ -128,10 +131,10 @@ function Ticket({ pass, isSelected, isPurchased, userDetails, onSelect }) {
     <div className="tedx-card-wrapper">
       <div
         ref={cardRef}
-        className={`tedx-card ticket-card--${pass.key} ${isSelected ? 'selected' : ''} ${isPurchased ? 'purchased' : ''} ${isLeaving ? 'leaving' : ''}`}
+        className={`tedx-card ticket-card--${pass.key} ${isSelected ? 'selected' : ''} ${ticketLeft > 0 ? "" : "grayscale-75"} ${isPurchased ? 'purchased' : ''} ${isLeaving ? 'leaving' : ''}`}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
-        onClick={() => !isPurchased && onSelect(pass.key)}
+        onClick={() => ticketLeft > 0 && !isPurchased && onSelect(pass.key)}
         onKeyDown={handleKeyDown}
         role="button"
         tabIndex={isPurchased ? -1 : 0}
@@ -148,6 +151,13 @@ function Ticket({ pass, isSelected, isPurchased, userDetails, onSelect }) {
             <div className="tedx-tier-group">
               <span className="tedx-tier-label">Pass Tier</span>
               <span className="tedx-tier-val">{pass.tier || pass.name} // {pass.code?.split('-')[1]}</span>
+              <div
+                className={`tedx-badge ${isPurchased ? 'success-badge' : isPremium ? 'premium' : ''}`}
+                style={isPurchased ? { background: 'rgba(16, 185, 129, 0.2)', color: '#10B981', border: '1px solid #10B981' } : {}}
+              >
+                Seats left:
+                {ticketLeft || 0}
+              </div>
             </div>
             <div
               className={`tedx-badge ${isPurchased ? 'success-badge' : isPremium ? 'premium' : ''}`}
@@ -210,7 +220,7 @@ function Ticket({ pass, isSelected, isPurchased, userDetails, onSelect }) {
   );
 }
 
-function MagneticButton({ onClick, disabled }) {
+function MagneticButton({ onClick, disabled, verified = false }) {
   const btnRef = useRef(null);
 
   const handleMouseMove = (e) => {
@@ -233,9 +243,16 @@ function MagneticButton({ onClick, disabled }) {
       onMouseLeave={handleMouseLeave}
       onClick={disabled ? null : onClick}
     >
-      <button ref={btnRef} className="tedx-island-btn" disabled={disabled} style={disabled ? { opacity: 0.6, cursor: 'not-allowed' } : {}}>
-        Verify Identity & Pay
-      </button>
+      {
+        verified ? (
+          <button ref={btnRef} className="tedx-island-btn" disabled={disabled} style={disabled ? { opacity: 0.6, cursor: 'not-allowed' } : {}}>
+            Checkout
+          </button>
+        ) : (
+          <button ref={btnRef} className="tedx-island-btn" disabled={disabled} style={disabled ? { opacity: 0.6, cursor: 'not-allowed' } : {}}>
+            Verify Identity & Pay
+          </button>
+        )}
     </div>
   );
 }
@@ -259,268 +276,7 @@ function ErrorPopup({ message, onClose }) {
   );
 }
 
-// ─────────────────────────────────────────────────────────────
-// VERIFICATION MODAL COMPONENT
-// ─────────────────────────────────────────────────────────────
-function OldVerificationModal({ isOpen, onClose, onVerifySuccess, onError, passName }) {
-  const [step, setStep] = useState(1);
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phoneNumber, setphoneNumber] = useState('');
-  const [otpDigits, setOtpDigits] = useState(Array(6).fill(''));
-  const [resendTimer, setResendTimer] = useState(30);
-  const [loading, setLoading] = useState(false);
-  const otpRefs = useRef([]);
-  const OTP_LENGTH = 6;
-
-  useEffect(() => {
-    let timer;
-    if (step === 2 && resendTimer > 0) {
-      timer = setInterval(() => setResendTimer((prev) => prev - 1), 1000);
-    }
-    return () => clearInterval(timer);
-  }, [step, resendTimer]);
-
-  useEffect(() => {
-    if (!isOpen) {
-      setStep(1);
-      setName('');
-      setEmail('');
-      setphoneNumber('');
-      setOtpDigits(Array(OTP_LENGTH).fill(''));
-      setResendTimer(30);
-      setLoading(false);
-    }
-  }, [isOpen]);
-
-  if (!isOpen) return null;
-
-  const normalizePhoneNumber = (value) => value.replace(/\D/g, '').slice(-10);
-  const isValidEmail = (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
-  const isValidPhone = (value) => normalizePhoneNumber(value).length === 10;
-
-  const focusOtpIndex = (index) => {
-    const input = otpRefs.current[index];
-    if (input) input.focus();
-  };
-
-  const handleOtpDigitChange = (index, value) => {
-    const sanitizedValue = value.replace(/\D/g, '').slice(-1);
-    const nextDigits = [...otpDigits];
-    nextDigits[index] = sanitizedValue;
-    setOtpDigits(nextDigits);
-
-    if (sanitizedValue && index < OTP_LENGTH - 1) {
-      focusOtpIndex(index + 1);
-    }
-  };
-
-  const handleOtpKeyDown = (index, event) => {
-    if (event.key === 'Backspace' && !otpDigits[index] && index > 0) {
-      focusOtpIndex(index - 1);
-    }
-    if (event.key === 'ArrowLeft' && index > 0) {
-      focusOtpIndex(index - 1);
-    }
-    if (event.key === 'ArrowRight' && index < OTP_LENGTH - 1) {
-      focusOtpIndex(index + 1);
-    }
-  };
-
-  const handleOtpPaste = (event) => {
-    event.preventDefault();
-    const pasted = event.clipboardData.getData('text').replace(/\D/g, '').slice(0, OTP_LENGTH);
-    if (!pasted) return;
-
-    const nextDigits = Array(OTP_LENGTH).fill('');
-    pasted.split('').forEach((digit, index) => {
-      nextDigits[index] = digit;
-    });
-
-    setOtpDigits(nextDigits);
-    const nextFocusIndex = Math.min(pasted.length, OTP_LENGTH - 1);
-    focusOtpIndex(nextFocusIndex);
-  };
-
-  const handleSendOtp = async (e) => {
-    e.preventDefault();
-    const trimmedName = name.trim();
-    const trimmedEmail = email.trim();
-    const normalizedPhone = normalizePhoneNumber(phoneNumber);
-
-    if (!trimmedName) return onError('Please provide your full name.');
-    if (!trimmedEmail || !isValidEmail(trimmedEmail)) return onError('Please enter a valid email address.');
-    if (!normalizedPhone || !isValidPhone(phoneNumber)) return onError('Please enter a valid 10-digit phone number.');
-
-    setLoading(true);
-    try {
-      const response = await fetch('/api/auth/send-otp', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: trimmedEmail, name: trimmedName, phoneNumber: normalizedPhone }),
-      });
-      const data = await response.json().catch(() => ({}));
-      if (!response.ok) throw new Error(data.error || data.message || 'Unable to send the verification OTP.');
-      setStep(2);
-      setResendTimer(30);
-      setOtpDigits(Array(OTP_LENGTH).fill(''));
-      setTimeout(() => focusOtpIndex(0), 50);
-    } catch (err) {
-      console.error(err);
-      setStep(1);
-      setOtpDigits(Array(OTP_LENGTH).fill(''));
-      onError(err.message || 'Unable to send the verification OTP. Please try again.');
-      onClose();
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleResendOtp = async () => {
-    if (resendTimer > 0) return;
-    setResendTimer(30);
-    try {
-      const response = await fetch('/api/auth/send-otp', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email.trim(), name: name.trim(), phoneNumber: normalizePhoneNumber(phoneNumber) }),
-      });
-      const data = await response.json().catch(() => ({}));
-      if (!response.ok) throw new Error(data.error || data.message || 'Unable to resend the OTP.');
-      setOtpDigits(Array(OTP_LENGTH).fill(''));
-      setTimeout(() => focusOtpIndex(0), 50);
-    } catch (err) {
-      console.error(err);
-      setResendTimer(0);
-      onError(err.message || 'Unable to resend the OTP. Please try again.');
-    }
-  };
-
-  const handleVerifyOtp = async (e) => {
-    e.preventDefault();
-    const otp = otpDigits.join('');
-    if (otp.length !== OTP_LENGTH) return onError('Please enter the complete 6-digit OTP.');
-
-    setLoading(true);
-    try {
-      const res = await fetch('/api/auth/verify-otp', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email.trim(), otp }),
-      });
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok || data.success !== true) {
-        throw new Error(data.error || data.message || 'Invalid or expired OTP. Please try again.');
-      }
-      onVerifySuccess({ name: name.trim(), email: email.trim() });
-    } catch (err) {
-      console.error(err);
-      onError(err.message || 'Unable to verify the OTP. Please try again.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  return (
-    <div className="tedx-modal-backdrop">
-      <div className="tedx-modal">
-        <button className="tedx-modal-close" onClick={onClose}>✕</button>
-        <div className="tedx-modal-header">
-          <span className="tedx-modal-tag">Identity Verification</span>
-          <h3>{passName}</h3>
-        </div>
-
-        <div className="tedx-step-indicator" aria-label="Verification steps">
-          <div className="tedx-step-track">
-            <span className={`tedx-step-dot ${step === 1 ? 'active' : ''}`} />
-            <span className={`tedx-step-dot ${step === 2 ? 'active' : ''}`} />
-          </div>
-          <span className="tedx-step-text">Step {step} of 2</span>
-        </div>
-
-        {step === 1 ? (
-          <form onSubmit={handleSendOtp} className="tedx-modal-form">
-            <p className="tedx-modal-desc">Enter your details to register your pass identity.</p>
-            <div className="tedx-field">
-              <label>Full Name</label>
-              <input
-                type="text"
-                required
-                placeholder="John Doe"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-            </div>
-            <div className="tedx-field">
-              <label>Email Address</label>
-              <input
-                type="email"
-                required
-                placeholder="john@example.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-            <div className="tedx-field">
-              <label>Phone number</label>
-              <input
-                type="tel"
-                required
-                inputMode="numeric"
-                placeholder="99xxxxxxx4"
-                value={phoneNumber}
-                onChange={(e) => setphoneNumber(e.target.value.replace(/\D/g, '').slice(0, 10))}
-              />
-            </div>
-            <button type="submit" disabled={loading} className="tedx-modal-submit">
-              {loading ? 'Sending OTP...' : 'Send Verification OTP'}
-            </button>
-          </form>
-        ) : (
-          <form onSubmit={handleVerifyOtp} className="tedx-modal-form">
-            <p className="tedx-modal-desc">Enter the 6-digit code sent to <strong>{email}</strong>.</p>
-            <div className="tedx-field">
-              <label>One-Time Password</label>
-              <div className="tedx-otp-grid" onPaste={handleOtpPaste}>
-                {Array.from({ length: OTP_LENGTH }).map((_, index) => (
-                  <input
-                    key={index}
-                    ref={(el) => {
-                      otpRefs.current[index] = el;
-                    }}
-                    type="text"
-                    inputMode="numeric"
-                    maxLength={1}
-                    value={otpDigits[index]}
-                    autoComplete="one-time-code"
-                    className="tedx-otp-box"
-                    onChange={(e) => handleOtpDigitChange(index, e.target.value)}
-                    onKeyDown={(e) => handleOtpKeyDown(index, e)}
-                    onFocus={(e) => e.target.select()}
-                    aria-label={`OTP digit ${index + 1}`}
-                  />
-                ))}
-              </div>
-            </div>
-            <div className="tedx-otp-actions">
-              <button
-                type="button"
-                onClick={handleResendOtp}
-                disabled={resendTimer > 0}
-                className="tedx-resend-btn"
-              >
-                {resendTimer > 0 ? `Resend OTP in ${resendTimer}s` : 'Resend OTP'}
-              </button>
-            </div>
-            <button type="submit" disabled={loading} className="tedx-modal-submit">
-              {loading ? 'Verifying...' : 'Verify & Proceed to Payment'}
-            </button>
-          </form>
-        )}
-      </div>
-    </div>
-  );
-}
+// ───────────────────────────────────────────────────────────
 
 // ─────────────────────────────────────────────────────────────
 // MAIN STORE LAYOUT
@@ -535,6 +291,11 @@ export default function RegisterPage() {
   const [errorMessage, setErrorMessage] = useState('');
   const [syncCtx, setSyncCtx] = useState(0);
   const [orderId, setorderId] = useState("");
+  const [isverified, setisverified] = useState(false);
+  const [couponCode, setCouponCode] = useState('');
+  const [appliedCoupon, setAppliedCoupon] = useState('');
+  const [couponMessage, setCouponMessage] = useState('');
+  const [counters, setCounters] = useState()
 
   const passesList = Object.values(PASSES_DATA);
   const passCount = passesList.length;
@@ -577,6 +338,8 @@ export default function RegisterPage() {
     emblaApi.on('reInit', onSelectEmbla);
   }, [emblaApi, onSelectEmbla]);
 
+
+
   // Load cached purchases and user data on mount
   useEffect(() => {
     try {
@@ -584,6 +347,7 @@ export default function RegisterPage() {
       const savedUser = localStorage.getItem('tedx_user_identity');
       if (savedPurchases) setPurchasedPasses(JSON.parse(savedPurchases));
       if (savedUser) setCachedUser(JSON.parse(savedUser));
+
     } catch (e) {
       console.error("Cache restoration failed", e);
     }
@@ -606,7 +370,20 @@ export default function RegisterPage() {
     setCachedUser(userData);
     localStorage.setItem('tedx_user_identity', JSON.stringify(userData));
     setIsModalOpen(false);
-    handlepay(activePass, userData);
+    setisverified(true)
+    // handlepay(activePass, userData);
+  };
+
+  const handleCoupon = () => {
+    const normalizedCoupon = couponCode.trim().toUpperCase();
+    if (!COUPON_CODES.includes(normalizedCoupon)) {
+      setAppliedCoupon('');
+      setCouponMessage('Invalid coupon code.');
+      return;
+    }
+
+    setAppliedCoupon(normalizedCoupon);
+    setCouponMessage(`${COUPON_DISCOUNT_PERCENT}% extra discount applied.`);
   };
 
   const handlepay = async (pass, userData) => {
@@ -616,9 +393,10 @@ export default function RegisterPage() {
         method: "POST",
         headers: { "Content-type": "application/json" },
         body: JSON.stringify({
-          amount: getDiscountedPassPrice(pass.price) * 100,
+          amount: getCouponDiscountedPassPrice(pass.price, appliedCoupon) * 100,
           email: userData.email || "",
           passKey: pass.key,
+          couponCode: appliedCoupon,
         }),
       });
       const data = await response.json().catch(() => ({}));
@@ -629,7 +407,7 @@ export default function RegisterPage() {
       setorderId(order.id);
       const paymentobj = new window.Razorpay({
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-        amount: getDiscountedPassPrice(pass.price) * 100,
+        amount: getCouponDiscountedPassPrice(pass.price, appliedCoupon) * 100,
         currency: "INR",
         name: EVENT.org,
         description: `${pass.name} Registration`,
@@ -645,7 +423,8 @@ export default function RegisterPage() {
               razorpayId,
               user: userData,
               passTier: pass.key.replace('pass-', ''),
-              totalAmount: getDiscountedPassPrice(pass.price) * 100,
+              totalAmount: getCouponDiscountedPassPrice(pass.price, appliedCoupon) * 100,
+              couponCode: appliedCoupon,
             }),
           });
 
@@ -655,9 +434,12 @@ export default function RegisterPage() {
             const updatedPasses = { ...purchasedPasses, [pass.key]: true };
             setPurchasedPasses(updatedPasses);
             localStorage.setItem('tedx_purchased_passes', JSON.stringify(updatedPasses));
-
+            setisverified(true)
+            setCouponCode("")
+            setSelected(null)
             // Trigger Success Animation
             setShowSuccessAnim(true);
+
             setTimeout(() => setShowSuccessAnim(false), 5000);
           } else {
             setErrorMessage(result.error || result.message || 'Payment verification failed. Please contact support.');
@@ -723,6 +505,10 @@ export default function RegisterPage() {
       setLoading(false);
     }
   };
+
+  const handleclick = async () => {
+    return isverified ? await handlepay(activePass, cachedUser) : startCheckoutProcess();
+  }
 
   // Hardware a11y & scanner override sequence
   useEffect(() => {
@@ -867,6 +653,7 @@ export default function RegisterPage() {
                       isPurchased={Boolean(purchasedPasses[p.key])}
                       userDetails={cachedUser}
                       onSelect={setSelected}
+                    // ticketLeft={[counters.geneSeq] || 0}
                     />
                   </PremiumScrollReveal>
                 </div>
@@ -901,23 +688,49 @@ export default function RegisterPage() {
           </div>
         </div>
 
-        <div className="tedx-island-wrapper">
-          <div className={`tedx-island ${activePass ? 'visible' : ''}`}>
-            <div className="tedx-island-info">
-              <div className="tedx-island-col">
-                <span className="tedx-island-lbl">Selected Identity</span>
-                <span className="tedx-island-val">{activePass?.name}</span>
+        <div className={`tedx-island-wrapper`}>
+          <div className={`${isverified?"tedx-island":"tedx-island"} ${activePass ? 'visible' : ''}`}>
+            {isverified && <div className="tedx-coupon-wrapper">
+              <label className="tedx-island-lbl" htmlFor="tedx-coupon-code">Coupon code</label>
+              <div className="tedx-coupon-controls">
+                <input
+                  id="tedx-coupon-code"
+                  className="tedx-coupon-input"
+                  type="text"
+                  value={couponCode}
+                  onChange={(event) => {
+                    setCouponCode(event.target.value);
+                    setCouponMessage('');
+                  }}
+                  placeholder="COUPON-5"
+                  aria-describedby="tedx-coupon-message"
+                />
+                <button type="button" className="tedx-coupon-button" onClick={handleCoupon}>Apply</button>
               </div>
-              <div className="tedx-island-col" style={{ alignItems: 'flex-end' }}>
-                <span className="tedx-island-lbl">Total</span>
-                <span className="tedx-island-price">₹{activePass ? getDiscountedPassPrice(activePass.price).toLocaleString('en-IN') : '0'}</span>
+              {couponMessage && (
+                <span id="tedx-coupon-message" className={`tedx-coupon-message ${appliedCoupon ? 'valid' : 'invalid'}`} role="status">
+                  {couponMessage}
+                </span>
+              )}
+            </div>}
+            <div className={"tedx-island-fields"}>
+              <div className="tedx-island-info">
+                <div className="tedx-island-col">
+                  <span className="tedx-island-lbl">Selected Identity</span>
+                  <span className="tedx-island-val">{activePass?.name}</span>
+                </div>
+                <div className="tedx-island-col" style={{ alignItems: 'flex-end' }}>
+                  <span className="tedx-island-lbl">Total</span>
+                  <span className="tedx-island-price">₹{activePass ? getCouponDiscountedPassPrice(activePass.price, appliedCoupon).toLocaleString('en-IN') : '0'}</span>
+                </div>
               </div>
-            </div>
 
-            <MagneticButton
-              disabled={purchasedPasses[activePass?.key]}
-              onClick={startCheckoutProcess}
-            />
+              <MagneticButton
+                disabled={purchasedPasses[activePass?.key]}
+                onClick={handleclick}
+                verified={isverified}
+              />
+            </div>
           </div>
         </div>
       </div>

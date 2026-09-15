@@ -1,7 +1,16 @@
 export const EARLY_BOOKING_DISCOUNT_PERCENT = 15;
+export const COUPON_CODES = Array.from({ length: 10 }, (_, index) => `COUP-SPECIAL-${String(index + 1).padStart(4, '0')}`);
+export const COUPON_DISCOUNT_PERCENT = 5;
 
 export function getDiscountedPassPrice(price) {
   return Math.round(price * (1 - EARLY_BOOKING_DISCOUNT_PERCENT / 100));
+}
+
+export function getCouponDiscountedPassPrice(price, couponCode) {
+  const earlyBookingPrice = getDiscountedPassPrice(price);
+  return COUPON_CODES.includes(couponCode?.trim().toUpperCase())
+    ? Math.round(earlyBookingPrice * (1 - COUPON_DISCOUNT_PERCENT / 100))
+    : earlyBookingPrice;
 }
 
 export const PASSES_DATA = {
@@ -11,7 +20,7 @@ export const PASSES_DATA = {
     name: "Tedx-General Pass",
     price: 799,
     code: "GEN-SOT-2026",
-    deck: "Back Seating Access",
+    deck: "Back Seating",
     link: "..",
     features: [
       "Full auditorium access",
@@ -29,7 +38,7 @@ export const PASSES_DATA = {
     name: "Tedx-Gold Pass",
     price: 1699,
     code: "GOLD-SOT-2026",
-    deck: "Middle Seating Access",
+    deck: "Middle Seating",
     link: "..",
     features: [
       "Full auditorium access",
@@ -47,7 +56,7 @@ export const PASSES_DATA = {
     name: "Tedx-Platinum Pass",
     price: 2099,
     code: "PLAT-SOT-2026",
-    deck: "Front-Row Access",
+    deck: "Front-Row",
     link: "..",
     features: [
       "Full auditorium access",

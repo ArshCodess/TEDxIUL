@@ -32,6 +32,12 @@ const razorpaySchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    couponCode: {
+      type: String,
+      default: null,
+      uppercase: true,
+      trim: true,
+    },
     currency: {
       type: String,
       default: 'INR',

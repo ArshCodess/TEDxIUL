@@ -7,16 +7,19 @@ import Razorpay from '../../../lib/models/Razorpay';
 import TedxTicketEmail from '../../../components/TedxTicketEmail';
 import QRCode from 'qrcode'
 import { Resend } from 'resend';
-import { getDiscountedPassPrice, PASSES_DATA } from '../../../data/passesData';
+import { getCouponDiscountedPassPrice, PASSES_DATA } from '../../../data/passesData';
+import Coupon from '../../../lib/models/Coupon';
 const resend = new Resend(process.env.RESEND_API_KEY);
 export async function POST(request) {
   try {
     const { razorpay_order_id, razorpay_payment_id, razorpay_signature, razorpayId, user, passTier, totalAmount } =
       await request.json();
     const pass = PASSES_DATA[passTier];
-    const expectedTotalAmount = pass ? getDiscountedPassPrice(pass.price) * 100 : null;
+    const razorpayRecord = await Razorpay.findOne({ _id: razorpayId, orderId: razorpay_order_id });
+    const couponCode = razorpayRecord?.couponCode || null;
+    const expectedTotalAmount = pass ? getCouponDiscountedPassPrice(pass.price, couponCode) * 100 : null;
 
-    if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature || !razorpayId || !user?.email || !pass || totalAmount !== expectedTotalAmount) {
+    if (!razorpayRecord || !razorpay_order_id || !razorpay_payment_id || !razorpay_signature || !razorpayId || !user?.email || !pass || totalAmount !== expectedTotalAmount || razorpayRecord.amount !== expectedTotalAmount) {
       return NextResponse.json(
         { success: false, message: 'Missing or invalid payment details' },
         { status: 400 }
@@ -44,11 +47,40 @@ export async function POST(request) {
           { status: 404 }
         );
       }
+
+      if (couponCode) {
+        const redeemedCoupon = await Coupon.findOneAndUpdate(
+          { code: couponCode, redeemed: false },
+          {
+            $set: {
+              redeemed: true,
+              redeemedAt: new Date(),
+              redeemedByOrderId: razorpay_order_id,
+            },
+          },
+          { new: true }
+        );
+
+        if (!redeemedCoupon) {
+          return NextResponse.json(
+            { success: false, message: 'This coupon has already been used' },
+            { status: 409 }
+          );
+        }
+      }
+      const cappingObject = {
+        general: 'genSeq',
+        gold: 'goldSeq',
+        platinum: 'platSeq ',
+        faculty: 'facSeq'
+      };
+
       const counter = await Counter.findByIdAndUpdate(
         { _id: 'ticketSequence' },
-        { $inc: { seq: 1 } },
+        { $inc: { seq: 1, [cappingObject[pass]]: 1 } },
         { returnDocument: 'after', upsert: true }
       );
+
       const tierPrefixes = {
         general: 'GEN',
         gold: 'GOLD',
@@ -80,8 +112,8 @@ export async function POST(request) {
       await Razorpay.findOneAndUpdate({ orderId: razorpay_order_id }, {
         paymentId: razorpay_payment_id,
         signature: razorpay_signature,
-        status:"CAPTURED",
-        failureReason:"None"
+        status: "CAPTURED",
+        failureReason: "None"
       });
       console.log("DB: Ticket Creation DONE");
 
