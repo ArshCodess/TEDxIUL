@@ -6,7 +6,7 @@ import nehaPhoto from '../assets/speaker-photos/Nehaanand.png';
 import sameerAhmedPhoto from '../assets/speaker-photos/sameerahmed.png';
 import maroofCulmenPhoto from '../assets/speaker-photos/maroofculmen.png';
 import viquarPhoto from '../assets/speaker-photos/viquar.png';
-import aalamPhoto from '../assets/speaker-photos/aalam.png';
+import alamPhoto from '../assets/speaker-photos/aalam.png';
 
 export const SPEAKERS = [
   {
@@ -95,6 +95,17 @@ export const SPEAKERS = [
     bio: 'Viquar Haider Khan is an author, poet, and storyteller who focuses on exploring humanity\u2019s emotions, drama, and the unsaid. By observing the inconspicuous happenings around him, he unravels and brings out the deep-seated meanings through his words and thoughts. In his writings and stories, Viquar Khan presents the multifaceted nature of humanity and the unending depth of human interactions.',
     photo: viquarPhoto,
     instagram: 'https://www.instagram.com/i_am_vaquar/',
+    linkedin: null,
+  },
+  {
+    id: 'sp-9',
+    name: 'ALAM KHAN',
+    headline: 'Actor, Model & Dancer',
+    topic: 'To Be Announced',
+    org: '',
+    bio: 'Alam Khan is an Indian actor, model, and dancer who began his career at a young age and has built a diverse presence across television, films, and web series. He is widely recognised for his role as Uday Gupta in TVF’s acclaimed series Kota Factory, appearing across all three seasons. His notable work includes Laakhon Mein Ek, Class of 2020, Chaman Bahaar, Haddi, Mahabharat, where he portrayed Young Duryodhan, and Saiyaara. With experience across multiple forms of entertainment, Alam brings a unique perspective shaped by his journey in the Indian entertainment industry.',
+    photo: alamPhoto,
+    instagram: 'https://www.instagram.com/iamalamkhan/',
     linkedin: null,
   },
 ];

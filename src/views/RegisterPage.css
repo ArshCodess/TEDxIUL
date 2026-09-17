@@ -1278,8 +1278,8 @@
   }
 
   .tedx-carousel {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    display: flex;
+    justify-content: center;
     gap: 24px;
     align-items: stretch;
   }
@@ -1289,9 +1289,9 @@
   }
 
   .tedx-carousel-item {
+    flex: 1;
+    max-width: 420px;
     min-width: 0;
-    max-width: none;
-    width: auto;
   }
 
   .tedx-card-wrapper {
