@@ -362,6 +362,7 @@ export default function RegisterPage() {
 
   const getRemainingSeats = (passKey) => {
     const counterKey = {
+      basic: 'basicSeq',
       general: 'geneSeq',
       gold: 'goldSeq',
       platinum: 'platSeq',
@@ -474,6 +475,7 @@ export default function RegisterPage() {
             setCouponCode("")
             setSelected(null)
             const counterKey = {
+              basic: 'basicSeq',
               general: 'geneSeq',
               gold: 'goldSeq',
               platinum: 'platSeq',

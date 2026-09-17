@@ -39,7 +39,7 @@ const ticketSchema = new mongoose.Schema(
     },
     passTier: {
       type: String,
-      enum: ['general', 'gold', 'platinum', 'faculty'],
+      enum: ['basic','general', 'gold', 'platinum', 'faculty'],
       required: true,
       index: true,
     },
@@ -98,12 +98,18 @@ const ticketSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// Modern Mongoose hook: No 'next' parameter
 ticketSchema.pre('validate', function () {
   if (this.isNew || this.isModified('passTier')) {
     switch (this.passTier) {
-      case 'general':
+      case 'basic':
         this.seatingTier = 'Back Seating';
+        this.perksRedemption.swagKit.isEligible = false;
+        this.perksRedemption.refreshments.isEligible = false;
+        this.perksRedemption.meal.isEligible = false;
+        this.perksRedemption.meetAndGreet.isEligible = false;
+        break;
+      case 'general':
+        this.seatingTier = 'Middle Seating';
         this.perksRedemption.swagKit.isEligible = true;
         this.perksRedemption.swagKit.itemLabel = 'Key Rings';
         this.perksRedemption.refreshments.isEligible = true;

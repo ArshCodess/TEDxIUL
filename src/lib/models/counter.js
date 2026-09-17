@@ -7,7 +7,7 @@ const counterSchema = new mongoose.Schema({
   goldSeq: { type: Number, default: 0 },
   platSeq: { type: Number, default: 0 },
   facSeq: { type: Number, default: 0 },
-  studSeq: { type: Number, default: 0 },
+  basicSeq: { type: Number, default: 0 },
 });
 
 const Counter = mongoose.models.Counter || mongoose.model('Counter', counterSchema);

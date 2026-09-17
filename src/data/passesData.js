@@ -2,6 +2,7 @@ export const EARLY_BOOKING_DISCOUNT_PERCENT = 15;
 export const COUPON_CODES = Array.from({ length: 10 }, (_, index) => `COUP-SPECIAL-${String(index + 1).padStart(4, '0')}`);
 export const COUPON_DISCOUNT_PERCENT = 5;
 export const PASS_SEAT_CAPS = {
+  basic: 40,
   general: 28,
   gold: 48,
   platinum: 24,
@@ -19,19 +20,37 @@ export function getCouponDiscountedPassPrice(price, couponCode) {
 }
 
 export const PASSES_DATA = {
+  basic: {
+    key: "basic",
+    id: "pass-basic",
+    name: "Tedx-Basic Pass",
+    price: 233,
+    code: "BAS-SOT-2026",
+    deck: "Back Seating",
+    link: "..",
+    seat: 12,
+    features: [
+      "Full auditorium access",
+      "All talks",
+      "Back Seating",
+      "E-certificate"
+    ],
+    noteTitle: "Who can purchase?",
+    noteText: "Open for all attendees."
+  },
   general: {
     key: "general",
     id: "pass-general",
     name: "Tedx-General Pass",
     price: 799,
     code: "GEN-SOT-2026",
-    deck: "Back Seating",
+    deck: "Middle Seating",
     link: "..",
-    seat:10,
+    seat: 10,
     features: [
       "Full auditorium access",
       "All talks",
-      "Back Seating",
+      "Middle Seating",
       "Refreshments",
       "Key Rings"
     ],
@@ -46,7 +65,7 @@ export const PASSES_DATA = {
     code: "GOLD-SOT-2026",
     deck: "Middle Seating",
     link: "..",
-    seat:17,
+    seat: 17,
     features: [
       "Full auditorium access",
       "All talks",
@@ -65,7 +84,7 @@ export const PASSES_DATA = {
     code: "PLAT-SOT-2026",
     deck: "Front-Row",
     link: "..",
-    seat:10,
+    seat: 10,
     features: [
       "Full auditorium access",
       "All talks",

@@ -1304,6 +1304,12 @@
   pointer-events: none;
 }
 
+.ticket-card--basic {
+/* Basic Pass - Warm Taupe */
+  --ticket-accent: #57534E;
+  --ticket-accent-bright: #78716C;
+  --ticket-badge-bg: rgba(87, 83, 78, 0.16);
+}
 .ticket-card--general {
   --ticket-accent: #EB0028;
   --ticket-accent-bright: #FF3B5C;

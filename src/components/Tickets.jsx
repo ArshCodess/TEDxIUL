@@ -2,6 +2,15 @@ import './Tickets.css';
 
 const ticketTiers = [
   {
+    key: 'basic',
+    name: 'Basic',
+    price: '₹233',
+    discountedPrice: '₹198',
+    description: 'For getting entry',
+    features: ['Full Auditorium Access', 'All Talks', 'Back Seating', 'E-certificate'],
+    featured: false,
+  },
+  {
     key: 'general',
     name: 'General',
     price: '₹799',
