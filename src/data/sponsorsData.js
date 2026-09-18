@@ -35,7 +35,7 @@ const sponsorsData = [
   },
   {
     id: 'sp-5',
-    name: 'Production House FC',
+    name: 'FC Productions',
     logo: fcphLogo,
     description:
       'Videography and Photography',
