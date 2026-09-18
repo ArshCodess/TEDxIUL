@@ -44,7 +44,7 @@ const razorpaySchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ['CREATED', 'CAPTURED', 'FAILED'],
+      enum: ['CREATED', 'CAPTURED', 'FAILED','MANUALLY-CAPTURED'],
       default: 'CREATED',
     },
     failureReason: {

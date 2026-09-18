@@ -4,8 +4,10 @@ import User from "../../../lib/models/User";
 import Razorpay from "../../../lib/models/Razorpay";
 import { COUPON_CODES, getCouponDiscountedPassPrice, PASSES_DATA } from "../../../data/passesData";
 import Coupon from "../../../lib/models/Coupon";
+import { connectdb } from "../../../lib/mongo";
 
 export async function POST(request) {
+    await connectdb()
     try {
         const { email, passKey, couponCode } = await request.json();
         const normalizedEmail = email?.toLowerCase().trim();
