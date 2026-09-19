@@ -48,6 +48,12 @@ const ticketSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    couponCode: {
+      type: String,
+      default: null,
+      uppercase: true,
+      trim: true,
+    },
     seatingTier: {
       type: String,
       enum: ['Back Seating', 'Middle Seating', 'Front-row seating', 'VIP seating'],

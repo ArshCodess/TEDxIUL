@@ -8,7 +8,6 @@ import {
   EARLY_BOOKING_DISCOUNT_PERCENT,
   COUPON_CODES,
   COUPON_DISCOUNT_PERCENT,
-  PASS_SEAT_CAPS,
   getCouponDiscountedPassPrice,
   getDiscountedPassPrice,
   PASSES_DATA,
@@ -150,6 +149,11 @@ function Ticket({ pass, isSelected, isPurchased, userDetails, onSelect, ticketLe
           cursor: isPurchased ? 'default' : 'pointer'
         }}
       >
+        {ticketLeft <= 0 && (
+          <div className="tedx-sold-out-overlay" aria-label="Sold out">
+            Sold Out
+          </div>
+        )}
         <div className="tedx-card-top">
           <div className="tedx-meta-row">
             <div className="tedx-tier-group">
@@ -361,18 +365,25 @@ export default function RegisterPage() {
   }, []);
 
   const getRemainingSeats = (passKey) => {
-    const counterKey = {
+    const soldKey = {
       basic: 'basicSeq',
       general: 'geneSeq',
       gold: 'goldSeq',
       platinum: 'platSeq',
     }[passKey];
-    const sold = Number(counters?.[counterKey] || 0);
-    return Math.max(0, (PASS_SEAT_CAPS[passKey] || 0) - sold);
+    const capacityKey = {
+      basic: 'basicCap',
+      general: 'generalCap',
+      gold: 'goldCap',
+      platinum: 'platinumCap',
+    }[passKey];
+    const sold = Number(counters?.[soldKey] || 0);
+    const capacity = Number(counters?.[capacityKey] || 0);
+    return Math.max(0, capacity - sold);
   };
 
   useEffect(() => {
-    // handleSeatAvail();
+    handleSeatAvail();
   }, [handleSeatAvail]);
 
 
@@ -707,8 +718,8 @@ export default function RegisterPage() {
                       isPurchased={Boolean(purchasedPasses[p.key])}
                       userDetails={cachedUser}
                       onSelect={setSelected}
-                      // ticketLeft={getRemainingSeats(p.key)}
-                      ticketLeft={p.seat}
+                      ticketLeft={getRemainingSeats(p.key)}
+                      // ticketLeft={p.seat}
                     />
                   </PremiumScrollReveal>
                 </div>
@@ -781,7 +792,7 @@ export default function RegisterPage() {
                 </div>
               </div>
 
-              {/* {activePass && (
+              {activePass && (
                 <div className="tedx-seat-availability">
                   <span className="tedx-island-lbl">Seat Remaining: {String(getRemainingSeats(activePass.key)).padStart(2, '0')}</span>
                   <button
@@ -800,7 +811,7 @@ export default function RegisterPage() {
                     </svg>
                   </button>
                 </div>
-              )} */}
+              )}
 
               <MagneticButton
                 disabled={purchasedPasses[activePass?.key] || (activePass && getRemainingSeats(activePass.key) <= 0)}

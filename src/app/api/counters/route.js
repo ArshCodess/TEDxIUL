@@ -4,7 +4,7 @@ import { connectdb } from "../../../lib/mongo";
 
 export async function GET() {
     try {
-        await connectdb()
+        await connectdb();
         const counter = await Counter.findByIdAndUpdate(
             { _id: 'ticketSequence' },
             { returnDocument: 'after', upsert: true }
@@ -15,7 +15,6 @@ export async function GET() {
         });
     } catch (err) {
         console.log("Error occured while fetching number of sold tickets", err);
-        return NextResponse.json({success:false,message:"Internal Server while fetching Counters"},{ status: 500 });
-
+        return NextResponse.json({ success: false, message: "Internal Server while fetching Counters" }, { status: 500 });
     }
 }

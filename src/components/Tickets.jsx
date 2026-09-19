@@ -9,6 +9,7 @@ const ticketTiers = [
     description: 'For getting entry',
     features: ['Full Auditorium Access', 'All Talks', 'Back Seating', 'E-certificate'],
     featured: false,
+    soldOut: false,
   },
   {
     key: 'general',
@@ -18,6 +19,7 @@ const ticketTiers = [
     description: 'Perfect for first-time attendees',
     features: ['Full Auditorium Access', 'All Talks', 'Back Seating', 'Refreshments', 'Key Rings'],
     featured: false,
+    soldOut: true,
   },
   {
     key: 'gold',
@@ -28,6 +30,7 @@ const ticketTiers = [
     features: ['Full Auditorium Access', 'All Talks', 'Middle Seating', 'Diary & Pen', 'Meal & Refreshments'],
     featured: true,
     tag: 'Most Popular',
+    soldOut: false,
   },
   {
     key: 'platinum',
@@ -37,6 +40,7 @@ const ticketTiers = [
     description: 'The ultimate experience for premium attendees',
     features: ['Full Auditorium Access', 'All Talks', 'Front-Row Seating', 'TEDx Kit', 'Meal & Refreshments', 'Meet & Greet with Speakers'],
     featured: false,
+    soldOut: false,
   },
   // {
   //   key: 'faculty',
@@ -64,7 +68,11 @@ export default function Tickets() {
       </div>
       <div className="tickets-grid">
         {ticketTiers.map((ticket) => (
-          <div key={ticket.name} className={`ticket-card ${ticket.featured ? 'featured' : ''}`}>
+          <div
+            key={ticket.name}
+            className={`ticket-card ${ticket.featured ? 'featured' : ''} ${ticket.soldOut ? 'ticket-card--sold-out' : ''}`}
+            aria-disabled={ticket.soldOut}
+          >
             {ticket.tag && <div className="ticket-ribbon">{ticket.tag}</div>}
             <div className="ticket-header">
               <div className="ticket-title-row">
@@ -82,8 +90,17 @@ export default function Tickets() {
                 <li key={feature}><span className="tick">✓</span> {feature}</li>
               ))}
             </ul>
-            <a href={`/register/`} className={ticket.featured ? 'btn-primary ticket-btn' : 'btn-outline ticket-btn'}>
-              Get {ticket.name} →
+            <a
+              href={ticket.soldOut ? '#' : `/register/`}
+              className={ticket.featured ? 'btn-primary ticket-btn' : 'btn-outline ticket-btn'}
+              aria-disabled={ticket.soldOut}
+              onClick={(event) => {
+                if (ticket.soldOut) {
+                  event.preventDefault();
+                }
+              }}
+            >
+              {ticket.soldOut ? 'Sold Out' : `Get ${ticket.name} →`}
             </a>
           </div>
         ))}

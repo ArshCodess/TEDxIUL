@@ -2,10 +2,10 @@ export const EARLY_BOOKING_DISCOUNT_PERCENT = 15;
 export const COUPON_CODES = Array.from({ length: 10 }, (_, index) => `COUP-SPECIAL-${String(index + 1).padStart(4, '0')}`);
 export const COUPON_DISCOUNT_PERCENT = 5;
 export const PASS_SEAT_CAPS = {
-  basic: 40,
+  basic: 29,
   general: 28,
-  gold: 48,
-  platinum: 24,
+  gold: 21,
+  platinum: 22,
 };
 
 export function getDiscountedPassPrice(price) {
@@ -28,7 +28,7 @@ export const PASSES_DATA = {
     code: "BAS-SOT-2026",
     deck: "Back Seating",
     link: "..",
-    seat: 12,
+    seat: 0,
     features: [
       "Full auditorium access",
       "All talks",
@@ -49,6 +49,7 @@ export const PASSES_DATA = {
     seat: 10,
     features: [
       "Full auditorium access",
+      "Physical Certificate",
       "All talks",
       "Middle Seating",
       "Refreshments",
@@ -68,6 +69,7 @@ export const PASSES_DATA = {
     seat: 17,
     features: [
       "Full auditorium access",
+      "Physical Certificate",
       "All talks",
       "Middle Seating",
       "Diary & Pen",
@@ -87,6 +89,7 @@ export const PASSES_DATA = {
     seat: 10,
     features: [
       "Full auditorium access",
+      "Physical Certificate",
       "All talks",
       "Front-row seating",
       "TEDx kit",

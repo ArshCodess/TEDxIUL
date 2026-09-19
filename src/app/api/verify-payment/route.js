@@ -126,6 +126,7 @@ export async function POST(request) {
       email: normalizedEmail,
       passTier,
       passCode,
+      couponCode: couponCode || null,
       totalAmount,
       status: 'CONFIRMED',
       razorpayId: razorpayId,
