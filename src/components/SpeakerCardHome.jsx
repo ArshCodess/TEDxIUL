@@ -42,15 +42,15 @@ function getImgSrc(photo) {
 
 /* ── Component ────────────────────────────────────────── */
 export default function SpeakerCardHome({ speakers }) {
-  const [activeId, setActiveId] = useState(null);
+  const [activeId, setActiveId] = useState(speakers?.[0]?.id || null);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false, align: 'center' });
 
   const activeSpeaker = speakers.find((s) => s.id === activeId) ?? null;
 
-  /* Toggle expand — clicking same thumb closes, different opens */
+  /* Select speaker — clicking same thumb does nothing */
   const handleThumbClick = (id) => {
-    setActiveId((prev) => (prev === id ? null : id));
+    setActiveId(id);
   };
 
   /* Track Embla scroll for dots */
@@ -69,46 +69,14 @@ export default function SpeakerCardHome({ speakers }) {
   return (
     <>
       {/* ══════════════════════════════
-          DESKTOP — photo row + expand
+          DESKTOP — split layout
          ══════════════════════════════ */}
       <div className="spkh-desktop">
-        <div className="spkh-thumb-row" role="list" aria-label="Speaker photos">
-          {speakers.map((speaker) => {
-            const src = getImgSrc(speaker.photo);
-            const isActive = speaker.id === activeId;
-            return (
-              <button
-                key={speaker.id}
-                id={`speaker-thumb-${speaker.id}`}
-                className={`spkh-thumb${isActive ? ' active' : ''}`}
-                role="listitem"
-                onClick={() => handleThumbClick(speaker.id)}
-                aria-expanded={isActive}
-                aria-label={`${isActive ? 'Close' : 'View'} ${speaker.name}`}
-                title={speaker.name}
-              >
-                <div className="spkh-thumb-ring">
-                  {src ? (
-                    <img src={src} alt={speaker.name} className="spkh-thumb-img" />
-                  ) : (
-                    <div className="spkh-thumb-placeholder"><PersonIcon /></div>
-                  )}
-                </div>
-                <span className="spkh-thumb-name">{speaker.name}</span>
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Animated expand panel */}
-        <div className={`spkh-expand-wrapper${activeId ? ' open' : ''}`} aria-live="polite">
-          <div className="spkh-expand-inner">
+        <div className="spkh-desktop-split">
+          {/* Left Panel */}
+          <div className="spkh-left-panel">
             {activeSpeaker && (
-              <button
-                className="spkh-expanded-card"
-                onClick={() => setActiveId(null)}
-                aria-label={`Close details for ${activeSpeaker.name}`}
-              >
+              <div key={activeSpeaker.id} className="spkh-expanded-card spkh-fade-in">
                 {/* Photo */}
                 <div className="spkh-exp-photo-wrap">
                   {getImgSrc(activeSpeaker.photo) ? (
@@ -139,7 +107,6 @@ export default function SpeakerCardHome({ speakers }) {
                           className="spkh-social-btn spkh-instagram"
                           target="_blank"
                           rel="noopener noreferrer"
-                          onClick={(e) => e.stopPropagation()}
                           aria-label={`${activeSpeaker.name} on Instagram`}
                         >
                           <InstagramIcon /> Instagram
@@ -151,7 +118,6 @@ export default function SpeakerCardHome({ speakers }) {
                           className="spkh-social-btn spkh-linkedin"
                           target="_blank"
                           rel="noopener noreferrer"
-                          onClick={(e) => e.stopPropagation()}
                           aria-label={`${activeSpeaker.name} on LinkedIn`}
                         >
                           <LinkedInIcon /> LinkedIn
@@ -159,11 +125,38 @@ export default function SpeakerCardHome({ speakers }) {
                       )}
                     </div>
                   )}
-
-                  <span className="spkh-close-hint">Click anywhere to close ✕</span>
                 </div>
-              </button>
+              </div>
             )}
+          </div>
+
+          {/* Right Panel */}
+          <div className="spkh-right-panel" role="list" aria-label="Speaker photos">
+            {speakers.map((speaker) => {
+              const src = getImgSrc(speaker.photo);
+              const isActive = speaker.id === activeId;
+              return (
+                <button
+                  key={speaker.id}
+                  id={`speaker-thumb-${speaker.id}`}
+                  className={`spkh-thumb${isActive ? ' active' : ''}`}
+                  role="listitem"
+                  onClick={() => handleThumbClick(speaker.id)}
+                  aria-selected={isActive}
+                  aria-label={`View ${speaker.name}`}
+                  title={speaker.name}
+                >
+                  <div className="spkh-thumb-ring">
+                    {src ? (
+                      <img src={src} alt={speaker.name} className="spkh-thumb-img" />
+                    ) : (
+                      <div className="spkh-thumb-placeholder"><PersonIcon /></div>
+                    )}
+                  </div>
+                  <span className="spkh-thumb-name">{speaker.name}</span>
+                </button>
+              );
+            })}
           </div>
         </div>
       </div>

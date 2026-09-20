@@ -15,6 +15,7 @@ import Venue from '../components/Venue';
 import Contact from '../components/Contact';
 import Footer from '../components/Footer';
 import { SPEAKERS } from '../data/speakersData';
+import { PremiumScrollReveal } from './MotionReveal';
 
 export default function HomePage() {
   const [particles, setParticles] = useState([]);

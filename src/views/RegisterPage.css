@@ -1486,9 +1486,9 @@
   }
 
   .tedx-carousel-item {
+    flex: 1;
+    max-width: 420px;
     min-width: 0;
-    max-width: none;
-    width: auto;
   }
 
   .tedx-card-wrapper {

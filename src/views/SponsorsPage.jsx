@@ -1,40 +1,55 @@
 import Link from 'next/link';
 import Footer from '../components/Footer';
-import universityLogo from '../assets/IUL.jpg';
+import iulLogo from '../assets/IU_LOGO.png';
+import infinixLogo from '../assets/sponsors/infinix.png';
+import barkatDarbaarLogo from '../assets/sponsors/barkat-darbaar.jpeg';
+import kareemKababiLogo from '../assets/sponsors/kareem-kababi.jpeg';
+import makSportsLogo from '../assets/sponsors/MAK-sports.jpeg';
+import fcphLogo from '../assets/sponsors/FCPH.jpeg';
 import './pages.css';
 
 const SPONSORS = [
   {
     id: 'iul',
     name: 'Integral University',
-    logo: universityLogo,
-    tier: 'Title Sponsor',
+    logo: iulLogo,
+    tier: 'Host & Presenting Partner',
     desc: 'Empowering future leaders through academic excellence, research, and holistic development at a 120-acre campus in Lucknow.',
-    featured: true,
   },
   {
-    id: 'tba-1',
-    name: 'Sponsor TBA',
-    logo: null,
-    tier: 'Gold Sponsor',
-    desc: 'Sponsorship opportunities are open. Be part of this movement and help bring inspiring ideas to life.',
-    featured: false,
+    id: 'infinix',
+    name: 'Infinix Mobile',
+    logo: infinixLogo,
+    tier: 'Official Technology Partner',
+    desc: 'Empowering youth with cutting-edge mobile technology and smart devices.',
   },
   {
-    id: 'tba-2',
-    name: 'Sponsor TBA',
-    logo: null,
-    tier: 'Silver Sponsor',
-    desc: 'Join us as a sponsor and connect your brand with thousands of passionate thinkers and change-makers.',
-    featured: false,
+    id: 'barkat-darbaar',
+    name: 'Barkat Darbaar',
+    logo: barkatDarbaarLogo,
+    tier: 'Official Partner',
+    desc: 'Promoting cultural heritage, community unity, and fine hospitality.',
   },
   {
-    id: 'tba-3',
-    name: 'Sponsor TBA',
-    logo: null,
-    tier: 'Community Partner',
-    desc: 'Community partnerships help us extend the reach of ideas worth spreading beyond the event itself.',
-    featured: false,
+    id: 'kareem-kababi',
+    name: 'Kareem Kababi',
+    logo: kareemKababiLogo,
+    tier: 'Official Culinary Partner',
+    desc: 'Delivering legendary Awadhi flavors and authentic culinary excellence.',
+  },
+  {
+    id: 'mak-sports',
+    name: 'MAK Sports',
+    logo: makSportsLogo,
+    tier: 'Official Sports Partner',
+    desc: 'Fostering athletic spirit and top-tier sporting excellence.',
+  },
+  {
+    id: 'fc-production-house',
+    name: 'F C Production House',
+    logo: fcphLogo,
+    tier: 'Official Media Partner',
+    desc: 'Capturing moments, storytelling, and media production excellence.',
   },
 ];
 
@@ -56,13 +71,15 @@ export default function SponsorsPage() {
           {SPONSORS.map((sponsor) => (
             <div
               key={sponsor.id}
-              className={`sponsor-card${sponsor.featured ? ' featured' : ''}`}
+              className="sponsor-card"
             >
-              {sponsor.logo ? (
-                <img src={sponsor.logo.src || sponsor.logo} alt={sponsor.name} className="sponsor-card-logo" />
-              ) : (
-                <div className="sponsor-card-logo-placeholder">Logo</div>
-              )}
+              <div className="sponsor-card-logo-frame">
+                <img
+                  src={sponsor.logo.src || sponsor.logo}
+                  alt={sponsor.name}
+                  className="sponsor-card-logo-img"
+                />
+              </div>
               <div className="sponsor-card-tier">{sponsor.tier}</div>
               <div className="sponsor-card-name">{sponsor.name}</div>
               <div className="sponsor-card-desc">{sponsor.desc}</div>
