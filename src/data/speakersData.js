@@ -72,7 +72,7 @@ export const SPEAKERS = [
     org: 'HyggeX',
     bio: "Sameer Ahmed is the founder of HyggeX, the Lucknow-based EdTech company behind Adaptmate, an AI-powered adaptive learning platform. An alumnus of King's College London with a deep background in psychology and neuroscience, he was recently selected for the prestigious Google AI Academy Cohort. Through his work, he seamlessly integrates cognitive science into digital system design, re-architecting modern classrooms to make education personalized, accessible, and responsive to individual human minds.",
     photo: sameerAhmedPhoto,
-    instagram: null,
+    instagram: 'https://www.instagram.com/bysameerahmed/',
     linkedin: 'https://www.linkedin.com/in/awarriorofart/',
   },
   {

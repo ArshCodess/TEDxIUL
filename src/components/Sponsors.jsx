@@ -1,47 +1,61 @@
 import './Sponsors.css';
 import iulLogo from '../assets/IU_LOGO.png';
 import infinixLogo from '../assets/sponsors/infinix.png';
-import barkatDarbaarLogo from '../assets/sponsors/barkat-darbaar.jpeg';
+import tabreekLogo from '../assets/sponsors/Tabreek.PNG';
 import kareemKababiLogo from '../assets/sponsors/kareem-kababi.jpeg';
 import makSportsLogo from '../assets/sponsors/MAK-sports.jpeg';
 import fcphLogo from '../assets/sponsors/FCPH.jpeg';
+import shujaPerfumeLogo from '../assets/sponsors/Shuja-Perfume.jpeg';
+import cocaColaLogo from '../assets/sponsors/Coca-cola.png';
 
 const SPONSORS_DATA = [
   {
     id: 'iul',
     name: 'Integral University',
-    tier: 'Host & Presenting Partner',
     logo: iulLogo,
-  },
-  {
-    id: 'infinix',
-    name: 'Infinix Mobile',
-    tier: 'Technology Partner',
-    logo: infinixLogo,
-  },
-  {
-    id: 'barkat-darbaar',
-    name: 'Barkat Darbaar',
-    tier: 'Official Partner',
-    logo: barkatDarbaarLogo,
+    tier: 'Host & Presenting Partner',
   },
   {
     id: 'kareem-kababi',
     name: 'Kareem Kababi',
-    tier: 'Culinary Partner',
     logo: kareemKababiLogo,
+    tier: 'Food Partner',
   },
   {
-    id: 'mak-sports',
-    name: 'MAK Sports',
-    tier: 'Sports Partner',
-    logo: makSportsLogo,
+    id: 'tabreek',
+    name: 'Events by Tabreek',
+    logo: tabreekLogo,
+    tier: 'Decor Partner',
   },
   {
     id: 'fc-production-house',
-    name: 'F C Production House',
-    tier: 'Media Partner',
+    name: 'FC Production House',
     logo: fcphLogo,
+    tier: 'Media Partner',
+  },
+  {
+    id: 'mak-sports',
+    name: 'MAK Sports Arena',
+    logo: makSportsLogo,
+    tier: 'Sports Partner',
+  },
+  {
+    id: 'shuja-perfume',
+    name: 'Shuja Perfume',
+    logo: shujaPerfumeLogo,
+    tier: 'Gifting Partner',
+  },
+  {
+    id: 'coca-cola',
+    name: 'Coca-Cola',
+    logo: cocaColaLogo,
+    tier: 'Beverage Partner',
+  },
+  {
+    id: 'infinix',
+    name: 'Infinix Mobile',
+    logo: infinixLogo,
+    tier: 'Entertainment Partner',
   },
 ];
 
