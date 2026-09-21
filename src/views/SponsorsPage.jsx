@@ -6,53 +6,67 @@ import barkatDarbaarLogo from '../assets/sponsors/barkat-darbaar.jpeg';
 import kareemKababiLogo from '../assets/sponsors/kareem-kababi.jpeg';
 import makSportsLogo from '../assets/sponsors/MAK-sports.jpeg';
 import fcphLogo from '../assets/sponsors/FCPH.jpeg';
+import shujaPerfumeLogo from '../assets/sponsors/Shuja-Perfume.jpeg';
+import cocaColaLogo from '../assets/sponsors/Coca-cola.png';
 import './pages.css';
-
 const SPONSORS = [
   {
     id: 'iul',
     name: 'Integral University',
     logo: iulLogo,
     tier: 'Host & Presenting Partner',
-    desc: 'Empowering future leaders through academic excellence, research, and holistic development at a 120-acre campus in Lucknow.',
+    desc: 'A vibrant academic institution fostering learning, innovation, research, and holistic development.',
   },
   {
     id: 'infinix',
     name: 'Infinix Mobile',
     logo: infinixLogo,
     tier: 'Official Technology Partner',
-    desc: 'Empowering youth with cutting-edge mobile technology and smart devices.',
+    desc: 'Bringing innovation and technology closer to a new generation of young, connected minds.',
   },
   {
     id: 'barkat-darbaar',
     name: 'Barkat Darbaar',
     logo: barkatDarbaarLogo,
     tier: 'Official Partner',
-    desc: 'Promoting cultural heritage, community unity, and fine hospitality.',
+    desc: 'Adding a distinctive touch of hospitality and culinary experience to the TEDxIntegralUniversity journey.',
   },
   {
     id: 'kareem-kababi',
     name: 'Kareem Kababi',
     logo: kareemKababiLogo,
     tier: 'Official Culinary Partner',
-    desc: 'Delivering legendary Awadhi flavors and authentic culinary excellence.',
+    desc: 'Bringing a memorable culinary experience and delicious flavours to the TEDxIntegralUniversity community.',
   },
   {
     id: 'mak-sports',
-    name: 'MAK Sports',
+   name: 'MAK Sports Arena',
     logo: makSportsLogo,
     tier: 'Official Sports Partner',
-    desc: 'Fostering athletic spirit and top-tier sporting excellence.',
+    desc: 'Celebrating the spirit of sports, energy, teamwork, and an active community.',
   },
   {
     id: 'fc-production-house',
     name: 'F C Production House',
     logo: fcphLogo,
     tier: 'Official Media Partner',
-    desc: 'Capturing moments, storytelling, and media production excellence.',
+    desc: 'Helping capture and bring the moments, stories, and experiences of TEDxIntegralUniversity to life.',
   },
+  {
+    id: 'shuja-perfume',
+    name: 'Shuja Perfume',
+    logo: shujaPerfumeLogo,
+    tier: 'Gifting Partner',
+    desc: 'Adding a touch of elegance and fragrance to the TEDxIntegralUniversity experience.',
+},
+{
+    id: 'coca-cola',
+    name: 'Coca-Cola',
+    logo: cocaColaLogo,
+    tier: 'Beverage Partner',
+    desc: 'Refreshing the TEDxIntegralUniversity experience with moments of refreshment and togetherness.',
+},
 ];
-
 export default function SponsorsPage() {
   return (
     <div className="page-root">
