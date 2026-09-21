@@ -6,7 +6,7 @@ import barkatDarbaarLogo from '../assets/sponsors/barkat-darbaar.jpeg';
 import kareemKababiLogo from '../assets/sponsors/kareem-kababi.jpeg';
 import makSportsLogo from '../assets/sponsors/MAK-sports.jpeg';
 import fcphLogo from '../assets/sponsors/FCPH.jpeg';
-import shujaPerfumeLogo from '../assets/sponsors/Shuja-perfume.jpeg';
+import shujaPerfumeLogo from '../assets/sponsors/Shuja-Perfume.jpeg';
 import cocaColaLogo from '../assets/sponsors/Coca-cola.png';
 import './pages.css';
 const SPONSORS = [
