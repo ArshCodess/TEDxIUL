@@ -2,7 +2,7 @@ import Link from 'next/link';
 import Footer from '../components/Footer';
 import iulLogo from '../assets/IU_LOGO.png';
 import infinixLogo from '../assets/sponsors/infinix.png';
-import tabreekLogo from '../assets/sponsors/Tabreek.png';
+import tabreekLogo from '../assets/sponsors/Tabreek.PNG';
 import kareemKababiLogo from '../assets/sponsors/kareem-kababi.jpeg';
 import makSportsLogo from '../assets/sponsors/MAK-sports.jpeg';
 import fcphLogo from '../assets/sponsors/FCPH.jpeg';
